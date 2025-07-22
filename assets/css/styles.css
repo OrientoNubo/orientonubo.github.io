@@ -1,6 +1,6 @@
 /*!   
  * Template Name: Developer - Portfolio Landing Page Bootstrap 5 Template for Developers
- * Version: Bootstrap 5 v3.1
+ * Version: Bootstrap 5 v3.2
  * Author: Xiaoying Riley
  * Twitter: @3rdwave_themes
  * Copyright: 3rd Wave Media Ltd.
@@ -22,7 +22,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: #ff9215;
+  color: #3AAA64;
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
   -ms-transition: all 0.4s ease-in-out;
@@ -32,7 +32,7 @@ a {
 
 a:hover {
   text-decoration: underline;
-  color: #ff9215;
+  color: #2d844e;
 }
 
 a:focus {
@@ -65,16 +65,16 @@ a:focus {
 }
 
 a.btn-cta-primary, .btn-cta-primary {
-  background: #ff9215;
-  border: 1px solid #ff9215;
+  background: #54ba4e;
+  border: 1px solid #54ba4e;
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 a.btn-cta-primary:hover, .btn-cta-primary:hover {
-  background: #ff9e2e;
-  border: 1px solid #ff9e2e;
+  background: #49ac43;
+  border: 1px solid #49ac43;
   color: #fff;
 }
 
@@ -130,6 +130,9 @@ a.dotted-link:hover {
 
 .header .profile-image {
   margin-right: 30px;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
 }
 
 .header .profile-content .name {
@@ -456,7 +459,7 @@ a.dotted-link:hover {
 .testimonials .item .quote {
   color: #666;
   font-size: 16px;
-  border-left: 5px solid #ff9215;
+  border-left: 5px solid #9fdeb7;
   padding: 5px 15px;
   margin-bottom: 15px;
 }
@@ -466,7 +469,7 @@ a.dotted-link:hover {
 }
 
 .testimonials .item .quote .svg-inline--fa {
-  color: #ff9215;
+  color: #79d19a;
   margin-right: 15px;
 }
 
@@ -648,8 +651,8 @@ a.dotted-link:hover {
 }
 
 .dark-mode-switch .form-check-input:checked {
-  background-color: #ff9215;
-  border-color: #ff9215;
+  background-color: #54ba4e;
+  border-color: #54ba4e;
 }
 
 .dark-mode-switch .form-check-input:focus {
@@ -672,7 +675,7 @@ body[data-theme="dark"] a.btn:hover {
 }
 
 body[data-theme="dark"] .dark-mode-switch .form-check-input:focus {
-  border-color: #ff9215;
+  border-color: #54ba4e;
 }
 
 body[data-theme="dark"] .header {
