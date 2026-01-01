@@ -1,0 +1,94 @@
+---
+const interests = [
+  '3D Reconstruction',
+  'Visual Relocalization',
+  'Geometric Foundation Models',
+  'Physical AI',
+  'Generative Models',
+  'Autonomous Vehicles',
+];
+---
+
+<section id="about" class="section">
+  <div class="container">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Content -->
+      <div>
+        <h2 class="text-4xl font-bold font-heading mb-6">
+          <span class="text-[var(--color-primary)]">//</span> About Me
+        </h2>
+
+        <div class="space-y-4 text-[var(--color-text-muted)]">
+          <p>
+            I am currently pursuing my Ph.D. at <a href="https://aimm.cmlab.csie.ntu.edu.tw/" target="_blank" class="text-[var(--color-primary)] hover:underline">CMLab AIMM Group</a>,
+            <strong class="text-[var(--color-text)]">National Taiwan University</strong>,
+            advised by Prof. <a href="https://www.csie.ntu.edu.tw/~wenhuang/" target="_blank" class="text-[var(--color-primary)] hover:underline">Wen-Huang Cheng</a>.
+          </p>
+
+          <p>
+            I also work closely with Prof. <a href="https://sites.google.com/view/ntust-his-lab/" target="_blank" class="text-[var(--color-primary)] hover:underline">Yung-Yao Chen</a>
+            at <strong class="text-[var(--color-text)]">National Taiwan University of Science and Technology</strong>.
+          </p>
+
+          <p>
+            My main research directions include <strong class="text-[var(--color-text)]">3D Reconstruction, Visual Relocalization, Geometric Foundation Models, Physical AI, and Generative Models</strong>.
+            I also explore related areas such as Computer Vision (CV), Machine Learning (ML), Autonomous Vehicles (AV), Human–Computer Interaction (HCI), and Robotics.
+          </p>
+
+          <p>
+            Please feel free to contact me if you are interested in my research or any of these topics.
+          </p>
+        </div>
+
+        <!-- Research Interests -->
+        <div class="mt-8">
+          <h3 class="text-lg font-bold mb-4">Research Interests</h3>
+          <div class="flex flex-wrap gap-2">
+            {interests.map(interest => (
+              <span class="px-4 py-2 text-sm font-medium
+                           bg-[var(--color-bg-alt)] border border-[var(--color-border)]
+                           rounded-full hover:border-[var(--color-primary)]
+                           transition-colors">
+                {interest}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats / Highlights -->
+      <div class="grid grid-cols-2 gap-6">
+        <div class="stat-card card">
+          <div class="card-content text-center">
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">5+</span>
+            <span class="text-sm text-[var(--color-text-muted)]">Publications</span>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <div class="card-content text-center">
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">3+</span>
+            <span class="text-sm text-[var(--color-text-muted)]">Years Research</span>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <div class="card-content text-center">
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">10+</span>
+            <span class="text-sm text-[var(--color-text-muted)]">Projects</span>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <div class="card-content text-center">
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">100+</span>
+            <span class="text-sm text-[var(--color-text-muted)]">GitHub Stars</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stat-card {
+    padding: 32px 24px;
+  }
+</style>

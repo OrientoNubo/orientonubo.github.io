@@ -1,0 +1,128 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import Card from '../components/common/Card.astro';
+
+const publications = await getCollection('publications');
+const sortedPubs = publications.sort((a, b) => b.data.year - a.data.year);
+
+// Group by year
+const pubsByYear = sortedPubs.reduce((acc, pub) => {
+  const year = pub.data.year;
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(pub);
+  return acc;
+}, {} as Record<number, typeof publications>);
+
+const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
+---
+
+<PageLayout
+  title="Publications"
+  description="Complete list of research publications in computer vision, 3D reconstruction, and visual localization."
+>
+  {years.map(year => (
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold font-heading mb-6 text-[var(--color-primary)]">
+        {year}
+      </h2>
+
+      <div class="space-y-6">
+        {pubsByYear[year].map(pub => (
+          <Card class={pub.data.highlight ? 'border-[var(--color-primary)]' : ''}>
+            <div class="flex flex-col md:flex-row gap-6">
+              {pub.data.image && (
+                <div class="w-full md:w-48 h-32 rounded overflow-hidden flex-shrink-0 bg-[var(--color-bg)]">
+                  <img
+                    src={pub.data.image}
+                    alt={pub.data.title}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+
+              <div class="flex-1">
+                <h3 class="text-lg font-bold mb-2">
+                  {pub.data.title}
+                </h3>
+
+                <p class="text-sm text-[var(--color-text-muted)] mb-2">
+                  {pub.data.authors.join(', ')}
+                </p>
+
+                <p class="text-sm mb-4">
+                  <span class="font-medium text-[var(--color-primary)]">{pub.data.venue}</span>
+                  <span class="text-[var(--color-text-muted)]">
+                    · {pub.data.type}
+                  </span>
+                </p>
+
+                {pub.data.abstract && (
+                  <p class="text-sm text-[var(--color-text-muted)] mb-4 line-clamp-2">
+                    {pub.data.abstract}
+                  </p>
+                )}
+
+                <div class="flex flex-wrap gap-2">
+                  {pub.data.pdf && (
+                    <a href={pub.data.pdf} target="_blank" class="pub-link">PDF</a>
+                  )}
+                  {pub.data.code && (
+                    <a href={pub.data.code} target="_blank" class="pub-link">Code</a>
+                  )}
+                  {pub.data.project && (
+                    <a href={pub.data.project} target="_blank" class="pub-link">Project</a>
+                  )}
+                  {pub.data.video && (
+                    <a href={pub.data.video} target="_blank" class="pub-link">Video</a>
+                  )}
+                  {pub.data.arxiv && (
+                    <a href={pub.data.arxiv} target="_blank" class="pub-link">arXiv</a>
+                  )}
+                  {pub.data.bibtex && (
+                    <button class="pub-link" data-bibtex={pub.data.bibtex}>BibTeX</button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  {years.length === 0 && (
+    <div class="text-center py-12 text-[var(--color-text-muted)]">
+      <p>No publications yet. Check back soon!</p>
+    </div>
+  )}
+</PageLayout>
+
+<style>
+  .pub-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .pub-link:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

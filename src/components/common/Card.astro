@@ -1,0 +1,72 @@
+---
+interface Props {
+  class?: string;
+  href?: string;
+  target?: string;
+}
+
+const { class: className = '', href, target } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  href={href}
+  target={target}
+  class:list={[
+    'card block',
+    className
+  ]}
+>
+  <div class="card-content">
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .card {
+    position: relative;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    transform: skewX(var(--skew-angle));
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .card:hover {
+    transform: skewX(var(--skew-angle)) translateY(-4px);
+    border-color: var(--color-primary);
+  }
+
+  /* P5 Theme */
+  [data-theme="p5"] .card {
+    box-shadow: var(--card-shadow);
+  }
+
+  [data-theme="p5"] .card:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  /* P3 Theme */
+  [data-theme="p3"] .card {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-bg-alt) 100%);
+    box-shadow: var(--card-shadow);
+  }
+
+  [data-theme="p3"] .card:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  /* Velvet Theme */
+  [data-theme="velvet"] .card {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-bg-alt) 100%);
+    border-color: var(--color-accent);
+  }
+
+  .card-content {
+    transform: skewX(calc(var(--skew-angle) * -1));
+  }
+</style>

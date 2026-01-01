@@ -1,0 +1,110 @@
+---
+// Theme Toggle Component - P3/P5
+---
+
+<div class="theme-toggle flex items-center gap-1 p-1 rounded-full bg-[var(--color-bg-alt)] border border-[var(--color-border)]">
+  <button
+    data-theme-btn="p5"
+    class="theme-btn p5-btn"
+    title="Persona 5 - Take Your Heart"
+    aria-label="Switch to Persona 5 theme"
+  >
+    <span class="icon">P5</span>
+  </button>
+  <button
+    data-theme-btn="p3"
+    class="theme-btn p3-btn"
+    title="Persona 3 - Memento Mori"
+    aria-label="Switch to Persona 3 theme"
+  >
+    <span class="icon">P3</span>
+  </button>
+</div>
+
+<style>
+  .theme-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    background: transparent;
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+  }
+
+  .theme-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .theme-btn.active {
+    transform: scale(1.15);
+    color: white;
+  }
+
+  .p5-btn.active {
+    background: #ff0022;
+    box-shadow: 0 0 12px rgba(255, 0, 34, 0.5);
+  }
+
+  .p3-btn.active {
+    background: #00bbfa;
+    box-shadow: 0 0 12px rgba(0, 187, 250, 0.5);
+  }
+</style>
+
+<script>
+  function initThemeToggle() {
+    const buttons = document.querySelectorAll('[data-theme-btn]');
+    const root = document.documentElement;
+
+    // Get current theme
+    const currentTheme = root.getAttribute('data-theme') || 'p5';
+
+    // Set active state
+    buttons.forEach(btn => {
+      const btnElement = btn as HTMLElement;
+      if (btnElement.dataset.themeBtn === currentTheme) {
+        btnElement.classList.add('active');
+      } else {
+        btnElement.classList.remove('active');
+      }
+    });
+
+    // Add click handlers
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const btnElement = btn as HTMLElement;
+        const theme = btnElement.dataset.themeBtn;
+
+        if (!theme) return;
+
+        // Update theme
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('persona-theme', theme);
+
+        // Update active states
+        buttons.forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        // Trigger transition animation
+        document.body.classList.add('theme-transitioning');
+        setTimeout(() => {
+          document.body.classList.remove('theme-transitioning');
+        }, 300);
+
+        // Update background effects
+        window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
+      });
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener('astro:page-load', initThemeToggle);
+  initThemeToggle();
+</script>

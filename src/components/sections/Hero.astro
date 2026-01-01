@@ -1,0 +1,175 @@
+---
+const socialLinks = [
+  { icon: 'github', url: 'https://github.com/OrientoNubo', label: 'GitHub' },
+  { icon: 'scholar', url: 'https://scholar.google.com/citations?user=8HWXJzYAAAAJ', label: 'Google Scholar' },
+  { icon: 'orcid', url: 'https://orcid.org/0009-0003-5282-8977', label: 'ORCID' },
+  { icon: 'email', url: 'mailto:siyu@cmlab.csie.ntu.edu.tw', label: 'Email' },
+];
+---
+
+<section class="hero relative min-h-screen flex items-center overflow-hidden">
+  <!-- Background Effects -->
+  <div class="absolute inset-0 -z-10">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-pattern"></div>
+  </div>
+
+  <div class="container relative z-10">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Text Content -->
+      <div class="hero-content">
+        <p class="text-[var(--color-primary)] font-medium mb-4 tracking-wider uppercase hero-subtitle">
+          PhD Candidate @ NTU
+        </p>
+        <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 hero-title">
+          <span class="block">Hi, I'm</span>
+          <span class="text-[var(--color-primary)] hero-name">Si-Yu Lu</span>
+        </h1>
+        <p class="text-lg text-[var(--color-text-muted)] mb-8 max-w-lg hero-desc">
+          PhD Candidate at <strong class="text-[var(--color-text)]">National Taiwan University</strong>,
+          researching <strong class="text-[var(--color-text)]">3D Reconstruction</strong>,
+          <strong class="text-[var(--color-text)]">Visual Relocalization</strong>, and
+          <strong class="text-[var(--color-text)]">Geometric Foundation Models</strong>.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap gap-4 mb-8">
+          <a href="#publications" class="btn">
+            View Publications
+          </a>
+          <a href="#projects" class="btn btn-outline">
+            Explore Projects
+          </a>
+        </div>
+
+        <!-- Social Links -->
+        <div class="flex gap-4">
+          {socialLinks.map(link => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link w-10 h-10 flex items-center justify-center rounded-full
+                     border border-[var(--color-border)] hover:border-[var(--color-primary)]
+                     hover:bg-[var(--color-primary)] hover:text-white transition-all"
+              aria-label={link.label}
+            >
+              {link.icon === 'github' && (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+              )}
+              {link.icon === 'scholar' && (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
+                </svg>
+              )}
+              {link.icon === 'orcid' && (
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"/>
+                </svg>
+              )}
+              {link.icon === 'email' && (
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Profile Image -->
+      <div class="hero-image flex justify-center">
+        <div class="relative">
+          <div class="profile-frame w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden
+                      border-4 border-[var(--color-primary)] bg-[var(--color-bg-alt)]">
+            <img
+              src="/images/profile.jpg"
+              alt="Si-Yu Lu"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <!-- Decorative Elements -->
+          <div class="absolute -top-4 -right-4 w-8 h-8 bg-[var(--color-primary)] rounded-full animate-pulse"></div>
+          <div class="absolute -bottom-2 -left-2 w-6 h-6 bg-[var(--color-accent)] rounded-full animate-bounce"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+    <a href="#about" class="scroll-indicator flex flex-col items-center gap-2 text-[var(--color-text-muted)]">
+      <span class="text-sm">Scroll</span>
+      <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero-bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 70% 30%,
+      rgba(var(--color-primary-rgb), 0.15) 0%,
+      transparent 50%
+    );
+  }
+
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  /* P5 Theme specific */
+  [data-theme="p5"] .hero-title {
+    text-shadow: 4px 4px 0 var(--color-primary);
+  }
+
+  [data-theme="p5"] .profile-frame {
+    transform: rotate(-5deg);
+    box-shadow: 8px 8px 0 var(--color-secondary);
+  }
+
+  /* P3 Theme specific */
+  [data-theme="p3"] .hero-bg-gradient {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgba(0, 187, 250, 0.2) 0%,
+      transparent 60%
+    );
+  }
+
+  [data-theme="p3"] .profile-frame {
+    box-shadow: 0 0 40px rgba(0, 187, 250, 0.4);
+    animation: p3-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes p3-glow {
+    0%, 100% { box-shadow: 0 0 40px rgba(0, 187, 250, 0.4); }
+    50% { box-shadow: 0 0 60px rgba(0, 187, 250, 0.6); }
+  }
+
+  /* Animations */
+  .hero-subtitle { animation: fadeInUp 0.6s ease-out 0.2s both; }
+  .hero-title { animation: fadeInUp 0.6s ease-out 0.4s both; }
+  .hero-desc { animation: fadeInUp 0.6s ease-out 0.6s both; }
+  .hero-image { animation: fadeInUp 0.6s ease-out 0.8s both; }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

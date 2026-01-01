@@ -1,0 +1,141 @@
+/* ============================================
+   Persona 5 Animations - Skew & Flicker
+   ============================================ */
+
+/* Skewed Card */
+.p5-skew {
+  transform: skewX(var(--skew-angle));
+}
+
+.p5-skew-content {
+  transform: skewX(calc(var(--skew-angle) * -1));
+}
+
+/* Slide In Animation */
+.p5-slide-in {
+  animation: p5-slide-in 0.4s ease-out forwards;
+}
+
+.p5-slide-in-delay-1 { animation-delay: 0.1s; }
+.p5-slide-in-delay-2 { animation-delay: 0.2s; }
+.p5-slide-in-delay-3 { animation-delay: 0.3s; }
+
+@keyframes p5-slide-in {
+  0% {
+    transform: translateX(-100px) skewX(-15deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) skewX(var(--skew-angle));
+    opacity: 1;
+  }
+}
+
+/* Slide In from Right */
+.p5-slide-in-right {
+  animation: p5-slide-in-right 0.4s ease-out forwards;
+}
+
+@keyframes p5-slide-in-right {
+  0% {
+    transform: translateX(100px) skewX(15deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) skewX(var(--skew-angle));
+    opacity: 1;
+  }
+}
+
+/* Aggressive Hover */
+.p5-hover-lift {
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.p5-hover-lift:hover {
+  transform: skewX(var(--skew-angle)) translateY(-8px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Clip Path Shapes */
+.p5-clip-card {
+  clip-path: polygon(5% 0, 100% 2%, 95% 100%, 0 98%);
+}
+
+.p5-clip-button {
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+}
+
+.p5-clip-header {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+/* Flicker Effect (for hover states) */
+.p5-flicker {
+  position: relative;
+}
+
+.p5-flicker::before,
+.p5-flicker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    10% 0%, 90% 5%, 95% 100%, 5% 95%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.p5-flicker::before {
+  background: var(--color-primary);
+  transform: translate(-2px, -2px);
+}
+
+.p5-flicker::after {
+  background: var(--color-accent);
+  transform: translate(2px, 2px);
+  mix-blend-mode: screen;
+}
+
+.p5-flicker:hover::before,
+.p5-flicker:hover::after {
+  opacity: 0.5;
+  animation: flicker 0.15s steps(2) infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* Striped Background */
+.p5-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 10px,
+    rgba(var(--color-primary-rgb), 0.1) 10px,
+    rgba(var(--color-primary-rgb), 0.1) 20px
+  );
+}
+
+/* Bold Text Shadow */
+.p5-text-shadow {
+  text-shadow:
+    3px 3px 0 var(--color-primary),
+    -1px -1px 0 var(--color-secondary);
+}
+
+/* Shake on Hover */
+.p5-shake:hover {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) skewX(var(--skew-angle)); }
+  25% { transform: translateX(-5px) skewX(calc(var(--skew-angle) - 2deg)); }
+  75% { transform: translateX(5px) skewX(calc(var(--skew-angle) + 2deg)); }
+}

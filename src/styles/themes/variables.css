@@ -1,0 +1,58 @@
+/* ============================================
+   Persona Theme System - CSS Variables
+   ============================================ */
+
+:root {
+  /* === Default: P5 Theme === */
+  --color-primary: #ff0022;
+  --color-primary-rgb: 255, 0, 34;
+  --color-secondary: #000000;
+  --color-accent: #1cfeff;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f5f5;
+  --color-text: #000000;
+  --color-text-muted: #666666;
+  --color-border: #e0e0e0;
+
+  /* Geometry */
+  --skew-angle: -5deg;
+  --border-radius: 0;
+  --card-shadow: 8px 8px 0 var(--color-primary);
+  --card-shadow-hover: 12px 12px 0 var(--color-primary);
+
+  /* Animation */
+  --transition-fast: 0.15s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+
+  /* Typography */
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* === P3 Theme === */
+[data-theme="p3"] {
+  --color-primary: #00bbfa;
+  --color-primary-rgb: 0, 187, 250;
+  --color-secondary: #001736;
+  --color-accent: #ffc54a;
+  --color-bg: #00183e;
+  --color-bg-alt: #001736;
+  --color-text: #ffffff;
+  --color-text-muted: #a0c4e8;
+  --color-border: rgba(0, 187, 250, 0.3);
+
+  /* Geometry */
+  --skew-angle: 0deg;
+  --border-radius: 12px;
+  --card-shadow: 0 4px 20px rgba(0, 187, 250, 0.2);
+  --card-shadow-hover: 0 8px 30px rgba(0, 187, 250, 0.4);
+}
+
+/* === Theme Transition === */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color var(--transition-slow),
+              color var(--transition-slow);
+}

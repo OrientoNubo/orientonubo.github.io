@@ -1,0 +1,86 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import Card from '../../components/common/Card.astro';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<PageLayout
+  title="Blog"
+  description="Thoughts on computer vision, 3D reconstruction, and research life."
+>
+  <div class="space-y-8">
+    {sortedPosts.map(post => {
+      const formattedDate = post.data.date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+
+      return (
+        <article>
+          <Card href={`/blog/${post.slug}`}>
+            <div class="flex flex-col md:flex-row gap-6">
+              {post.data.image && (
+                <div class="w-full md:w-48 h-32 rounded overflow-hidden flex-shrink-0 bg-[var(--color-bg)]">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+
+              <div class="flex-1">
+                <div class="flex flex-wrap gap-2 mb-2">
+                  {post.data.tags.map(tag => (
+                    <span class="px-2 py-1 text-xs font-medium bg-[var(--color-primary)] text-white rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <h2 class="text-xl font-bold mb-2 hover:text-[var(--color-primary)] transition-colors">
+                  {post.data.title}
+                </h2>
+
+                {post.data.description && (
+                  <p class="text-sm text-[var(--color-text-muted)] mb-4 line-clamp-2">
+                    {post.data.description}
+                  </p>
+                )}
+
+                <div class="flex items-center gap-4 text-sm text-[var(--color-text-muted)]">
+                  <time datetime={post.data.date.toISOString()}>
+                    {formattedDate}
+                  </time>
+                  {post.data.readingTime && (
+                    <span>{post.data.readingTime} min read</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Card>
+        </article>
+      );
+    })}
+  </div>
+
+  {sortedPosts.length === 0 && (
+    <div class="text-center py-12 text-[var(--color-text-muted)]">
+      <p>No blog posts yet. Check back soon!</p>
+    </div>
+  )}
+</PageLayout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,179 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navItems = [
+  { label: 'About', href: '/#about', special: false },
+  { label: 'Publications', href: '/#publications', special: false },
+  { label: 'Projects', href: '/#projects', special: false },
+  { label: 'Blog', href: '/blog', special: true },
+  { label: 'CV', href: '/cv', special: true },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="header">
+  <div class="container">
+    <nav class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 group">
+        <span class="text-2xl font-bold font-heading tracking-tight">
+          <span class="text-[var(--color-primary)]">S</span>i-Yu
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-8">
+        {navItems.map((item, index) => (
+          <a
+            href={item.href}
+            class:list={[
+              'nav-link relative font-medium text-sm uppercase tracking-wider transition-colors',
+              item.special ? 'chromatic-link' : 'hover:text-[var(--color-primary)]'
+            ]}
+            style={`animation-delay: ${index * 0.1}s`}
+            data-text={item.label}
+          >
+            {item.label}
+            <span class="nav-underline"></span>
+          </a>
+        ))}
+        <ThemeToggle />
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden p-2" id="mobile-menu-btn" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu hidden md:hidden" id="mobile-menu">
+    <div class="container py-4 space-y-4">
+      {navItems.map((item) => (
+        <a href={item.href} class="block py-2 font-medium uppercase tracking-wider">
+          {item.label}
+        </a>
+      ))}
+      <div class="pt-4">
+        <ThemeToggle />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  header {
+    background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav-underline {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover .nav-underline {
+    width: 100%;
+  }
+
+  .mobile-menu {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* P5 Theme: Skewed underline */
+  [data-theme="p5"] .nav-underline {
+    transform: skewX(-15deg);
+  }
+
+  /* Chromatic Aberration Effect for Blog & CV */
+  .chromatic-link {
+    position: relative;
+    color: var(--color-text);
+  }
+
+  .chromatic-link::before,
+  .chromatic-link::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+  }
+
+  .chromatic-link::before {
+    color: #ff0022;
+    z-index: -1;
+  }
+
+  .chromatic-link::after {
+    color: #00bbfa;
+    z-index: -2;
+  }
+
+  .chromatic-link:hover {
+    color: var(--color-text);
+  }
+
+  .chromatic-link:hover::before {
+    opacity: 0.8;
+    transform: translateX(-2px) translateY(-1px);
+  }
+
+  .chromatic-link:hover::after {
+    opacity: 0.8;
+    transform: translateX(2px) translateY(1px);
+  }
+
+  /* P3 Theme chromatic colors */
+  [data-theme="p3"] .chromatic-link::before {
+    color: #ffc54a;
+  }
+
+  [data-theme="p3"] .chromatic-link::after {
+    color: #00bbfa;
+  }
+</style>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Close mobile menu on navigation
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+  });
+
+  // Header scroll effect
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const currentScroll = window.scrollY;
+
+    if (currentScroll > 100) {
+      header?.classList.add('shadow-lg');
+    } else {
+      header?.classList.remove('shadow-lg');
+    }
+
+    lastScroll = currentScroll;
+  });
+</script>
