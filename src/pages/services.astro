@@ -1,0 +1,64 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { getEntry } from 'astro:content';
+import Card from '../components/common/Card.astro';
+
+const profile = await getEntry('site', 'profile');
+if (!profile) {
+  throw new Error('Profile not found');
+}
+const { services } = profile.data;
+---
+
+<PageLayout
+  title="Services"
+  description="Academic services and community contributions."
+>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {services && services.map((service, index) => (
+      <Card class="h-full service-card" style={`animation-delay: ${index * 0.05}s`}>
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--color-primary)] flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h2 class="text-xl font-bold mb-1">{service.title}</h2>
+            <p class="text-[var(--color-primary)] font-medium text-sm mb-2">
+              {service.organization}
+            </p>
+            {service.description && (
+              <p class="text-[var(--color-text-muted)] text-sm">
+                {service.description}
+              </p>
+            )}
+          </div>
+        </div>
+      </Card>
+    ))}
+  </div>
+
+  {(!services || services.length === 0) && (
+    <div class="text-center py-12 text-[var(--color-text-muted)]">
+      <p>No services yet. Check back soon!</p>
+    </div>
+  )}
+</PageLayout>
+
+<style>
+  .service-card {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -3,15 +3,17 @@ interface Props {
   class?: string;
   href?: string;
   target?: string;
+  style?: string;
 }
 
-const { class: className = '', href, target } = Astro.props;
+const { class: className = '', href, target, style } = Astro.props;
 const Tag = href ? 'a' : 'div';
 ---
 
 <Tag
   href={href}
   target={target}
+  style={style}
   class:list={[
     'card block',
     className
