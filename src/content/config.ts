@@ -30,6 +30,23 @@ const siteCollection = defineCollection({
       projects: z.string(),
       awards: z.string(),
     }),
+    services: z.array(z.object({
+      title: z.string(),
+      organization: z.string(),
+      description: z.string().optional(),
+    })).default([]),
+    awards: z.array(z.object({
+      title: z.string(),
+      organization: z.string(),
+      year: z.string(),
+      description: z.string().optional(),
+    })).default([]),
+    certificates: z.array(z.object({
+      title: z.string(),
+      issuer: z.string(),
+      date: z.string(),
+      url: z.string().optional(),
+    })).default([]),
   }),
 });
 

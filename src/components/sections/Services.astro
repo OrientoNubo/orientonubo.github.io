@@ -1,0 +1,37 @@
+---
+import { getEntry } from 'astro:content';
+
+const profile = await getEntry('site', 'profile');
+if (!profile) {
+  throw new Error('Profile not found');
+}
+const { services } = profile.data;
+---
+
+{services && services.length > 0 && (
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="text-4xl font-bold font-heading mb-8">
+        <span class="text-[var(--color-primary)]">//</span> Services
+      </h2>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map(service => (
+          <div class="card">
+            <div class="card-content">
+              <h3 class="text-xl font-bold mb-2">{service.title}</h3>
+              <p class="text-[var(--color-primary)] font-medium text-sm mb-2">
+                {service.organization}
+              </p>
+              {service.description && (
+                <p class="text-[var(--color-text-muted)] text-sm">
+                  {service.description}
+                </p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

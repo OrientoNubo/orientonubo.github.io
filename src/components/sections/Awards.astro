@@ -1,0 +1,47 @@
+---
+import { getEntry } from 'astro:content';
+
+const profile = await getEntry('site', 'profile');
+if (!profile) {
+  throw new Error('Profile not found');
+}
+const { awards } = profile.data;
+---
+
+{awards && awards.length > 0 && (
+  <section id="awards" class="section">
+    <div class="container">
+      <h2 class="text-4xl font-bold font-heading mb-8">
+        <span class="text-[var(--color-primary)]">//</span> Awards
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        {awards.map(award => (
+          <div class="card">
+            <div class="card-content flex items-start gap-4">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--color-primary)] flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold mb-1">{award.title}</h3>
+                <p class="text-[var(--color-primary)] font-medium text-sm">
+                  {award.organization}
+                </p>
+                <p class="text-[var(--color-text-muted)] text-sm">
+                  {award.year}
+                </p>
+                {award.description && (
+                  <p class="text-[var(--color-text-muted)] text-sm mt-2">
+                    {award.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
