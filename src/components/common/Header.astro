@@ -14,7 +14,7 @@ const navItems = [
   <div class="container">
     <nav class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2">
+      <a href="/" class="header-logo flex items-center gap-2 transition-colors">
         <span class="text-2xl font-bold font-heading tracking-tight">
           Si-Yu
         </span>
@@ -144,6 +144,15 @@ const navItems = [
 
   [data-theme="p3"] .chromatic-link::after {
     color: #00bbfa;
+  }
+
+  /* Logo hover effects */
+  :global([data-theme="p5"]) .header-logo:hover {
+    color: var(--color-accent);
+  }
+
+  :global([data-theme="p3"]) .header-logo:hover {
+    color: #ffffff;
   }
 </style>
 

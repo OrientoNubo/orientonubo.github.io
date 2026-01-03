@@ -14,8 +14,8 @@ const socialLinks = [
     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
       <!-- Logo & Copyright -->
       <div class="text-center md:text-left">
-        <a href="/" class="text-xl font-bold font-heading">
-          <span class="text-[var(--color-primary)]">S</span>i-Yu Lu
+        <a href="/" class="footer-logo text-xl font-bold font-heading transition-colors">
+          Si-Yu Lu
         </a>
         <p class="text-sm text-[var(--color-text-muted)] mt-2">
           &copy; {currentYear} Si-Yu Lu. All rights reserved.
@@ -67,3 +67,15 @@ const socialLinks = [
     </div>
   </div>
 </footer>
+
+<style>
+  /* P5 Theme: hover to gold */
+  :global([data-theme="p5"]) .footer-logo:hover {
+    color: var(--color-accent);
+  }
+
+  /* P3 Theme: hover to white */
+  :global([data-theme="p3"]) .footer-logo:hover {
+    color: #ffffff;
+  }
+</style>
