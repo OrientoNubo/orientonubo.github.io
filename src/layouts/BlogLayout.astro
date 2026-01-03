@@ -93,6 +93,12 @@ const formattedDate = date.toLocaleDateString('en-US', {
     border-radius: 0.25rem;
   }
 
+  /* Remove Tailwind Typography backticks */
+  .blog-content :global(code::before),
+  .blog-content :global(code::after) {
+    content: none !important;
+  }
+
   .blog-content :global(pre code) {
     padding: 0;
     background-color: transparent !important;
