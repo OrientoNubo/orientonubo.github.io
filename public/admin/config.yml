@@ -1,13 +1,11 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: OrientoNubo/orientonubo.github.io
   branch: master
 
 # Media files will be stored in the repo under public/images
 media_folder: "public/images"
 public_folder: "/images"
-
-# Site URL for local development
-local_backend: true
 
 collections:
   # Site Settings (Personal Profile)

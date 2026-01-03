@@ -28,9 +28,6 @@ const { title, description, image } = Astro.props;
 
     <SEO title={title} description={description} image={image} />
     <ClientRouter />
-
-    <!-- Netlify Identity Widget (for CMS authentication) -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
     <Header />
@@ -53,17 +50,6 @@ const { title, description, image } = Astro.props;
         document.documentElement.setAttribute('data-theme', theme);
       });
 
-      // Netlify Identity redirect after login
-      const netlifyIdentity = (window as any).netlifyIdentity;
-      if (netlifyIdentity) {
-        netlifyIdentity.on('init', (user: any) => {
-          if (!user) {
-            netlifyIdentity.on('login', () => {
-              document.location.href = '/admin/';
-            });
-          }
-        });
-      }
     </script>
   </body>
 </html>
