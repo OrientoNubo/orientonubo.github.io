@@ -23,7 +23,7 @@ const socialLinks = [
         </p>
         <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 hero-title">
           <span class="block">Hi, I'm</span>
-          <span class="text-[var(--color-primary)] hero-name">Si-Yu Lu</span>
+          <span class="hero-name">Si-Yu Lu</span>
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] mb-8 max-w-lg hero-desc">
           PhD Candidate at <strong class="text-[var(--color-text)]">National Taiwan University</strong>,
@@ -132,12 +132,24 @@ const socialLinks = [
     text-shadow: 4px 4px 0 var(--color-primary);
   }
 
+  [data-theme="p5"] .hero-name {
+    color: var(--color-text);
+    text-shadow: 3px 3px 0 var(--color-primary),
+                 -1px -1px 0 var(--color-primary),
+                 1px -1px 0 var(--color-primary),
+                 -1px 1px 0 var(--color-primary);
+  }
+
   [data-theme="p5"] .profile-frame {
     transform: rotate(-5deg);
     box-shadow: 8px 8px 0 var(--color-secondary);
   }
 
   /* P3 Theme specific */
+  [data-theme="p3"] .hero-name {
+    color: var(--color-primary);
+  }
+
   [data-theme="p3"] .hero-bg-gradient {
     background: radial-gradient(
       ellipse at 50% 50%,
