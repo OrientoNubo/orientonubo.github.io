@@ -79,6 +79,24 @@ const formattedDate = date.toLocaleDateString('en-US', {
     --tw-prose-hr: var(--color-border);
     --tw-prose-bullets: var(--color-text-muted);
     --tw-prose-counters: var(--color-text-muted);
+    --tw-prose-pre-bg: var(--color-bg-alt);
+    --tw-prose-pre-code: var(--color-text);
+  }
+
+  /* P5 code blocks - ensure high contrast */
+  :global([data-theme="p5"]) .blog-content pre {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+  }
+
+  :global([data-theme="p5"]) .blog-content code {
+    color: #000000;
+    background-color: #e5e5e5;
+  }
+
+  :global([data-theme="p5"]) .blog-content pre code {
+    color: #f5f5f5;
+    background-color: transparent;
   }
 
   :global([data-theme="p3"]) .blog-content {
