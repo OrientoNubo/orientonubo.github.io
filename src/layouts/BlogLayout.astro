@@ -51,9 +51,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
       <!-- Post Content -->
       <div class="prose prose-lg max-w-none blog-content
                   prose-headings:font-heading prose-headings:font-bold
-                  prose-a:text-[var(--color-primary)] prose-a:no-underline hover:prose-a:underline
-                  prose-code:bg-[var(--color-bg-alt)] prose-code:px-2 prose-code:py-1 prose-code:rounded
-                  prose-pre:bg-[var(--color-bg-alt)] prose-pre:border prose-pre:border-[var(--color-border)]">
+                  prose-a:text-[var(--color-primary)] prose-a:no-underline hover:prose-a:underline">
         <slot />
       </div>
 
@@ -83,29 +81,51 @@ const formattedDate = date.toLocaleDateString('en-US', {
     --tw-prose-pre-code: var(--color-text);
   }
 
-  /* P5 code blocks - ensure high contrast */
-  :global([data-theme="p5"]) .blog-content pre {
+  /* Code block base styling */
+  .blog-content :global(pre) {
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+
+  .blog-content :global(code) {
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .blog-content :global(pre code) {
+    padding: 0;
+    background-color: transparent !important;
+  }
+
+  /* P5 code blocks - dark bg, light text */
+  :global([data-theme="p5"]) .blog-content :global(pre) {
     background-color: #1a1a1a;
     color: #f5f5f5;
   }
 
-  :global([data-theme="p5"]) .blog-content code {
+  :global([data-theme="p5"]) .blog-content :global(code) {
     color: #000000;
     background-color: #e5e5e5;
   }
 
-  :global([data-theme="p5"]) .blog-content pre code {
+  :global([data-theme="p5"]) .blog-content :global(pre code) {
     color: #f5f5f5;
     background-color: transparent !important;
   }
 
-  /* P3 code blocks - ensure high contrast */
-  :global([data-theme="p3"]) .blog-content pre {
+  /* P3 code blocks - dark bg, light text */
+  :global([data-theme="p3"]) .blog-content :global(pre) {
     background-color: #1a1a2e;
     color: #f5f5f5;
   }
 
-  :global([data-theme="p3"]) .blog-content pre code {
+  :global([data-theme="p3"]) .blog-content :global(code) {
+    color: #f5f5f5;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  :global([data-theme="p3"]) .blog-content :global(pre code) {
     color: #f5f5f5;
     background-color: transparent !important;
   }
