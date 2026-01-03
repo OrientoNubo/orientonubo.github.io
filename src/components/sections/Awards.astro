@@ -1,5 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
+import Card from '../common/Card.astro';
 
 const profile = await getEntry('site', 'profile');
 if (!profile) {
@@ -10,7 +11,7 @@ const displayAwards = awards?.slice(0, 4) ?? [];
 ---
 
 {awards && awards.length > 0 && (
-  <section id="awards" class="section">
+  <section id="awards" class="section bg-[var(--color-bg-alt)]">
     <div class="container">
       <!-- Section Header -->
       <div class="text-center mb-12">
@@ -24,11 +25,8 @@ const displayAwards = awards?.slice(0, 4) ?? [];
 
       <div class="grid md:grid-cols-2 gap-6">
         {displayAwards.map((award, index) => (
-          <div
-            class="award-card card"
-            style={`animation-delay: ${index * 0.1}s`}
-          >
-            <div class="card-content flex items-start gap-4">
+          <Card class="award-card h-full" style={`animation-delay: ${index * 0.1}s`}>
+            <div class="flex items-start gap-4">
               <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--color-primary)] flex items-center justify-center">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -49,7 +47,7 @@ const displayAwards = awards?.slice(0, 4) ?? [];
                 )}
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
