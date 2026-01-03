@@ -1,12 +1,11 @@
 ---
-const interests = [
-  '3D Reconstruction',
-  'Visual Relocalization',
-  'Geometric Foundation Models',
-  'Physical AI',
-  'Generative Models',
-  'Autonomous Vehicles',
-];
+import { getEntry } from 'astro:content';
+
+const profile = await getEntry('site', 'profile');
+if (!profile) {
+  throw new Error('Profile not found');
+}
+const { affiliation, advisors, researchInterests, stats } = profile.data;
 ---
 
 <section id="about" class="section">
@@ -20,18 +19,20 @@ const interests = [
 
         <div class="space-y-4 text-[var(--color-text-muted)]">
           <p>
-            I am currently pursuing my Ph.D. at <a href="https://aimm.cmlab.csie.ntu.edu.tw/" target="_blank" class="text-[var(--color-primary)] hover:underline">CMLab AIMM Group</a>,
-            <strong class="text-[var(--color-text)]">National Taiwan University</strong>,
-            advised by Prof. <a href="https://www.csie.ntu.edu.tw/~wenhuang/" target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline">Wen-Huang Cheng</a>.
+            I am currently pursuing my Ph.D. at <a href={affiliation.departmentUrl} target="_blank" class="text-[var(--color-primary)] hover:underline">{affiliation.department}</a>,
+            <strong class="text-[var(--color-text)]">{affiliation.institution}</strong>,
+            advised by Prof. <a href={advisors[0].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline">{advisors[0].name}</a>.
           </p>
 
-          <p>
-            I also work closely with Prof. <a href="https://sites.google.com/view/ntust-his-lab/" target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline">Yung-Yao Chen</a>
-            at <strong class="text-[var(--color-text)]">National Taiwan University of Science and Technology</strong>.
-          </p>
+          {advisors.length > 1 && (
+            <p>
+              I also work closely with Prof. <a href={advisors[1].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline">{advisors[1].name}</a>
+              at <strong class="text-[var(--color-text)]">{advisors[1].institution}</strong>.
+            </p>
+          )}
 
           <p>
-            My main research directions include <strong class="text-[var(--color-text)]">3D Reconstruction, Visual Relocalization, Geometric Foundation Models, Physical AI, and Generative Models</strong>.
+            My main research directions include <strong class="text-[var(--color-text)]">{researchInterests.slice(0, 5).join(', ')}</strong>.
             I also explore related areas such as Computer Vision (CV), Machine Learning (ML), Autonomous Vehicles (AV), Human–Computer Interaction (HCI), and Robotics.
           </p>
 
@@ -44,7 +45,7 @@ const interests = [
         <div class="mt-8">
           <h3 class="text-lg font-bold mb-4">Research Interests</h3>
           <div class="flex flex-wrap gap-2">
-            {interests.map(interest => (
+            {researchInterests.map(interest => (
               <span class="px-4 py-2 text-sm font-medium
                            bg-[var(--color-bg-alt)] border border-[var(--color-border)]
                            rounded-full hover:border-[var(--color-primary)]
@@ -60,25 +61,25 @@ const interests = [
       <div class="grid grid-cols-2 gap-6">
         <div class="stat-card card">
           <div class="card-content text-center">
-            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">5+</span>
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.publications}</span>
             <span class="text-sm text-[var(--color-text-muted)]">Publications</span>
           </div>
         </div>
         <div class="stat-card card">
           <div class="card-content text-center">
-            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">3+</span>
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.yearsResearch}</span>
             <span class="text-sm text-[var(--color-text-muted)]">Years Research</span>
           </div>
         </div>
         <div class="stat-card card">
           <div class="card-content text-center">
-            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">10+</span>
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.projects}</span>
             <span class="text-sm text-[var(--color-text-muted)]">Projects</span>
           </div>
         </div>
         <div class="stat-card card">
           <div class="card-content text-center">
-            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">100+</span>
+            <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.githubStars}</span>
             <span class="text-sm text-[var(--color-text-muted)]">GitHub Stars</span>
           </div>
         </div>

@@ -1,0 +1,123 @@
+backend:
+  name: git-gateway
+  branch: master
+
+# Media files will be stored in the repo under public/images
+media_folder: "public/images"
+public_folder: "/images"
+
+# Site URL for local development
+local_backend: true
+
+collections:
+  # Site Settings (Personal Profile)
+  - name: "site"
+    label: "Site Settings"
+    files:
+      - name: "profile"
+        label: "Personal Profile"
+        file: "src/content/site/profile.json"
+        fields:
+          - { name: "name", label: "Full Name", widget: "string" }
+          - { name: "title", label: "Title/Position", widget: "string", hint: "e.g., PhD Candidate @ NTU" }
+          - { name: "profileImage", label: "Profile Image", widget: "image" }
+          - { name: "bio", label: "Short Bio", widget: "text" }
+          - label: "Affiliation"
+            name: "affiliation"
+            widget: "object"
+            fields:
+              - { name: "institution", label: "Institution", widget: "string" }
+              - { name: "department", label: "Department/Lab", widget: "string" }
+              - { name: "departmentUrl", label: "Department URL", widget: "string" }
+          - label: "Advisors"
+            name: "advisors"
+            widget: "list"
+            fields:
+              - { name: "name", label: "Name", widget: "string" }
+              - { name: "institution", label: "Institution", widget: "string" }
+              - { name: "url", label: "Website URL", widget: "string" }
+          - label: "Social Links"
+            name: "socialLinks"
+            widget: "list"
+            fields:
+              - { name: "icon", label: "Icon", widget: "select", options: ["github", "scholar", "orcid", "email", "twitter", "linkedin"] }
+              - { name: "url", label: "URL", widget: "string" }
+              - { name: "label", label: "Label", widget: "string" }
+          - label: "Research Interests"
+            name: "researchInterests"
+            widget: "list"
+            field: { name: "interest", label: "Interest", widget: "string" }
+          - label: "Stats"
+            name: "stats"
+            widget: "object"
+            fields:
+              - { name: "publications", label: "Publications", widget: "string", hint: "e.g., 5+" }
+              - { name: "yearsResearch", label: "Years of Research", widget: "string", hint: "e.g., 3+" }
+              - { name: "projects", label: "Projects", widget: "string", hint: "e.g., 10+" }
+              - { name: "githubStars", label: "GitHub Stars", widget: "string", hint: "e.g., 100+" }
+
+  # Blog Posts
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "description", label: "Description", widget: "text", required: false }
+      - { name: "date", label: "Publish Date", widget: "datetime" }
+      - { name: "updated", label: "Updated Date", widget: "datetime", required: false }
+      - { name: "tags", label: "Tags", widget: "list", default: [] }
+      - { name: "image", label: "Featured Image", widget: "image", required: false }
+      - { name: "draft", label: "Draft", widget: "boolean", default: false }
+      - { name: "readingTime", label: "Reading Time (minutes)", widget: "number", required: false }
+      - { name: "body", label: "Content", widget: "markdown" }
+
+  # Publications
+  - name: "publications"
+    label: "Publications"
+    folder: "src/content/publications"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "authors", label: "Authors", widget: "list", field: { name: "author", label: "Author", widget: "string" } }
+      - { name: "venue", label: "Venue", widget: "string", hint: "e.g., CVPR 2024, Nature" }
+      - { name: "year", label: "Year", widget: "number" }
+      - { name: "type", label: "Type", widget: "select", options: ["conference", "journal", "preprint"], default: "conference" }
+      - { name: "pdf", label: "PDF URL", widget: "string", required: false }
+      - { name: "code", label: "Code URL", widget: "string", required: false }
+      - { name: "project", label: "Project URL", widget: "string", required: false }
+      - { name: "video", label: "Video URL", widget: "string", required: false }
+      - { name: "arxiv", label: "arXiv URL", widget: "string", required: false }
+      - { name: "doi", label: "DOI", widget: "string", required: false }
+      - { name: "bibtex", label: "BibTeX", widget: "text", required: false }
+      - { name: "image", label: "Thumbnail", widget: "image", required: false }
+      - { name: "highlight", label: "Highlight", widget: "boolean", default: false }
+      - { name: "abstract", label: "Abstract", widget: "text", required: false }
+      - { name: "body", label: "Additional Content", widget: "markdown", required: false }
+
+  # Projects
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "image", label: "Image", widget: "image", required: false }
+      - { name: "tags", label: "Tags", widget: "list", default: [] }
+      - { name: "github", label: "GitHub URL", widget: "string", required: false }
+      - { name: "demo", label: "Demo URL", widget: "string", required: false }
+      - { name: "paper", label: "Paper URL", widget: "string", required: false }
+      - { name: "featured", label: "Featured", widget: "boolean", default: false }
+      - { name: "status", label: "Status", widget: "select", options: ["active", "completed", "archived"], default: "completed" }
+      - { name: "body", label: "Content", widget: "markdown", required: false }

@@ -1,5 +1,38 @@
 import { defineCollection, z } from 'astro:content';
 
+// Site configuration (personal profile)
+const siteCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    title: z.string(),
+    profileImage: z.string(),
+    bio: z.string(),
+    affiliation: z.object({
+      institution: z.string(),
+      department: z.string(),
+      departmentUrl: z.string(),
+    }),
+    advisors: z.array(z.object({
+      name: z.string(),
+      institution: z.string(),
+      url: z.string(),
+    })),
+    socialLinks: z.array(z.object({
+      icon: z.string(),
+      url: z.string(),
+      label: z.string(),
+    })),
+    researchInterests: z.array(z.string()),
+    stats: z.object({
+      publications: z.string(),
+      yearsResearch: z.string(),
+      projects: z.string(),
+      githubStars: z.string(),
+    }),
+  }),
+});
+
 const publicationsCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -52,6 +85,7 @@ const blogCollection = defineCollection({
 });
 
 export const collections = {
+  site: siteCollection,
   publications: publicationsCollection,
   projects: projectsCollection,
   blog: blogCollection,
