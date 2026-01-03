@@ -128,15 +128,15 @@ const socialLinks = [
   }
 
   /* P5 Theme specific */
-  [data-theme="p5"] .hero-title {
+  :global([data-theme="p5"]) .hero-title {
     text-shadow: 4px 4px 0 var(--color-primary);
   }
 
-  [data-theme="p5"] .hero-greeting {
+  :global([data-theme="p5"]) .hero-greeting {
     color: var(--color-primary);
   }
 
-  [data-theme="p5"] .hero-name {
+  :global([data-theme="p5"]) .hero-name {
     color: var(--color-text);
     text-shadow: 3px 3px 0 var(--color-primary),
                  -1px -1px 0 var(--color-primary),
@@ -144,17 +144,17 @@ const socialLinks = [
                  -1px 1px 0 var(--color-primary);
   }
 
-  [data-theme="p5"] .profile-frame {
+  :global([data-theme="p5"]) .profile-frame {
     transform: rotate(-5deg);
     box-shadow: 8px 8px 0 var(--color-secondary);
   }
 
   /* P3 Theme specific */
-  [data-theme="p3"] .hero-name {
+  :global([data-theme="p3"]) .hero-name {
     color: var(--color-primary);
   }
 
-  [data-theme="p3"] .hero-bg-gradient {
+  :global([data-theme="p3"]) .hero-bg-gradient {
     background: radial-gradient(
       ellipse at 50% 50%,
       rgba(0, 187, 250, 0.2) 0%,
@@ -162,7 +162,7 @@ const socialLinks = [
     );
   }
 
-  [data-theme="p3"] .profile-frame {
+  :global([data-theme="p3"]) .profile-frame {
     box-shadow: 0 0 40px rgba(0, 187, 250, 0.4);
     animation: p3-glow 3s ease-in-out infinite;
   }
