@@ -26,9 +26,9 @@ const siteCollection = defineCollection({
     researchInterests: z.array(z.string()),
     stats: z.object({
       publications: z.string(),
-      yearsResearch: z.string(),
+      reviews: z.string(),
       projects: z.string(),
-      githubStars: z.string(),
+      awards: z.string(),
     }),
   }),
 });

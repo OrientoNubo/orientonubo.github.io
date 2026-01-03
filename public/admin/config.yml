@@ -52,9 +52,9 @@ collections:
             widget: "object"
             fields:
               - { name: "publications", label: "Publications", widget: "string", hint: "e.g., 5+" }
-              - { name: "yearsResearch", label: "Years of Research", widget: "string", hint: "e.g., 3+" }
+              - { name: "reviews", label: "Reviews", widget: "string", hint: "e.g., 10+" }
               - { name: "projects", label: "Projects", widget: "string", hint: "e.g., 10+" }
-              - { name: "githubStars", label: "GitHub Stars", widget: "string", hint: "e.g., 100+" }
+              - { name: "awards", label: "Awards", widget: "string", hint: "e.g., 2+" }
 
   # Blog Posts
   - name: "blog"
