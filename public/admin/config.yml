@@ -2,8 +2,8 @@ backend:
   name: github
   repo: OrientoNubo/orientonubo.github.io
   branch: master
-  auth_endpoint: oauth
-  app_id: Ov23li9H4zTDXFyD2g9i
+  base_url: https://github-oauth-proxy.d11922023.workers.dev
+  auth_endpoint: /auth
 
 # Media files will be stored in the repo under public/images
 media_folder: "public/images"
