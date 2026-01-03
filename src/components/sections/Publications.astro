@@ -3,7 +3,15 @@ import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
 
 const publications = await getCollection('publications');
-const sortedPubs = publications.sort((a, b) => b.data.year - a.data.year);
+// Sort by pinned first, then by year
+const sortedPubs = publications.sort((a, b) => {
+  if (a.data.pinned !== b.data.pinned) {
+    return a.data.pinned ? -1 : 1;
+  }
+  return b.data.year - a.data.year;
+});
+// Display limited number on homepage
+const displayPubs = sortedPubs.slice(0, 5);
 ---
 
 <section id="publications" class="section">
@@ -20,12 +28,12 @@ const sortedPubs = publications.sort((a, b) => b.data.year - a.data.year);
 
     <!-- Publications List -->
     <div class="space-y-6">
-      {sortedPubs.map((pub, index) => (
+      {displayPubs.map((pub, index) => (
         <article
           class="pub-card"
           style={`animation-delay: ${index * 0.1}s`}
         >
-          <Card class={pub.data.highlight ? 'border-[var(--color-primary)]' : ''}>
+          <Card class={pub.data.pinned ? 'border-[var(--color-primary)]' : ''}>
             <div class="flex flex-col md:flex-row gap-6">
               <!-- Thumbnail -->
               {pub.data.image && (
@@ -45,11 +53,18 @@ const sortedPubs = publications.sort((a, b) => b.data.year - a.data.year);
                   <h3 class="text-lg font-bold leading-tight">
                     {pub.data.title}
                   </h3>
-                  {pub.data.highlight && (
-                    <span class="px-2 py-1 text-xs font-bold bg-[var(--color-primary)] text-white rounded flex-shrink-0">
-                      Featured
-                    </span>
-                  )}
+                  <div class="flex gap-1 flex-shrink-0">
+                    {pub.data.firstAuthor && (
+                      <span class="px-2 py-1 text-xs font-bold bg-[var(--color-primary)] text-white rounded">
+                        1st Author
+                      </span>
+                    )}
+                    {pub.data.correspondingAuthor && (
+                      <span class="px-2 py-1 text-xs font-bold bg-[var(--color-accent)] text-white rounded">
+                        Corresponding
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <p class="text-sm text-[var(--color-text-muted)] mb-2">

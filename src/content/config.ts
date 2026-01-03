@@ -66,7 +66,9 @@ const publicationsCollection = defineCollection({
     doi: z.string().optional(),
     bibtex: z.string().optional(),
     image: z.string().optional(),
-    highlight: z.boolean().default(false),
+    pinned: z.boolean().default(false),
+    firstAuthor: z.boolean().default(false),
+    correspondingAuthor: z.boolean().default(false),
     abstract: z.string().optional(),
   }),
 });

@@ -29,7 +29,7 @@ const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
 
       <div class="space-y-6">
         {pubsByYear[year].map(pub => (
-          <Card class={pub.data.highlight ? 'border-[var(--color-primary)]' : ''}>
+          <Card class={pub.data.pinned ? 'border-[var(--color-primary)]' : ''}>
             <div class="flex flex-col md:flex-row gap-6">
               {pub.data.image && (
                 <div class="w-full md:w-48 h-32 rounded overflow-hidden flex-shrink-0 bg-[var(--color-bg)]">
@@ -43,9 +43,23 @@ const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
               )}
 
               <div class="flex-1">
-                <h3 class="text-lg font-bold mb-2">
-                  {pub.data.title}
-                </h3>
+                <div class="flex items-start justify-between gap-4 mb-2">
+                  <h3 class="text-lg font-bold">
+                    {pub.data.title}
+                  </h3>
+                  <div class="flex gap-1 flex-shrink-0">
+                    {pub.data.firstAuthor && (
+                      <span class="px-2 py-1 text-xs font-bold bg-[var(--color-primary)] text-white rounded">
+                        1st Author
+                      </span>
+                    )}
+                    {pub.data.correspondingAuthor && (
+                      <span class="px-2 py-1 text-xs font-bold bg-[var(--color-accent)] text-white rounded">
+                        Corresponding
+                      </span>
+                    )}
+                  </div>
+                </div>
 
                 <p class="text-sm text-[var(--color-text-muted)] mb-2">
                   {pub.data.authors.join(', ')}
