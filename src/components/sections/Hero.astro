@@ -22,7 +22,7 @@ const socialLinks = [
           PhD Candidate @ NTU
         </p>
         <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 hero-title">
-          <span class="block">Hi, I'm</span>
+          <span class="block hero-greeting">Hi, I'm</span>
           <span class="hero-name">Si-Yu Lu</span>
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] mb-8 max-w-lg hero-desc">
@@ -130,6 +130,10 @@ const socialLinks = [
   /* P5 Theme specific */
   [data-theme="p5"] .hero-title {
     text-shadow: 4px 4px 0 var(--color-primary);
+  }
+
+  [data-theme="p5"] .hero-greeting {
+    color: var(--color-primary);
   }
 
   [data-theme="p5"] .hero-name {
