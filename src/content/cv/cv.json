@@ -38,8 +38,8 @@
       "Visual Relocalization",
       "NeRF/3DGS",
       "World Model",
-      "Multimodal Understanding",
-      "Embedded System"
+      "Embedded System",
+      "Multimodal Understanding"
     ],
     "tools": [
       "Git",
