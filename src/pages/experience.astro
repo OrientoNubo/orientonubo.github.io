@@ -1,0 +1,114 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import Card from '../components/common/Card.astro';
+
+const experience = await getCollection('experience');
+const sortedExperience = experience.sort((a, b) => a.data.order - b.data.order);
+
+const typeLabels: Record<string, string> = {
+  work: 'Full-time',
+  intern: 'Internship',
+  collab: 'Collaboration',
+};
+
+const typeColors: Record<string, string> = {
+  work: 'bg-blue-500/20 text-blue-400',
+  intern: 'bg-green-500/20 text-green-400',
+  collab: 'bg-purple-500/20 text-purple-400',
+};
+---
+
+<PageLayout
+  title="Experience"
+  description="Work experience, internships, and industry-academia collaborations."
+>
+  <div class="grid md:grid-cols-2 gap-6">
+    {sortedExperience.map(exp => (
+      <Card class="h-full">
+        {exp.data.image && (
+          <div class="-mx-6 -mt-6 mb-4 h-48 overflow-hidden rounded-t">
+            <img
+              src={exp.data.image}
+              alt={exp.data.title}
+              class="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
+              loading="lazy"
+              data-lightbox
+            />
+          </div>
+        )}
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class:list={[
+            'px-2 py-1 text-xs font-medium rounded',
+            typeColors[exp.data.type] || typeColors.work,
+          ]}>
+            {typeLabels[exp.data.type] || exp.data.type}
+          </span>
+          {exp.data.featured && (
+            <span class="px-2 py-1 text-xs font-medium bg-[var(--color-primary)] text-white rounded">
+              Featured
+            </span>
+          )}
+        </div>
+
+        <h2 class="text-xl font-bold mb-1">
+          {exp.data.title}
+        </h2>
+
+        <p class="text-[var(--color-primary)] font-medium text-sm mb-1">
+          {exp.data.organization}
+        </p>
+
+        <p class="text-[var(--color-text-muted)] text-sm mb-3">
+          {exp.data.startDate} — {exp.data.endDate || 'Present'}
+        </p>
+
+        <p class="text-sm text-[var(--color-text-muted)] mb-4">
+          {exp.data.description}
+        </p>
+
+        <div class="flex flex-wrap gap-2 mb-4">
+          {exp.data.tags.map(tag => (
+            <span class="px-2 py-1 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {exp.data.url && (
+          <div class="flex gap-4 mt-auto pt-4 border-t border-[var(--color-border)]">
+            <a href={exp.data.url} target="_blank" class="exp-link">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              Visit
+            </a>
+          </div>
+        )}
+      </Card>
+    ))}
+  </div>
+
+  {sortedExperience.length === 0 && (
+    <div class="text-center py-12 text-[var(--color-text-muted)]">
+      <p>No experience entries yet. Check back soon!</p>
+    </div>
+  )}
+</PageLayout>
+
+<style>
+  .exp-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    transition: color 0.2s;
+  }
+
+  .exp-link:hover {
+    color: var(--color-primary);
+  }
+</style>

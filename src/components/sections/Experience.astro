@@ -1,0 +1,165 @@
+---
+import { getCollection } from 'astro:content';
+import Card from '../common/Card.astro';
+
+const experience = await getCollection('experience');
+const sortedExperience = experience.sort((a, b) => a.data.order - b.data.order);
+const featuredExperience = sortedExperience.filter(e => e.data.featured);
+const displayExperience = featuredExperience.length > 0 ? featuredExperience : sortedExperience.slice(0, 3);
+
+const typeLabels: Record<string, string> = {
+  work: 'Full-time',
+  intern: 'Internship',
+  collab: 'Collaboration',
+};
+
+const typeColors: Record<string, string> = {
+  work: 'bg-blue-500/20 text-blue-400',
+  intern: 'bg-green-500/20 text-green-400',
+  collab: 'bg-purple-500/20 text-purple-400',
+};
+---
+
+{sortedExperience.length > 0 && (
+  <section id="experience" class="section">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold font-heading mb-4">
+          <span class="text-[var(--color-primary)]">//</span> Experience
+        </h2>
+        <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
+          Work experience, internships, and industry-academia collaborations.
+        </p>
+      </div>
+
+      <!-- Experience Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {displayExperience.map((exp, index) => (
+          <article
+            class="exp-card"
+            style={`animation-delay: ${index * 0.1}s`}
+          >
+            <Card class="h-full">
+              <!-- Image -->
+              {exp.data.image && (
+                <div class="exp-image -mx-6 -mt-6 mb-4 h-40 overflow-hidden rounded-t">
+                  <img
+                    src={exp.data.image}
+                    alt={exp.data.title}
+                    class="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                    loading="lazy"
+                    data-lightbox
+                  />
+                </div>
+              )}
+
+              <!-- Type Badge -->
+              <div class="flex items-center gap-2 mb-3">
+                <span class:list={[
+                  'px-2 py-1 text-xs font-medium rounded',
+                  typeColors[exp.data.type] || typeColors.work,
+                ]}>
+                  {typeLabels[exp.data.type] || exp.data.type}
+                </span>
+                {exp.data.featured && (
+                  <span class="px-2 py-1 text-xs font-medium bg-[var(--color-primary)] text-white rounded">
+                    Featured
+                  </span>
+                )}
+              </div>
+
+              <!-- Title -->
+              <h3 class="text-xl font-bold mb-1">
+                {exp.data.title}
+              </h3>
+
+              <!-- Organization -->
+              <p class="text-[var(--color-primary)] font-medium text-sm mb-1">
+                {exp.data.organization}
+              </p>
+
+              <!-- Date Range -->
+              <p class="text-[var(--color-text-muted)] text-sm mb-3">
+                {exp.data.startDate} — {exp.data.endDate || 'Present'}
+              </p>
+
+              <!-- Description -->
+              <p class="text-sm text-[var(--color-text-muted)] mb-4 line-clamp-3">
+                {exp.data.description}
+              </p>
+
+              <!-- Tags -->
+              {exp.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {exp.data.tags.slice(0, 3).map(tag => (
+                    <span class="px-2 py-1 text-xs bg-[var(--color-bg)] border border-[var(--color-border)] rounded">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <!-- Link -->
+              {exp.data.url && (
+                <div class="flex gap-3 mt-auto">
+                  <a href={exp.data.url} target="_blank" class="exp-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    Visit
+                  </a>
+                </div>
+              )}
+            </Card>
+          </article>
+        ))}
+      </div>
+
+      <!-- View All Link -->
+      <div class="text-center mt-8">
+        <a href="/experience" class="btn btn-outline">
+          View All Experience →
+        </a>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .exp-card {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+
+  .exp-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    transition: color 0.2s;
+  }
+
+  .exp-link:hover {
+    color: var(--color-primary);
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

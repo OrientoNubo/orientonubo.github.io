@@ -176,3 +176,25 @@ collections:
       - { name: "featured", label: "Featured", widget: "boolean", default: false }
       - { name: "status", label: "Status", widget: "select", options: ["active", "completed", "archived"], default: "completed" }
       - { name: "body", label: "Content", widget: "markdown", required: false }
+
+  # Experience
+  - name: "experience"
+    label: "Experience"
+    folder: "src/content/experience"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title/Position", widget: "string" }
+      - { name: "organization", label: "Organization", widget: "string" }
+      - { name: "type", label: "Type", widget: "select", options: ["work", "intern", "collab"], default: "work" }
+      - { name: "startDate", label: "Start Date", widget: "string", hint: "e.g., 2023-06" }
+      - { name: "endDate", label: "End Date", widget: "string", required: false, hint: "Leave empty for 'Present'" }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "image", label: "Image", widget: "image", required: false }
+      - { name: "tags", label: "Tags", widget: "list", default: [] }
+      - { name: "url", label: "URL", widget: "string", required: false }
+      - { name: "featured", label: "Featured", widget: "boolean", default: false }
+      - { name: "order", label: "Display Order", widget: "number", default: 0 }
+      - { name: "body", label: "Content", widget: "markdown", required: false }

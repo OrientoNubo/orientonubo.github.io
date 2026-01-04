@@ -111,6 +111,23 @@ const projectsCollection = defineCollection({
   }),
 });
 
+const experienceCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    organization: z.string(),
+    type: z.enum(['work', 'intern', 'collab']).default('work'),
+    startDate: z.string(),
+    endDate: z.string().optional(),
+    description: z.string(),
+    image: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    url: z.string().optional(),
+    featured: z.boolean().default(false),
+    order: z.number().default(0),
+  }),
+});
+
 const blogCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -132,5 +149,6 @@ export const collections = {
   certificates: certificatesCollection,
   publications: publicationsCollection,
   projects: projectsCollection,
+  experience: experienceCollection,
   blog: blogCollection,
 };
