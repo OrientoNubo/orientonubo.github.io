@@ -54,7 +54,10 @@ const publicationsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    authors: z.array(z.string()),
+    authors: z.array(z.object({
+      name: z.string(),
+      bold: z.boolean().default(false),
+    })),
     venue: z.string(),
     year: z.number(),
     type: z.enum(['conference', 'journal', 'preprint']).default('conference'),
@@ -69,6 +72,7 @@ const publicationsCollection = defineCollection({
     pinned: z.boolean().default(false),
     firstAuthor: z.boolean().default(false),
     correspondingAuthor: z.boolean().default(false),
+    coAuthor: z.boolean().default(false),
     abstract: z.string().optional(),
   }),
 });

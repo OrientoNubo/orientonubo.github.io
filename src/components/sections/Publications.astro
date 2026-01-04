@@ -64,11 +64,21 @@ const displayPubs = sortedPubs.slice(0, 5);
                         Corresponding
                       </span>
                     )}
+                    {pub.data.coAuthor && (
+                      <span class="px-2 py-1 text-xs font-bold bg-[var(--color-secondary)] text-[var(--color-text)] rounded border border-[var(--color-border)]">
+                        Co-Author
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 <p class="text-sm text-[var(--color-text-muted)] mb-2">
-                  {pub.data.authors.join(', ')}
+                  {pub.data.authors.map((author, i) => (
+                    <>
+                      {i > 0 && ', '}
+                      {author.bold ? <strong class="text-[var(--color-text)]">{author.name}</strong> : author.name}
+                    </>
+                  ))}
                 </p>
 
                 <p class="text-sm mb-4">
