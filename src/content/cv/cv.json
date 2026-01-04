@@ -24,8 +24,30 @@
     }
   ],
   "skills": {
-    "programming": ["Python", "C++", "CUDA", "PyTorch"],
-    "research": ["3D Reconstruction", "Visual Relocalization", "NeRF", "3DGS"],
-    "tools": ["Git", "Docker", "Linux", "LaTeX"]
+    "programming": [
+      "Python",
+      "C++",
+      "CUDA",
+      "PyTorch",
+      "Verilog",
+      "Natural Language/Logic-Oriented Programming"
+    ],
+    "research": [
+      "3D Vision",
+      "3D Reconstruction",
+      "Visual Relocalization",
+      "NeRF/3DGS",
+      "World Model",
+      "Multimodal Understanding",
+      "Embedded System"
+    ],
+    "tools": [
+      "Git",
+      "Docker",
+      "Linux",
+      "LaTeX",
+      "CAD",
+      "PLC"
+    ]
   }
 }
