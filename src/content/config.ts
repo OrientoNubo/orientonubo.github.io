@@ -30,23 +30,38 @@ const siteCollection = defineCollection({
       projects: z.string(),
       awards: z.string(),
     }),
-    services: z.array(z.object({
-      title: z.string(),
-      organization: z.string(),
-      description: z.string().optional(),
-    })).default([]),
-    awards: z.array(z.object({
-      title: z.string(),
-      organization: z.string(),
-      year: z.string(),
-      description: z.string().optional(),
-    })).default([]),
-    certificates: z.array(z.object({
-      title: z.string(),
-      issuer: z.string(),
-      date: z.string(),
-      url: z.string().optional(),
-    })).default([]),
+  }),
+});
+
+const servicesCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    organization: z.string(),
+    description: z.string().optional(),
+    order: z.number().default(0),
+  }),
+});
+
+const awardsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    organization: z.string(),
+    year: z.string(),
+    description: z.string().optional(),
+    order: z.number().default(0),
+  }),
+});
+
+const certificatesCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    issuer: z.string(),
+    date: z.string(),
+    url: z.string().optional(),
+    order: z.number().default(0),
   }),
 });
 
@@ -109,6 +124,9 @@ const blogCollection = defineCollection({
 
 export const collections = {
   site: siteCollection,
+  services: servicesCollection,
+  awards: awardsCollection,
+  certificates: certificatesCollection,
   publications: publicationsCollection,
   projects: projectsCollection,
   blog: blogCollection,

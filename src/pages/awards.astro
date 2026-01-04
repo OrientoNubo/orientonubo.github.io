@@ -1,13 +1,10 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Card from '../components/common/Card.astro';
 
-const profile = await getEntry('site', 'profile');
-if (!profile) {
-  throw new Error('Profile not found');
-}
-const { awards } = profile.data;
+const awards = await getCollection('awards');
+const sortedAwards = awards.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <PageLayout
@@ -15,7 +12,7 @@ const { awards } = profile.data;
   description="Honors and recognition for research contributions."
 >
   <div class="grid md:grid-cols-2 gap-6">
-    {awards && awards.map((award, index) => (
+    {sortedAwards.map((award, index) => (
       <Card class="h-full award-card" style={`animation-delay: ${index * 0.05}s`}>
         <div class="flex items-start gap-4">
           <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--color-primary)] flex items-center justify-center">
@@ -24,16 +21,16 @@ const { awards } = profile.data;
             </svg>
           </div>
           <div>
-            <h2 class="text-xl font-bold mb-1">{award.title}</h2>
+            <h2 class="text-xl font-bold mb-1">{award.data.title}</h2>
             <p class="text-[var(--color-primary)] font-medium text-sm">
-              {award.organization}
+              {award.data.organization}
             </p>
             <p class="text-[var(--color-text-muted)] text-sm">
-              {award.year}
+              {award.data.year}
             </p>
-            {award.description && (
+            {award.data.description && (
               <p class="text-[var(--color-text-muted)] text-sm mt-2">
-                {award.description}
+                {award.data.description}
               </p>
             )}
           </div>
@@ -42,7 +39,7 @@ const { awards } = profile.data;
     ))}
   </div>
 
-  {(!awards || awards.length === 0) && (
+  {sortedAwards.length === 0 && (
     <div class="text-center py-12 text-[var(--color-text-muted)]">
       <p>No awards yet. Check back soon!</p>
     </div>

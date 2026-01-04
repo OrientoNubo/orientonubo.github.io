@@ -1,16 +1,13 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
 
-const profile = await getEntry('site', 'profile');
-if (!profile) {
-  throw new Error('Profile not found');
-}
-const { certificates } = profile.data;
-const displayCertificates = certificates?.slice(0, 3) ?? [];
+const certificates = await getCollection('certificates');
+const sortedCertificates = certificates.sort((a, b) => a.data.order - b.data.order);
+const displayCertificates = sortedCertificates.slice(0, 3);
 ---
 
-{certificates && certificates.length > 0 && (
+{sortedCertificates.length > 0 && (
   <section id="certificates" class="section">
     <div class="container">
       <!-- Section Header -->
@@ -33,12 +30,12 @@ const displayCertificates = certificates?.slice(0, 3) ?? [];
                 </svg>
               </div>
               <div class="flex-1">
-                <h3 class="font-bold mb-1">{cert.title}</h3>
-                <p class="text-[var(--color-text-muted)] text-sm">{cert.issuer}</p>
-                <p class="text-[var(--color-text-muted)] text-xs mt-1">{cert.date}</p>
-                {cert.url && (
+                <h3 class="font-bold mb-1">{cert.data.title}</h3>
+                <p class="text-[var(--color-text-muted)] text-sm">{cert.data.issuer}</p>
+                <p class="text-[var(--color-text-muted)] text-xs mt-1">{cert.data.date}</p>
+                {cert.data.url && (
                   <a
-                    href={cert.url}
+                    href={cert.data.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="inline-flex items-center gap-1 text-[var(--color-primary)] text-sm mt-2 hover:underline"

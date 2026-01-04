@@ -55,29 +55,50 @@ collections:
               - { name: "reviews", label: "Reviews", widget: "string", hint: "e.g., 10+" }
               - { name: "projects", label: "Projects", widget: "string", hint: "e.g., 10+" }
               - { name: "awards", label: "Awards", widget: "string", hint: "e.g., 2+" }
-          - label: "Services"
-            name: "services"
-            widget: "list"
-            fields:
-              - { name: "title", label: "Title", widget: "string" }
-              - { name: "organization", label: "Organization", widget: "string" }
-              - { name: "description", label: "Description", widget: "text", required: false }
-          - label: "Awards List"
-            name: "awards"
-            widget: "list"
-            fields:
-              - { name: "title", label: "Title", widget: "string" }
-              - { name: "organization", label: "Organization", widget: "string" }
-              - { name: "year", label: "Year", widget: "string" }
-              - { name: "description", label: "Description", widget: "text", required: false }
-          - label: "Certificates"
-            name: "certificates"
-            widget: "list"
-            fields:
-              - { name: "title", label: "Title", widget: "string" }
-              - { name: "issuer", label: "Issuer", widget: "string" }
-              - { name: "date", label: "Date", widget: "string" }
-              - { name: "url", label: "Certificate URL", widget: "string", required: false }
+
+  # Services
+  - name: "services"
+    label: "Services"
+    folder: "src/content/services"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "organization", label: "Organization", widget: "string" }
+      - { name: "description", label: "Description", widget: "text", required: false }
+      - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
+
+  # Awards
+  - name: "awards"
+    label: "Awards"
+    folder: "src/content/awards"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "organization", label: "Organization", widget: "string" }
+      - { name: "year", label: "Year", widget: "string" }
+      - { name: "description", label: "Description", widget: "text", required: false }
+      - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
+
+  # Certificates
+  - name: "certificates"
+    label: "Certificates"
+    folder: "src/content/certificates"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "issuer", label: "Issuer", widget: "string" }
+      - { name: "date", label: "Date", widget: "string" }
+      - { name: "url", label: "Certificate URL", widget: "string", required: false }
+      - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
 
   # Blog Posts
   - name: "blog"

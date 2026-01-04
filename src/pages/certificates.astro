@@ -1,13 +1,10 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Card from '../components/common/Card.astro';
 
-const profile = await getEntry('site', 'profile');
-if (!profile) {
-  throw new Error('Profile not found');
-}
-const { certificates } = profile.data;
+const certificates = await getCollection('certificates');
+const sortedCertificates = certificates.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <PageLayout
@@ -15,7 +12,7 @@ const { certificates } = profile.data;
   description="Professional certifications and completed courses."
 >
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {certificates && certificates.map((cert, index) => (
+    {sortedCertificates.map((cert, index) => (
       <Card class="h-full cert-card" style={`animation-delay: ${index * 0.05}s`}>
         <div class="flex items-start gap-3">
           <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--color-bg-alt)] border border-[var(--color-border)] flex items-center justify-center">
@@ -24,12 +21,12 @@ const { certificates } = profile.data;
             </svg>
           </div>
           <div class="flex-1">
-            <h2 class="font-bold mb-1">{cert.title}</h2>
-            <p class="text-[var(--color-text-muted)] text-sm">{cert.issuer}</p>
-            <p class="text-[var(--color-text-muted)] text-xs mt-1">{cert.date}</p>
-            {cert.url && (
+            <h2 class="font-bold mb-1">{cert.data.title}</h2>
+            <p class="text-[var(--color-text-muted)] text-sm">{cert.data.issuer}</p>
+            <p class="text-[var(--color-text-muted)] text-xs mt-1">{cert.data.date}</p>
+            {cert.data.url && (
               <a
-                href={cert.url}
+                href={cert.data.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex items-center gap-1 text-[var(--color-primary)] text-sm mt-2 hover:underline"
@@ -46,7 +43,7 @@ const { certificates } = profile.data;
     ))}
   </div>
 
-  {(!certificates || certificates.length === 0) && (
+  {sortedCertificates.length === 0 && (
     <div class="text-center py-12 text-[var(--color-text-muted)]">
       <p>No certificates yet. Check back soon!</p>
     </div>

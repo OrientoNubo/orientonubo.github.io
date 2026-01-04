@@ -1,13 +1,10 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Card from '../components/common/Card.astro';
 
-const profile = await getEntry('site', 'profile');
-if (!profile) {
-  throw new Error('Profile not found');
-}
-const { services } = profile.data;
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <PageLayout
@@ -15,7 +12,7 @@ const { services } = profile.data;
   description="Academic services and community contributions."
 >
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {services && services.map((service, index) => (
+    {sortedServices.map((service, index) => (
       <Card class="h-full service-card" style={`animation-delay: ${index * 0.05}s`}>
         <div class="flex items-start gap-3">
           <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--color-primary)] flex items-center justify-center">
@@ -24,13 +21,13 @@ const { services } = profile.data;
             </svg>
           </div>
           <div class="flex-1">
-            <h2 class="text-xl font-bold mb-1">{service.title}</h2>
+            <h2 class="text-xl font-bold mb-1">{service.data.title}</h2>
             <p class="text-[var(--color-primary)] font-medium text-sm mb-2">
-              {service.organization}
+              {service.data.organization}
             </p>
-            {service.description && (
+            {service.data.description && (
               <p class="text-[var(--color-text-muted)] text-sm">
-                {service.description}
+                {service.data.description}
               </p>
             )}
           </div>
@@ -39,7 +36,7 @@ const { services } = profile.data;
     ))}
   </div>
 
-  {(!services || services.length === 0) && (
+  {sortedServices.length === 0 && (
     <div class="text-center py-12 text-[var(--color-text-muted)]">
       <p>No services yet. Check back soon!</p>
     </div>

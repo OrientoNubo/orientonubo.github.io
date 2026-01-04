@@ -1,16 +1,13 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
 
-const profile = await getEntry('site', 'profile');
-if (!profile) {
-  throw new Error('Profile not found');
-}
-const { awards } = profile.data;
-const displayAwards = awards?.slice(0, 4) ?? [];
+const awards = await getCollection('awards');
+const sortedAwards = awards.sort((a, b) => a.data.order - b.data.order);
+const displayAwards = sortedAwards.slice(0, 4);
 ---
 
-{awards && awards.length > 0 && (
+{sortedAwards.length > 0 && (
   <section id="awards" class="section bg-[var(--color-bg-alt)]">
     <div class="container">
       <!-- Section Header -->
@@ -33,16 +30,16 @@ const displayAwards = awards?.slice(0, 4) ?? [];
                 </svg>
               </div>
               <div>
-                <h3 class="text-xl font-bold mb-1">{award.title}</h3>
+                <h3 class="text-xl font-bold mb-1">{award.data.title}</h3>
                 <p class="text-[var(--color-primary)] font-medium text-sm">
-                  {award.organization}
+                  {award.data.organization}
                 </p>
                 <p class="text-[var(--color-text-muted)] text-sm">
-                  {award.year}
+                  {award.data.year}
                 </p>
-                {award.description && (
+                {award.data.description && (
                   <p class="text-[var(--color-text-muted)] text-sm mt-2">
-                    {award.description}
+                    {award.data.description}
                   </p>
                 )}
               </div>

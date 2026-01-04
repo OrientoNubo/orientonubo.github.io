@@ -55,33 +55,5 @@
     "reviews": "5+",
     "projects": "10+",
     "awards": "2+"
-  },
-  "services": [
-    {
-      "title": "Conference Reviewer",
-      "organization": "CVPR, ICCV, ECCV",
-      "description": "Reviewing papers for top computer vision conferences"
-    },
-    {
-      "title": "Journal Reviewer",
-      "organization": "IEEE TPAMI, TIP",
-      "description": "Reviewing manuscripts for leading journals"
-    }
-  ],
-  "awards": [
-    {
-      "title": "Best Paper Award",
-      "organization": "SIGGRAPH 2023",
-      "year": "2023",
-      "description": ""
-    }
-  ],
-  "certificates": [
-    {
-      "title": "Deep Learning Specialization",
-      "issuer": "Coursera / DeepLearning.AI",
-      "date": "2023",
-      "url": ""
-    }
-  ]
+  }
 }

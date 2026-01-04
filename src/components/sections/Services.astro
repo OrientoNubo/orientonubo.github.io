@@ -1,16 +1,13 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
 
-const profile = await getEntry('site', 'profile');
-if (!profile) {
-  throw new Error('Profile not found');
-}
-const { services } = profile.data;
-const displayServices = services?.slice(0, 3) ?? [];
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+const displayServices = sortedServices.slice(0, 3);
 ---
 
-{services && services.length > 0 && (
+{sortedServices.length > 0 && (
   <section id="services" class="section">
     <div class="container">
       <!-- Section Header -->
@@ -33,13 +30,13 @@ const displayServices = services?.slice(0, 3) ?? [];
                 </svg>
               </div>
               <div class="flex-1">
-                <h3 class="text-xl font-bold mb-1">{service.title}</h3>
+                <h3 class="text-xl font-bold mb-1">{service.data.title}</h3>
                 <p class="text-[var(--color-primary)] font-medium text-sm mb-2">
-                  {service.organization}
+                  {service.data.organization}
                 </p>
-                {service.description && (
+                {service.data.description && (
                   <p class="text-[var(--color-text-muted)] text-sm">
-                    {service.description}
+                    {service.data.description}
                   </p>
                 )}
               </div>
