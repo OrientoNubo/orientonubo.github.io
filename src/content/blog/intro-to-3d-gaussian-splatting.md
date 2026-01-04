@@ -1,12 +1,17 @@
 ---
-title: "3D Gaussian Splatting 入門：從 NeRF 到即時渲染的革命"
-description: "深入淺出介紹 3D Gaussian Splatting (3DGS) 的核心概念、數學原理、以及為何它能實現即時高品質的 Novel View Synthesis。"
-date: 2025-01-02
-tags: ["3DGS", "3D Reconstruction", "Computer Graphics", "Deep Learning", "Tutorial"]
+title: 3D Gaussian Splatting 入門：從 NeRF 到即時渲染的革命
+description: 深入淺出介紹 3D Gaussian Splatting (3DGS) 的核心概念、數學原理、以及為何它能實現即時高品質的 Novel View Synthesis。
+date: 2025-01-01T08:00:00
+updated: ''
+tags:
+  - 3DGS
+  - 3D Reconstruction
+  - Computer Graphics
+  - Deep Learning
+  - Tutorial
 draft: false
 readingTime: 12
 ---
-
 ## 前言
 
 2023 年，一篇名為 "3D Gaussian Splatting for Real-Time Radiance Field Rendering" 的論文橫空出世，在 SIGGRAPH 2023 上獲得了 Best Paper Award。這項技術不僅在渲染品質上與 NeRF 相當，更重要的是實現了**即時渲染**（real-time rendering），這對於 VR/AR、遊戲、電影製作等應用領域具有革命性的意義。
@@ -23,7 +28,7 @@ readingTime: 12
 
 在 3DGS 出現之前，**NeRF（Neural Radiance Fields）** 是 NVS 領域的主流方法。NeRF 使用一個 MLP（多層感知機）來隱式地表示 3D 場景：
 
-```
+```plain
 F: (x, y, z, θ, φ) → (R, G, B, σ)
 ```
 
@@ -46,13 +51,13 @@ NeRF 的問題在於：每次渲染一張圖像，都需要對每個像素進行
 
 一個 3D 高斯函數的數學形式為：
 
-```
+```plain
 G(x) = exp(-1/2 (x - μ)ᵀ Σ⁻¹ (x - μ))
 ```
 
 其中 `Σ` 是 3×3 的協方差矩陣。為了確保 `Σ` 是半正定的，3DGS 將其分解為：
 
-```
+```plain
 Σ = R S Sᵀ Rᵀ
 ```
 
@@ -66,7 +71,7 @@ G(x) = exp(-1/2 (x - μ)ᵀ Σ⁻¹ (x - μ))
 
 當我們將 3D 高斯投影到 2D 時，得到的仍然是一個 2D 高斯。投影後的協方差矩陣為：
 
-```
+```plain
 Σ' = J W Σ Wᵀ Jᵀ
 ```
 
@@ -76,7 +81,7 @@ G(x) = exp(-1/2 (x - μ)ᵀ Σ⁻¹ (x - μ))
 
 最終的像素顏色通過 alpha blending 計算：
 
-```
+```plain
 C = Σᵢ cᵢ αᵢ Πⱼ₌₁ⁱ⁻¹ (1 - αⱼ)
 ```
 
@@ -99,9 +104,10 @@ C = Σᵢ cᵢ αᵢ Πⱼ₌₁ⁱ⁻¹ (1 - αⱼ)
 2. **可微分渲染**: 渲染圖像並與 ground truth 比較
 3. **損失函數**: 結合 L1 loss 和 SSIM loss
 4. **自適應密度控制**:
-   - Clone: 複製梯度大的小高斯球
-   - Split: 分裂大高斯球
-   - Prune: 移除不透明度低的高斯球
+
+- Clone: 複製梯度大的小高斯球
+- Split: 分裂大高斯球
+- Prune: 移除不透明度低的高斯球
 
 ## 實際應用
 
