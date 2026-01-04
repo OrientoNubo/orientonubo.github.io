@@ -1,46 +1,13 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import Card from '../components/common/Card.astro';
+import { getEntry } from 'astro:content';
 
-const education = [
-  {
-    degree: 'Ph.D. (in progress)',
-    school: 'National Taiwan University',
-    department: 'Department of Computer Science and Information Engineering',
-    period: '2022 - Present',
-    description: 'Advised by Prof. Wen-Huang Cheng at CMLab AIMM Group',
-  },
-  {
-    degree: 'M.Sc.',
-    school: 'National Taiwan University of Science and Technology',
-    department: 'Department of Electronic and Computer Engineering',
-    period: '2020 - 2022',
-    description: '',
-  },
-  {
-    degree: 'B.Sc.',
-    school: 'National Taiwan University of Science and Technology',
-    department: 'Department of Electronic and Computer Engineering',
-    period: '2018 - 2020',
-    description: '',
-  },
-];
-
-const services = {
-  'Journal Reviewer': [
-    'IEEE Transactions on Consumer Electronics (TCE) - 2024, 2025',
-    'IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI) - 2024, 2025',
-  ],
-  'Conference Reviewer': [
-    'ACM Multimedia (MM) - 2025',
-  ],
-};
-
-const skills = {
-  'Programming': ['Python', 'C++', 'CUDA', 'PyTorch'],
-  'Research Areas': ['3D Reconstruction', 'Visual Relocalization', 'NeRF', '3DGS'],
-  'Tools': ['Git', 'Docker', 'Linux', 'LaTeX'],
-};
+const cv = await getEntry('cv', 'cv');
+if (!cv) {
+  throw new Error('CV content not found');
+}
+const { education, skills, pdfFile } = cv.data;
 ---
 
 <PageLayout
@@ -48,16 +15,17 @@ const skills = {
   description="Academic background, research experience, and skills."
 >
   <div class="space-y-12">
-    <!-- Download Button (uncomment when cv.pdf is available in /public/papers/)
-    <div class="flex justify-end">
-      <a href="/papers/cv.pdf" class="btn" target="_blank">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-        </svg>
-        Download PDF
-      </a>
-    </div>
-    -->
+    <!-- Download Button -->
+    {pdfFile && (
+      <div class="flex justify-end">
+        <a href={pdfFile} download class="btn btn-primary inline-flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+          Download CV
+        </a>
+      </div>
+    )}
 
     <!-- Education -->
     <section>
@@ -85,43 +53,42 @@ const skills = {
       </div>
     </section>
 
-    <!-- Professional Service -->
-    <section>
-      <h2 class="text-2xl font-bold font-heading mb-6">
-        <span class="text-[var(--color-primary)]">//</span> Professional Service
-      </h2>
-      <div class="space-y-4">
-        {Object.entries(services).map(([category, items]) => (
-          <Card>
-            <h3 class="text-lg font-bold mb-3">{category}</h3>
-            <ul class="space-y-2">
-              {items.map(item => (
-                <li class="text-sm text-[var(--color-text-muted)]">• {item}</li>
-              ))}
-            </ul>
-          </Card>
-        ))}
-      </div>
-    </section>
-
     <!-- Skills -->
     <section>
       <h2 class="text-2xl font-bold font-heading mb-6">
         <span class="text-[var(--color-primary)]">//</span> Skills
       </h2>
       <div class="grid md:grid-cols-3 gap-6">
-        {Object.entries(skills).map(([category, items]) => (
-          <Card>
-            <h3 class="text-lg font-bold mb-4">{category}</h3>
-            <div class="flex flex-wrap gap-2">
-              {items.map(skill => (
-                <span class="px-3 py-1 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </Card>
-        ))}
+        <Card>
+          <h3 class="text-lg font-bold mb-4">Programming</h3>
+          <div class="flex flex-wrap gap-2">
+            {skills.programming.map(skill => (
+              <span class="px-3 py-1 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </Card>
+        <Card>
+          <h3 class="text-lg font-bold mb-4">Research Areas</h3>
+          <div class="flex flex-wrap gap-2">
+            {skills.research.map(skill => (
+              <span class="px-3 py-1 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </Card>
+        <Card>
+          <h3 class="text-lg font-bold mb-4">Tools</h3>
+          <div class="flex flex-wrap gap-2">
+            {skills.tools.map(skill => (
+              <span class="px-3 py-1 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </Card>
       </div>
     </section>
   </div>

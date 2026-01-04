@@ -4,7 +4,13 @@ import { getCollection } from 'astro:content';
 import Card from '../../components/common/Card.astro';
 
 const posts = await getCollection('blog', ({ data }) => !data.draft);
-const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// Sort by pinned first, then by date descending
+const sortedPosts = posts.sort((a, b) => {
+  if (a.data.pinned !== b.data.pinned) {
+    return a.data.pinned ? -1 : 1;
+  }
+  return b.data.date.getTime() - a.data.date.getTime();
+});
 ---
 
 <PageLayout

@@ -4,9 +4,15 @@ import { getCollection } from 'astro:content';
 import Card from '../components/common/Card.astro';
 
 const publications = await getCollection('publications');
-const sortedPubs = publications.sort((a, b) => b.data.year - a.data.year);
+// Sort by pinned first, then by year descending
+const sortedPubs = publications.sort((a, b) => {
+  if (a.data.pinned !== b.data.pinned) {
+    return a.data.pinned ? -1 : 1;
+  }
+  return b.data.year - a.data.year;
+});
 
-// Group by year
+// Group by year (pinned items will be at the top of their year group)
 const pubsByYear = sortedPubs.reduce((acc, pub) => {
   const year = pub.data.year;
   if (!acc[year]) acc[year] = [];

@@ -3,12 +3,18 @@ import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
 
 const certificates = await getCollection('certificates');
-const sortedCertificates = certificates.sort((a, b) => a.data.order - b.data.order);
+// Sort by pinned first, then by date descending
+const sortedCertificates = certificates.sort((a, b) => {
+  if (a.data.pinned !== b.data.pinned) {
+    return a.data.pinned ? -1 : 1;
+  }
+  return b.data.date.localeCompare(a.data.date);
+});
 const displayCertificates = sortedCertificates.slice(0, 3);
 ---
 
 {sortedCertificates.length > 0 && (
-  <section id="certificates" class="section bg-[var(--color-bg-alt)]">
+  <section id="certificates" class="section">
     <div class="container">
       <!-- Section Header -->
       <div class="text-center mb-12">

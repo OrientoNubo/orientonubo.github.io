@@ -52,6 +52,7 @@ const awardsCollection = defineCollection({
     year: z.string(),
     description: z.string().optional(),
     image: z.string().optional(),
+    pinned: z.boolean().default(false),
     order: z.number().default(0),
   }),
 });
@@ -64,6 +65,7 @@ const certificatesCollection = defineCollection({
     date: z.string(),
     url: z.string().optional(),
     image: z.string().optional(),
+    pinned: z.boolean().default(false),
     order: z.number().default(0),
   }),
 });
@@ -138,7 +140,28 @@ const blogCollection = defineCollection({
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
     draft: z.boolean().default(false),
+    pinned: z.boolean().default(false),
     readingTime: z.number().nullable().optional().transform(val => val ?? undefined),
+  }),
+});
+
+// CV configuration
+const cvCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    pdfFile: z.string().optional(),
+    education: z.array(z.object({
+      degree: z.string(),
+      school: z.string(),
+      department: z.string(),
+      period: z.string(),
+      description: z.string().optional(),
+    })),
+    skills: z.object({
+      programming: z.array(z.string()),
+      research: z.array(z.string()),
+      tools: z.array(z.string()),
+    }),
   }),
 });
 
@@ -151,4 +174,5 @@ export const collections = {
   projects: projectsCollection,
   experience: experienceCollection,
   blog: blogCollection,
+  cv: cvCollection,
 };

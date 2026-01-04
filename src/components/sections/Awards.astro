@@ -3,7 +3,13 @@ import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
 
 const awards = await getCollection('awards');
-const sortedAwards = awards.sort((a, b) => a.data.order - b.data.order);
+// Sort by pinned first, then by year descending
+const sortedAwards = awards.sort((a, b) => {
+  if (a.data.pinned !== b.data.pinned) {
+    return a.data.pinned ? -1 : 1;
+  }
+  return b.data.year.localeCompare(a.data.year);
+});
 const displayAwards = sortedAwards.slice(0, 4);
 ---
 

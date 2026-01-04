@@ -85,6 +85,7 @@ collections:
       - { name: "year", label: "Year", widget: "string" }
       - { name: "description", label: "Description", widget: "text", required: false }
       - { name: "image", label: "Image", widget: "image", required: false }
+      - { name: "pinned", label: "Pinned", widget: "boolean", default: false, hint: "Pinned items appear first" }
       - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
 
   # Certificates
@@ -101,6 +102,7 @@ collections:
       - { name: "date", label: "Date", widget: "string" }
       - { name: "url", label: "Certificate URL", widget: "string", required: false }
       - { name: "image", label: "Image", widget: "image", required: false }
+      - { name: "pinned", label: "Pinned", widget: "boolean", default: false, hint: "Pinned items appear first" }
       - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
 
   # Blog Posts
@@ -119,6 +121,7 @@ collections:
       - { name: "tags", label: "Tags", widget: "list", default: [] }
       - { name: "image", label: "Featured Image", widget: "image", required: false }
       - { name: "draft", label: "Draft", widget: "boolean", default: false }
+      - { name: "pinned", label: "Pinned", widget: "boolean", default: false, hint: "Pinned posts appear first" }
       - { name: "readingTime", label: "Reading Time (minutes)", widget: "number", required: false }
       - { name: "body", label: "Content", widget: "markdown" }
 
@@ -198,3 +201,29 @@ collections:
       - { name: "featured", label: "Featured", widget: "boolean", default: false }
       - { name: "order", label: "Display Order", widget: "number", default: 0 }
       - { name: "body", label: "Content", widget: "markdown", required: false }
+
+  # CV Settings
+  - name: "cv"
+    label: "CV Settings"
+    files:
+      - name: "cv"
+        label: "CV Content"
+        file: "src/content/cv/cv.json"
+        fields:
+          - { name: "pdfFile", label: "CV PDF File", widget: "file", required: false, hint: "Upload your CV PDF for download button" }
+          - label: "Education"
+            name: "education"
+            widget: "list"
+            fields:
+              - { name: "degree", label: "Degree", widget: "string" }
+              - { name: "school", label: "School/University", widget: "string" }
+              - { name: "department", label: "Department", widget: "string" }
+              - { name: "period", label: "Period", widget: "string", hint: "e.g., 2020 - 2024" }
+              - { name: "description", label: "Description", widget: "string", required: false }
+          - label: "Skills"
+            name: "skills"
+            widget: "object"
+            fields:
+              - { name: "programming", label: "Programming Languages", widget: "list" }
+              - { name: "research", label: "Research Areas", widget: "list" }
+              - { name: "tools", label: "Tools & Technologies", widget: "list" }
