@@ -11,11 +11,9 @@ image: ''
 draft: false
 readingTime: null
 ---
-# 構建下一代 AI 算力中心：從 Lambda 與 NVIDIA B200 集群看基礎設施的關鍵要素
-
 隨著 AI 模型參數呈現指數級增長，構建一個「好」的 AI 集群已不再僅僅是堆疊 GPU 的數量，而是一項涉及能源、冷卻、網路互連與存儲效率的複雜系統工程。
 
-本文基於對 Lambda 在俄亥俄州哥倫布市部署的最新 NVIDIA B200 集群（與 Supermicro 和 Cool Logix 合作）的深度分析，為您拆解構建現代化 AI 集群的核心要素與戰略考量。
+本文基於對 Lambda 在俄亥俄州哥倫布市部署的最新 NVIDIA B200 集群（與 Supermicro 和 Cool Logix 合作）的分析，拆解構建現代化 AI 集群的核心要素與戰略考量。
 
 ---
 
