@@ -29,7 +29,7 @@ const displayAwards = sortedAwards.slice(0, 4);
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                 </svg>
               </div>
-              <div>
+              <div class="flex-1 min-w-0">
                 <h3 class="text-xl font-bold mb-1">{award.data.title}</h3>
                 <p class="text-[var(--color-primary)] font-medium text-sm">
                   {award.data.organization}
@@ -43,6 +43,17 @@ const displayAwards = sortedAwards.slice(0, 4);
                   </p>
                 )}
               </div>
+              {award.data.image && (
+                <div class="flex-shrink-0">
+                  <img
+                    src={award.data.image}
+                    alt={award.data.title}
+                    class="w-20 h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+                    loading="lazy"
+                    data-lightbox
+                  />
+                </div>
+              )}
             </div>
           </Card>
         ))}

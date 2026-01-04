@@ -68,6 +68,7 @@ collections:
       - { name: "title", label: "Title", widget: "string" }
       - { name: "organization", label: "Organization", widget: "string" }
       - { name: "description", label: "Description", widget: "text", required: false }
+      - { name: "image", label: "Image", widget: "image", required: false }
       - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
 
   # Awards
@@ -83,6 +84,7 @@ collections:
       - { name: "organization", label: "Organization", widget: "string" }
       - { name: "year", label: "Year", widget: "string" }
       - { name: "description", label: "Description", widget: "text", required: false }
+      - { name: "image", label: "Image", widget: "image", required: false }
       - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
 
   # Certificates
@@ -98,6 +100,7 @@ collections:
       - { name: "issuer", label: "Issuer", widget: "string" }
       - { name: "date", label: "Date", widget: "string" }
       - { name: "url", label: "Certificate URL", widget: "string", required: false }
+      - { name: "image", label: "Image", widget: "image", required: false }
       - { name: "order", label: "Display Order", widget: "number", default: 0, hint: "Lower numbers appear first" }
 
   # Blog Posts

@@ -19,8 +19,9 @@ const sortedProjects = projects.sort((a, b) => b.data.date.getTime() - a.data.da
             <img
               src={project.data.image}
               alt={project.data.title}
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
               loading="lazy"
+              data-lightbox
             />
           </div>
         )}

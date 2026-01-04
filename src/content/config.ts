@@ -39,6 +39,7 @@ const servicesCollection = defineCollection({
     title: z.string(),
     organization: z.string(),
     description: z.string().optional(),
+    image: z.string().optional(),
     order: z.number().default(0),
   }),
 });
@@ -50,6 +51,7 @@ const awardsCollection = defineCollection({
     organization: z.string(),
     year: z.string(),
     description: z.string().optional(),
+    image: z.string().optional(),
     order: z.number().default(0),
   }),
 });
@@ -61,6 +63,7 @@ const certificatesCollection = defineCollection({
     issuer: z.string(),
     date: z.string(),
     url: z.string().optional(),
+    image: z.string().optional(),
     order: z.number().default(0),
   }),
 });

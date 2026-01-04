@@ -1,0 +1,133 @@
+---
+// Lightbox component for displaying full-size images
+// Usage: Include this component once in the layout, then add data-lightbox attribute to clickable images
+---
+
+<div id="lightbox" class="lightbox-overlay">
+  <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+  <img id="lightbox-img" src="" alt="Full size image" />
+</div>
+
+<style>
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .lightbox-overlay.active {
+    display: flex;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+    line-height: 1;
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10000;
+  }
+
+  .lightbox-close:hover {
+    transform: scale(1.2);
+  }
+
+  #lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    cursor: default;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const closeBtn = document.querySelector('.lightbox-close');
+
+    if (!lightbox || !lightboxImg) return;
+
+    // Open lightbox when clicking on images with data-lightbox attribute
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.hasAttribute('data-lightbox')) {
+        e.preventDefault();
+        const imgSrc = target.getAttribute('data-lightbox-src') || (target as HTMLImageElement).src;
+        if (imgSrc) {
+          openLightbox(imgSrc);
+        }
+      }
+    });
+
+    // Close lightbox when clicking overlay or close button
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target === closeBtn) {
+        closeLightbox();
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    function openLightbox(src: string) {
+      if (!lightbox || !lightboxImg) return;
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      gsap.fromTo(lightbox,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: 'power2.out' }
+      );
+
+      gsap.fromTo(lightboxImg,
+        { scale: 0.8, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' }
+      );
+    }
+
+    function closeLightbox() {
+      if (!lightbox || !lightboxImg) return;
+      const lb = lightbox;
+      const img = lightboxImg;
+      gsap.to(lb, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power2.in',
+        onComplete: () => {
+          lb.classList.remove('active');
+          img.src = '';
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initLightbox);
+
+  // Re-initialize on Astro page transitions (View Transitions API)
+  document.addEventListener('astro:page-load', initLightbox);
+</script>

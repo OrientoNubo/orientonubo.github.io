@@ -41,8 +41,9 @@ const displayPubs = sortedPubs.slice(0, 5);
                   <img
                     src={pub.data.image}
                     alt={pub.data.title}
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
                     loading="lazy"
+                    data-lightbox
                   />
                 </div>
               )}

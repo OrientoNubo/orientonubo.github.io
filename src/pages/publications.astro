@@ -36,8 +36,9 @@ const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
                   <img
                     src={pub.data.image}
                     alt={pub.data.title}
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
                     loading="lazy"
+                    data-lightbox
                   />
                 </div>
               )}
