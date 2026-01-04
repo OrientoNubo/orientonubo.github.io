@@ -4,7 +4,9 @@ description: 從 Lambda 與 NVIDIA B200 集群看基礎設施的關鍵要素
 date: 2026-01-02T18:01:00
 updated: ''
 tags:
-  - Lambda, NVIDIA B200, AI Cluster
+  - Lambda
+  - NVIDIA B200
+  - AI Cluster
 image: ''
 draft: false
 readingTime: null
