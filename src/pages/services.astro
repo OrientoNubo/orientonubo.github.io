@@ -26,7 +26,7 @@ const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
               {service.data.organization}
             </p>
             {service.data.description && (
-              <p class="text-[var(--color-text-muted)] text-sm">
+              <p class="text-[var(--color-text-muted)] text-sm whitespace-pre-line">
                 {service.data.description}
               </p>
             )}

@@ -134,11 +134,11 @@ const blogCollection = defineCollection({
     title: z.string(),
     description: z.string().optional(),
     date: z.date(),
-    updated: z.date().optional(),
+    updated: z.union([z.date(), z.literal('')]).optional().transform(val => val === '' ? undefined : val),
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
     draft: z.boolean().default(false),
-    readingTime: z.number().optional(),
+    readingTime: z.number().nullable().optional().transform(val => val ?? undefined),
   }),
 });
 
