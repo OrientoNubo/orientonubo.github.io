@@ -1,5 +1,5 @@
 ---
-title: Automation Engineer Assistant Certificate
+title: AHK Automation Engineer Assistant
 issuer: German Industry and Commerce (AHK)
 date: '2018'
 url: ''
