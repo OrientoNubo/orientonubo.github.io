@@ -1,5 +1,5 @@
 ---
-title: 100 兆 Token 的啟示：OpenRouter「State of AI」報告解析
+title: 100 Trillion Token：OpenRouter「State of AI」報告解析
 description: 2025 年末，AI 推理平台 OpenRouter 聯合 a16z（Andreessen Horowitz）發布了一份重量級研究報告——《State of AI》。這份報告基於超過 100 兆 token 的真實世界 LLM 互動數據，對當前大型語言模型的使用現況進行了前所未有的深度剖析。
 date: 2026-01-04T20:58:00
 updated: ''
