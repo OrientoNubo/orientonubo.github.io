@@ -1,6 +1,5 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
-import GoogleTranslate from './GoogleTranslate.astro';
 
 const navItems = [
   { label: 'About', href: '/#about', special: false },
@@ -18,7 +17,7 @@ const navItems = [
     <nav class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo -->
       <a href="/" class="header-logo flex items-center gap-2 transition-colors">
-        <span class="text-2xl font-bold font-heading tracking-tight">
+        <span class="text-2xl font-bold font-heading tracking-tight notranslate" translate="no">
           Si-Yu
         </span>
       </a>
@@ -40,9 +39,6 @@ const navItems = [
           </a>
         ))}
         <ThemeToggle />
-        <div class="ml-2">
-          <GoogleTranslate />
-        </div>
       </div>
 
       <!-- Mobile Menu Button -->
