@@ -30,7 +30,7 @@ const researchAreas = researchInterests.slice(0, 3);
           <span class="hero-name notranslate" translate="no">{name}</span>
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] mb-8 max-w-lg hero-desc">
-          {title.split('@')[0].trim()} at <strong class="text-[var(--color-text)]">{affiliation.institution}</strong>,
+          {title.split('@')[0].trim()} at <strong class="text-[var(--color-text)] notranslate" translate="no">{affiliation.institution}</strong>,
           researching <strong class="text-[var(--color-text)]">{researchAreas[0]}</strong>,
           <strong class="text-[var(--color-text)]">{researchAreas[1]}</strong>, and
           <strong class="text-[var(--color-text)]">{researchAreas[2]}</strong>.

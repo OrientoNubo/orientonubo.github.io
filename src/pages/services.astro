@@ -22,7 +22,7 @@ const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
           </div>
           <div class="flex-1 min-w-0">
             <h2 class="text-xl font-bold mb-1">{service.data.title}</h2>
-            <p class="text-[var(--color-primary)] font-medium text-sm mb-2">
+            <p class="text-[var(--color-primary)] font-medium text-sm mb-2 notranslate" translate="no">
               {service.data.organization}
             </p>
             {service.data.description && (

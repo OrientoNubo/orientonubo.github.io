@@ -19,15 +19,15 @@ const { affiliation, advisors, researchInterests, stats } = profile.data;
 
         <div class="space-y-4 text-[var(--color-text-muted)]">
           <p>
-            I am currently pursuing my Ph.D. at <a href={affiliation.departmentUrl} target="_blank" class="text-[var(--color-primary)] hover:underline">{affiliation.department}</a>,
-            <strong class="text-[var(--color-text)]">{affiliation.institution}</strong>,
-            advised by Prof. <a href={advisors[0].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline">{advisors[0].name}</a>.
+            I am currently pursuing my Ph.D. at <a href={affiliation.departmentUrl} target="_blank" class="text-[var(--color-primary)] hover:underline notranslate" translate="no">{affiliation.department}</a>,
+            <strong class="text-[var(--color-text)] notranslate" translate="no">{affiliation.institution}</strong>,
+            advised by Prof. <a href={advisors[0].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline notranslate" translate="no">{advisors[0].name}</a>.
           </p>
 
           {advisors.length > 1 && (
             <p>
-              I also work closely with Prof. <a href={advisors[1].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline">{advisors[1].name}</a>
-              at <strong class="text-[var(--color-text)]">{advisors[1].institution}</strong>.
+              I also work closely with Prof. <a href={advisors[1].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline notranslate" translate="no">{advisors[1].name}</a>
+              at <strong class="text-[var(--color-text)] notranslate" translate="no">{advisors[1].institution}</strong>.
             </p>
           )}
 

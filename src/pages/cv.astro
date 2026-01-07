@@ -38,8 +38,8 @@ const { education, skills, pdfFile } = cv.data;
             <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
               <div>
                 <h3 class="text-lg font-bold">{item.degree}</h3>
-                <p class="text-[var(--color-primary)]">{item.school}</p>
-                <p class="text-sm text-[var(--color-text-muted)]">{item.department}</p>
+                <p class="text-[var(--color-primary)] notranslate" translate="no">{item.school}</p>
+                <p class="text-sm text-[var(--color-text-muted)] notranslate" translate="no">{item.department}</p>
                 {item.description && (
                   <p class="text-sm text-[var(--color-text-muted)] mt-2">{item.description}</p>
                 )}
