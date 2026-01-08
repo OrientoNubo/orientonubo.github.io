@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
+import { translations } from '../../i18n/translations';
 
 const publications = await getCollection('publications');
 // Sort by pinned first, then by year
@@ -12,6 +13,12 @@ const sortedPubs = publications.sort((a, b) => {
 });
 // Display limited number on homepage
 const displayPubs = sortedPubs.slice(0, 5);
+
+// Get translations
+const t = {
+  en: translations.en.publications,
+  zh: translations.zh.publications,
+};
 ---
 
 <section id="publications" class="section">
@@ -19,10 +26,13 @@ const displayPubs = sortedPubs.slice(0, 5);
     <!-- Section Header -->
     <div class="text-center mb-12">
       <h2 class="text-4xl font-bold font-heading mb-4">
-        <span class="text-[var(--color-primary)]">//</span> Publications
+        <span class="text-[var(--color-primary)]">//</span>
+        <span class="lang-en">{t.en.title}</span>
+        <span class="lang-zh">{t.zh.title}</span>
       </h2>
       <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
-        Selected research papers in computer vision, 3D reconstruction, and visual localization.
+        <span class="lang-en">{t.en.subtitle}</span>
+        <span class="lang-zh">{t.zh.subtitle}</span>
       </p>
     </div>
 
@@ -57,17 +67,20 @@ const displayPubs = sortedPubs.slice(0, 5);
                   <div class="flex gap-1 flex-shrink-0">
                     {pub.data.firstAuthor && (
                       <span class="px-2 py-1 text-xs font-bold bg-[var(--color-primary)] text-white rounded">
-                        1st Author
+                        <span class="lang-en">{t.en.firstAuthor}</span>
+                        <span class="lang-zh">{t.zh.firstAuthor}</span>
                       </span>
                     )}
                     {pub.data.correspondingAuthor && (
                       <span class="px-2 py-1 text-xs font-bold bg-gray-700 text-white rounded">
-                        Corresponding
+                        <span class="lang-en">{t.en.corresponding}</span>
+                        <span class="lang-zh">{t.zh.corresponding}</span>
                       </span>
                     )}
                     {pub.data.coAuthor && (
                       <span class="px-2 py-1 text-xs font-bold bg-[var(--color-primary)] text-white rounded">
-                        Co-Author
+                        <span class="lang-en">{t.en.coAuthor}</span>
+                        <span class="lang-zh">{t.zh.coAuthor}</span>
                       </span>
                     )}
                   </div>
@@ -91,27 +104,30 @@ const displayPubs = sortedPubs.slice(0, 5);
                 <div class="flex flex-wrap gap-2">
                   {pub.data.pdf && (
                     <a href={pub.data.pdf} target="_blank" class="pub-link">
-                      PDF
+                      {t.en.pdf}
                     </a>
                   )}
                   {pub.data.code && (
                     <a href={pub.data.code} target="_blank" class="pub-link">
-                      Code
+                      <span class="lang-en">{t.en.code}</span>
+                      <span class="lang-zh">{t.zh.code}</span>
                     </a>
                   )}
                   {pub.data.project && (
                     <a href={pub.data.project} target="_blank" class="pub-link">
-                      Project
+                      <span class="lang-en">{t.en.project}</span>
+                      <span class="lang-zh">{t.zh.project}</span>
                     </a>
                   )}
                   {pub.data.video && (
                     <a href={pub.data.video} target="_blank" class="pub-link">
-                      Video
+                      <span class="lang-en">{t.en.video}</span>
+                      <span class="lang-zh">{t.zh.video}</span>
                     </a>
                   )}
                   {pub.data.arxiv && (
                     <a href={pub.data.arxiv} target="_blank" class="pub-link">
-                      arXiv
+                      {t.en.arxiv}
                     </a>
                   )}
                 </div>
@@ -125,14 +141,18 @@ const displayPubs = sortedPubs.slice(0, 5);
     <!-- Empty State -->
     {sortedPubs.length === 0 && (
       <div class="text-center py-12 text-[var(--color-text-muted)]">
-        <p>No publications yet. Check back soon!</p>
+        <p>
+          <span class="lang-en">{t.en.emptyState}</span>
+          <span class="lang-zh">{t.zh.emptyState}</span>
+        </p>
       </div>
     )}
 
     <!-- View All Link -->
     <div class="text-center mt-8">
       <a href="/publications" class="btn btn-outline">
-        View All Publications →
+        <span class="lang-en">{t.en.viewAll}</span>
+        <span class="lang-zh">{t.zh.viewAll}</span> →
       </a>
     </div>
   </div>

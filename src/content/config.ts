@@ -37,8 +37,10 @@ const servicesCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    title_zh: z.string().optional(),
     organization: z.string(),
     description: z.string().optional(),
+    description_zh: z.string().optional(),
     image: z.string().optional(),
     order: z.number().default(0),
   }),
@@ -48,9 +50,11 @@ const awardsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    title_zh: z.string().optional(),
     organization: z.string(),
     year: z.string(),
     description: z.string().optional(),
+    description_zh: z.string().optional(),
     image: z.string().optional(),
     pinned: z.boolean().default(false),
     order: z.number().default(0),
@@ -61,6 +65,7 @@ const certificatesCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    title_zh: z.string().optional(),
     issuer: z.string(),
     date: z.string(),
     url: z.string().optional(),
@@ -74,6 +79,7 @@ const publicationsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    title_zh: z.string().optional(),
     authors: z.array(z.object({
       name: z.string(),
       bold: z.boolean().default(false),
@@ -94,6 +100,7 @@ const publicationsCollection = defineCollection({
     correspondingAuthor: z.boolean().default(false),
     coAuthor: z.boolean().default(false),
     abstract: z.string().optional(),
+    abstract_zh: z.string().optional(),
   }),
 });
 
@@ -101,7 +108,9 @@ const projectsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    title_zh: z.string().optional(),
     description: z.string(),
+    description_zh: z.string().optional(),
     date: z.date(),
     image: z.string().optional(),
     tags: z.array(z.string()).default([]),
@@ -117,11 +126,13 @@ const experienceCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    title_zh: z.string().optional(),
     organization: z.string(),
     type: z.enum(['work', 'intern', 'collab']).default('work'),
     startDate: z.string(),
     endDate: z.string().optional(),
     description: z.string(),
+    description_zh: z.string().optional(),
     image: z.string().optional(),
     tags: z.array(z.string()).default([]),
     url: z.string().optional(),

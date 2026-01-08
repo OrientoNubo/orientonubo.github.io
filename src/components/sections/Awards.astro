@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
+import { translations } from '../../i18n/translations';
 
 const awards = await getCollection('awards');
 // Sort by pinned first, then by year descending
@@ -11,6 +12,12 @@ const sortedAwards = awards.sort((a, b) => {
   return b.data.year.localeCompare(a.data.year);
 });
 const displayAwards = sortedAwards.slice(0, 4);
+
+// Get translations
+const t = {
+  en: translations.en.awards,
+  zh: translations.zh.awards,
+};
 ---
 
 {sortedAwards.length > 0 && (
@@ -19,10 +26,13 @@ const displayAwards = sortedAwards.slice(0, 4);
       <!-- Section Header -->
       <div class="text-center mb-12">
         <h2 class="text-4xl font-bold font-heading mb-4">
-          <span class="text-[var(--color-primary)]">//</span> Awards
+          <span class="text-[var(--color-primary)]">//</span>
+          <span class="lang-en">{t.en.title}</span>
+          <span class="lang-zh">{t.zh.title}</span>
         </h2>
         <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          Honors and recognition for research contributions.
+          <span class="lang-en">{t.en.subtitle}</span>
+          <span class="lang-zh">{t.zh.subtitle}</span>
         </p>
       </div>
 
@@ -68,7 +78,8 @@ const displayAwards = sortedAwards.slice(0, 4);
       <!-- View All Link -->
       <div class="text-center mt-8">
         <a href="/awards" class="btn btn-outline">
-          View All Awards →
+          <span class="lang-en">{t.en.viewAll}</span>
+          <span class="lang-zh">{t.zh.viewAll}</span> →
         </a>
       </div>
     </div>

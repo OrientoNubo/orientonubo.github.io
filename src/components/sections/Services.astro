@@ -1,10 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
+import { translations } from '../../i18n/translations';
 
 const services = await getCollection('services');
 const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
 const displayServices = sortedServices.slice(0, 3);
+
+// Get translations
+const t = {
+  en: translations.en.services,
+  zh: translations.zh.services,
+};
 ---
 
 {sortedServices.length > 0 && (
@@ -13,10 +20,13 @@ const displayServices = sortedServices.slice(0, 3);
       <!-- Section Header -->
       <div class="text-center mb-12">
         <h2 class="text-4xl font-bold font-heading mb-4">
-          <span class="text-[var(--color-primary)]">//</span> Services
+          <span class="text-[var(--color-primary)]">//</span>
+          <span class="lang-en">{t.en.title}</span>
+          <span class="lang-zh">{t.zh.title}</span>
         </h2>
         <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          Academic services and community contributions.
+          <span class="lang-en">{t.en.subtitle}</span>
+          <span class="lang-zh">{t.zh.subtitle}</span>
         </p>
       </div>
 
@@ -59,7 +69,8 @@ const displayServices = sortedServices.slice(0, 3);
       <!-- View All Link -->
       <div class="text-center mt-8">
         <a href="/services" class="btn btn-outline">
-          View All Services →
+          <span class="lang-en">{t.en.viewAll}</span>
+          <span class="lang-zh">{t.zh.viewAll}</span> →
         </a>
       </div>
     </div>

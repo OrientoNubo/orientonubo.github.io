@@ -1,5 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
+import { translations } from '../../i18n/translations';
 
 const currentYear = new Date().getFullYear();
 
@@ -8,6 +9,12 @@ if (!profile) {
   throw new Error('Profile not found');
 }
 const { name, socialLinks } = profile.data;
+
+// Get translations
+const t = {
+  en: translations.en.footer,
+  zh: translations.zh.footer,
+};
 ---
 
 <footer class="border-t border-[var(--color-border)] py-12 mt-20">
@@ -15,11 +22,13 @@ const { name, socialLinks } = profile.data;
     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
       <!-- Logo & Copyright -->
       <div class="text-center md:text-left">
-        <a href="/" class="footer-logo text-xl font-bold font-heading transition-colors">
+        <a href="/" class="footer-logo text-xl font-bold font-heading transition-colors notranslate" translate="no">
           {name}
         </a>
         <p class="text-sm text-[var(--color-text-muted)] mt-2">
-          &copy; {currentYear} {name}. All rights reserved.
+          &copy; {currentYear} <span class="notranslate" translate="no">{name}</span>.
+          <span class="lang-en">{t.en.copyright}</span>
+          <span class="lang-zh">{t.zh.copyright}</span>
         </p>
       </div>
 

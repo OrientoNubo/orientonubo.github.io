@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
+import { translations } from '../../i18n/translations';
 
 const certificates = await getCollection('certificates');
 // Sort by pinned first, then by date descending
@@ -11,6 +12,12 @@ const sortedCertificates = certificates.sort((a, b) => {
   return b.data.date.localeCompare(a.data.date);
 });
 const displayCertificates = sortedCertificates.slice(0, 3);
+
+// Get translations
+const t = {
+  en: translations.en.certificates,
+  zh: translations.zh.certificates,
+};
 ---
 
 {sortedCertificates.length > 0 && (
@@ -19,10 +26,13 @@ const displayCertificates = sortedCertificates.slice(0, 3);
       <!-- Section Header -->
       <div class="text-center mb-12">
         <h2 class="text-4xl font-bold font-heading mb-4">
-          <span class="text-[var(--color-primary)]">//</span> Certificates
+          <span class="text-[var(--color-primary)]">//</span>
+          <span class="lang-en">{t.en.title}</span>
+          <span class="lang-zh">{t.zh.title}</span>
         </h2>
         <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          Professional certifications and completed courses.
+          <span class="lang-en">{t.en.subtitle}</span>
+          <span class="lang-zh">{t.zh.subtitle}</span>
         </p>
       </div>
 
@@ -46,7 +56,8 @@ const displayCertificates = sortedCertificates.slice(0, 3);
                     rel="noopener noreferrer"
                     class="inline-flex items-center gap-1 text-[var(--color-primary)] text-sm mt-2 hover:underline"
                   >
-                    View Certificate
+                    <span class="lang-en">{t.en.viewCertificate}</span>
+                    <span class="lang-zh">{t.zh.viewCertificate}</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
@@ -72,7 +83,8 @@ const displayCertificates = sortedCertificates.slice(0, 3);
       <!-- View All Link -->
       <div class="text-center mt-8">
         <a href="/certificates" class="btn btn-outline">
-          View All Certificates →
+          <span class="lang-en">{t.en.viewAll}</span>
+          <span class="lang-zh">{t.zh.viewAll}</span> →
         </a>
       </div>
     </div>

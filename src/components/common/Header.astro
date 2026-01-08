@@ -1,14 +1,21 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import { translations } from '../../i18n/translations';
+
+// Get translations
+const t = {
+  en: translations.en.nav,
+  zh: translations.zh.nav,
+};
 
 const navItems = [
-  { label: 'About', href: '/#about', special: false },
-  { label: 'Publications', href: '/#publications', special: false },
-  { label: 'Projects', href: '/#projects', special: false },
-  { label: 'Experience', href: '/#experience', special: false },
-  { label: 'Awards', href: '/#awards', special: false },
-  { label: 'Blog', href: '/blog', special: true },
-  { label: 'CV', href: '/cv', special: true },
+  { key: 'about', href: '/#about', special: false },
+  { key: 'publications', href: '/#publications', special: false },
+  { key: 'projects', href: '/#projects', special: false },
+  { key: 'experience', href: '/#experience', special: false },
+  { key: 'awards', href: '/#awards', special: false },
+  { key: 'blog', href: '/blog', special: true },
+  { key: 'cv', href: '/cv', special: true },
 ];
 ---
 
@@ -32,9 +39,10 @@ const navItems = [
               item.special ? 'chromatic-link' : 'hover:text-[var(--color-primary)]'
             ]}
             style={`animation-delay: ${index * 0.1}s`}
-            data-text={item.label}
+            data-text={t.en[item.key as keyof typeof t.en]}
           >
-            {item.label}
+            <span class="lang-en">{t.en[item.key as keyof typeof t.en]}</span>
+            <span class="lang-zh">{t.zh[item.key as keyof typeof t.zh]}</span>
             <span class="nav-underline"></span>
           </a>
         ))}
@@ -55,7 +63,8 @@ const navItems = [
     <div class="container py-4 space-y-4">
       {navItems.map((item) => (
         <a href={item.href} class="block py-2 font-medium uppercase tracking-wider">
-          {item.label}
+          <span class="lang-en">{t.en[item.key as keyof typeof t.en]}</span>
+          <span class="lang-zh">{t.zh[item.key as keyof typeof t.zh]}</span>
         </a>
       ))}
       <div class="pt-4 flex items-center gap-4">

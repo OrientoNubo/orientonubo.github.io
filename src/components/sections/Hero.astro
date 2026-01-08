@@ -1,5 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
+import { translations } from '../../i18n/translations';
 
 const profile = await getEntry('site', 'profile');
 if (!profile) {
@@ -9,6 +10,12 @@ const { name, title, profileImage, socialLinks, affiliation, researchInterests }
 
 // Parse bio to extract research areas for highlighting
 const researchAreas = researchInterests.slice(0, 3);
+
+// Get translations
+const t = {
+  en: translations.en.hero,
+  zh: translations.zh.hero,
+};
 ---
 
 <section class="hero relative min-h-screen flex items-center overflow-hidden">
@@ -26,23 +33,32 @@ const researchAreas = researchInterests.slice(0, 3);
           {title}
         </p>
         <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 hero-title">
-          <span class="block hero-greeting">Hi, I'm</span>
+          <span class="block hero-greeting">
+            <span class="lang-en">{t.en.greeting}</span>
+            <span class="lang-zh">{t.zh.greeting}</span>
+          </span>
           <span class="hero-name notranslate" translate="no">{name}</span>
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] mb-8 max-w-lg hero-desc">
           {title.split('@')[0].trim()} at <strong class="text-[var(--color-text)] notranslate" translate="no">{affiliation.institution}</strong>,
-          researching <strong class="text-[var(--color-text)]">{researchAreas[0]}</strong>,
-          <strong class="text-[var(--color-text)]">{researchAreas[1]}</strong>, and
+          <span class="lang-en">researching</span>
+          <span class="lang-zh">研究方向：</span>
+          <strong class="text-[var(--color-text)]">{researchAreas[0]}</strong>,
+          <strong class="text-[var(--color-text)]">{researchAreas[1]}</strong>,
+          <span class="lang-en">and</span>
+          <span class="lang-zh">及</span>
           <strong class="text-[var(--color-text)]">{researchAreas[2]}</strong>.
         </p>
 
         <!-- CTA Buttons -->
         <div class="flex flex-wrap gap-4 mb-8">
           <a href="#publications" class="btn">
-            View Publications
+            <span class="lang-en">{t.en.viewPublications}</span>
+            <span class="lang-zh">{t.zh.viewPublications}</span>
           </a>
           <a href="#projects" class="btn btn-outline">
-            Explore Projects
+            <span class="lang-en">{t.en.exploreProjects}</span>
+            <span class="lang-zh">{t.zh.exploreProjects}</span>
           </a>
         </div>
 
@@ -105,7 +121,10 @@ const researchAreas = researchInterests.slice(0, 3);
   <!-- Scroll Indicator -->
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
     <a href="#about" class="scroll-indicator flex flex-col items-center gap-2 text-[var(--color-text-muted)]">
-      <span class="text-sm">Scroll</span>
+      <span class="text-sm">
+        <span class="lang-en">{t.en.scroll}</span>
+        <span class="lang-zh">{t.zh.scroll}</span>
+      </span>
       <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
       </svg>

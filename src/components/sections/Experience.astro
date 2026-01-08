@@ -1,16 +1,30 @@
 ---
 import { getCollection } from 'astro:content';
 import Card from '../common/Card.astro';
+import { translations } from '../../i18n/translations';
 
 const experience = await getCollection('experience');
 const sortedExperience = experience.sort((a, b) => a.data.order - b.data.order);
 const featuredExperience = sortedExperience.filter(e => e.data.featured);
 const displayExperience = featuredExperience.length > 0 ? featuredExperience : sortedExperience.slice(0, 3);
 
-const typeLabels: Record<string, string> = {
-  work: 'Full-time',
-  intern: 'Internship',
-  collab: 'Collaboration',
+// Get translations
+const t = {
+  en: translations.en.experience,
+  zh: translations.zh.experience,
+};
+
+const typeLabels = {
+  en: {
+    work: t.en.fullTime,
+    intern: t.en.internship,
+    collab: t.en.collaboration,
+  },
+  zh: {
+    work: t.zh.fullTime,
+    intern: t.zh.internship,
+    collab: t.zh.collaboration,
+  },
 };
 
 const typeColors: Record<string, string> = {
@@ -26,10 +40,13 @@ const typeColors: Record<string, string> = {
       <!-- Section Header -->
       <div class="text-center mb-12">
         <h2 class="text-4xl font-bold font-heading mb-4">
-          <span class="text-[var(--color-primary)]">//</span> Experience
+          <span class="text-[var(--color-primary)]">//</span>
+          <span class="lang-en">{t.en.title}</span>
+          <span class="lang-zh">{t.zh.title}</span>
         </h2>
         <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          Work experience, internships, and industry-academia collaborations.
+          <span class="lang-en">{t.en.subtitle}</span>
+          <span class="lang-zh">{t.zh.subtitle}</span>
         </p>
       </div>
 
@@ -60,11 +77,13 @@ const typeColors: Record<string, string> = {
                   'px-2 py-1 text-xs font-medium rounded',
                   typeColors[exp.data.type] || typeColors.work,
                 ]}>
-                  {typeLabels[exp.data.type] || exp.data.type}
+                  <span class="lang-en">{typeLabels.en[exp.data.type as keyof typeof typeLabels.en] || exp.data.type}</span>
+                  <span class="lang-zh">{typeLabels.zh[exp.data.type as keyof typeof typeLabels.zh] || exp.data.type}</span>
                 </span>
                 {exp.data.featured && (
                   <span class="px-2 py-1 text-xs font-medium bg-[var(--color-primary)] text-white rounded">
-                    Featured
+                    <span class="lang-en">{t.en.featured}</span>
+                    <span class="lang-zh">{t.zh.featured}</span>
                   </span>
                 )}
               </div>
@@ -81,7 +100,12 @@ const typeColors: Record<string, string> = {
 
               <!-- Date Range -->
               <p class="text-[var(--color-text-muted)] text-sm mb-3">
-                {exp.data.startDate} — {exp.data.endDate || 'Present'}
+                {exp.data.startDate} — {exp.data.endDate || (
+                  <>
+                    <span class="lang-en">{t.en.present}</span>
+                    <span class="lang-zh">{t.zh.present}</span>
+                  </>
+                )}
               </p>
 
               <!-- Description -->
@@ -107,7 +131,8 @@ const typeColors: Record<string, string> = {
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                     </svg>
-                    Visit
+                    <span class="lang-en">{t.en.visit}</span>
+                    <span class="lang-zh">{t.zh.visit}</span>
                   </a>
                 </div>
               )}
@@ -119,7 +144,8 @@ const typeColors: Record<string, string> = {
       <!-- View All Link -->
       <div class="text-center mt-8">
         <a href="/experience" class="btn btn-outline">
-          View All Experience →
+          <span class="lang-en">{t.en.viewAll}</span>
+          <span class="lang-zh">{t.zh.viewAll}</span> →
         </a>
       </div>
     </div>
