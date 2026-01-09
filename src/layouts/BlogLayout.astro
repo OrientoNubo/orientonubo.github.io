@@ -25,9 +25,8 @@ if (content_ja) availableLanguages.push({ code: 'ja', label: '日本語', conten
 if (content_ko) availableLanguages.push({ code: 'ko', label: '한국어', content: content_ko });
 if (content_ar) availableLanguages.push({ code: 'ar', label: 'العربية', content: content_ar });
 
-// Default language is the first available, or use markdown body as fallback
-const hasMultipleLanguages = availableLanguages.length > 1;
-const defaultLang = availableLanguages.length > 0 ? availableLanguages[0].code : null;
+// Show language bar if any language content exists (even just one)
+const hasLanguageContent = availableLanguages.length > 0;
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -53,7 +52,7 @@ const defaultLang = availableLanguages.length > 0 ? availableLanguages[0].code :
         </time>
 
         <!-- Language Selection Bar (only if multiple languages) -->
-        {hasMultipleLanguages && (
+        {hasLanguageContent && (
           <LanguageBar languages={availableLanguages.map(l => ({ code: l.code, label: l.label }))} />
         )}
       </header>
