@@ -27,6 +27,16 @@ if (content_ar) availableLanguages.push({ code: 'ar', label: 'العربية', c
 
 // Show language bar if any language content exists (even just one)
 const hasLanguageContent = availableLanguages.length > 0;
+
+// Helper function to escape content for HTML attribute
+function escapeForAttribute(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '&#10;');
+}
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -82,7 +92,7 @@ const hasLanguageContent = availableLanguages.length > 0;
             class="lang-content"
             data-lang={lang.code}
             style={index === 0 ? '' : 'display: none;'}
-            data-content={lang.content}
+            data-content={escapeForAttribute(lang.content)}
           >
             {/* Content will be rendered by JavaScript using marked.js */}
             <div class="markdown-body"></div>
@@ -109,7 +119,14 @@ const hasLanguageContent = availableLanguages.length > 0;
         var markdownBody = container.querySelector('.markdown-body');
 
         if (content && markdownBody && typeof marked !== 'undefined') {
-          markdownBody.innerHTML = marked.parse(content);
+          // Unescape HTML entities that were escaped for the attribute
+          var unescaped = content
+            .replace(/&#10;/g, '\n')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, '&');
+          markdownBody.innerHTML = marked.parse(unescaped);
         }
       });
     }
