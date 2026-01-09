@@ -1,6 +1,8 @@
 ---
-title: 如何造就一個「好」的 AI 集群 (Cluster)
-description: 從 Lambda 與 NVIDIA B200 集群看基礎設施的關鍵要素
+title: How to Build a "Good" AI Cluster
+title_zh: 如何造就一個「好」的 AI 集群 (Cluster)
+description: Key Infrastructure Elements from Lambda's NVIDIA B200 Cluster
+description_zh: 從 Lambda 與 NVIDIA B200 集群看基礎設施的關鍵要素
 date: 2026-01-03T19:01:00
 updated: ''
 tags:
