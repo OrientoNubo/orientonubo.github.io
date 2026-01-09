@@ -101,15 +101,13 @@ const hasLanguageContent = availableLanguages.length > 0;
 
   <!-- Marked.js for markdown rendering -->
   <script is:inline src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    declare const marked: { parse: (content: string) => string };
-
+  <script is:inline>
     function initBlogContent() {
-      const langContents = document.querySelectorAll('.lang-content');
+      var langContents = document.querySelectorAll('.lang-content');
 
-      langContents.forEach(container => {
-        const content = container.getAttribute('data-content');
-        const markdownBody = container.querySelector('.markdown-body');
+      langContents.forEach(function(container) {
+        var content = container.getAttribute('data-content');
+        var markdownBody = container.querySelector('.markdown-body');
 
         if (content && markdownBody && typeof marked !== 'undefined') {
           markdownBody.innerHTML = marked.parse(content);
