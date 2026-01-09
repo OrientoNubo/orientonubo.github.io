@@ -1,0 +1,185 @@
+---
+// Language Bar for Blog Posts
+// Displays clickable language buttons that trigger Google Translate
+// More stable than the Google Translate dropdown widget
+---
+
+<div class="language-bar notranslate" translate="no">
+  <div class="language-bar-container">
+    <svg class="language-bar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+    </svg>
+    <div class="language-buttons">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="zh-CN">简中</button>
+      <button class="lang-btn" data-lang="zh-TW">繁中</button>
+      <button class="lang-btn" data-lang="ja">日本語</button>
+      <button class="lang-btn" data-lang="ko">한국어</button>
+      <button class="lang-btn" data-lang="fr">Français</button>
+      <button class="lang-btn" data-lang="es">Español</button>
+      <button class="lang-btn" data-lang="ar">العربية</button>
+      <button class="lang-btn" data-lang="de">Deutsch</button>
+      <button class="lang-btn" data-lang="ru">Русский</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden Google Translate element -->
+<div id="google_translate_element" style="display: none;"></div>
+
+<style>
+  .language-bar {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .language-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+
+  .language-bar-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  .language-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .lang-btn {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-family: inherit;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .lang-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .lang-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+  }
+</style>
+
+<style is:global>
+  /* Hide the Google Translate banner */
+  .goog-te-banner-frame {
+    display: none !important;
+  }
+
+  body {
+    top: 0 !important;
+  }
+
+  /* Hide skiptranslate iframe (the banner) */
+  .skiptranslate iframe {
+    display: none !important;
+  }
+
+  body.translated-ltr,
+  body.translated-rtl {
+    margin-top: 0 !important;
+  }
+
+  /* VT fix for iframe */
+  .VIpgJd-ZVi9od-ORHb-OEVmcd {
+    display: none !important;
+  }
+</style>
+
+<script>
+  function initLanguageBar() {
+    const buttons = document.querySelectorAll('.lang-btn');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetLang = btn.getAttribute('data-lang') || 'en';
+
+        // Update active state
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Trigger Google Translate
+        if (targetLang === 'en') {
+          // Reset to original language
+          const frame = document.querySelector('.goog-te-banner-frame') as HTMLIFrameElement;
+          if (frame) {
+            const innerDoc = frame.contentDocument || frame.contentWindow?.document;
+            const restoreBtn = innerDoc?.querySelector('.goog-te-button button') as HTMLButtonElement;
+            if (restoreBtn) {
+              restoreBtn.click();
+            }
+          }
+          // Alternative: reload page to reset
+          const currentUrl = window.location.href;
+          if (currentUrl.includes('#googtrans')) {
+            window.location.href = currentUrl.split('#googtrans')[0];
+          } else {
+            // Try to find and click the restore button in the combo
+            const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+            if (select) {
+              select.value = '';
+              select.dispatchEvent(new Event('change'));
+            }
+          }
+        } else {
+          // Set the language using the hidden select
+          const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+          if (select) {
+            select.value = targetLang;
+            select.dispatchEvent(new Event('change'));
+          }
+        }
+      });
+    });
+
+    // Check current translation state and update active button
+    const checkTranslationState = () => {
+      const googTransCookie = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+
+      if (googTransCookie) {
+        const currentLang = googTransCookie[1];
+        buttons.forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.getAttribute('data-lang') === currentLang) {
+            btn.classList.add('active');
+          }
+        });
+      }
+    };
+
+    // Check state periodically (Google Translate changes asynchronously)
+    setTimeout(checkTranslationState, 1000);
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLanguageBar);
+  } else {
+    initLanguageBar();
+  }
+
+  // Re-run on Astro page transitions
+  document.addEventListener('astro:page-load', initLanguageBar);
+</script>
