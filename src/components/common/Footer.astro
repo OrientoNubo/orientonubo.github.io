@@ -13,7 +13,8 @@ const { name, socialLinks } = profile.data;
 // Get translations
 const t = {
   en: translations.en.footer,
-  zh: translations.zh.footer,
+  zhHans: translations['zh-Hans'].footer,
+  zhHant: translations['zh-Hant'].footer,
 };
 ---
 
@@ -23,12 +24,13 @@ const t = {
       <!-- Logo & Copyright -->
       <div class="text-center md:text-left">
         <a href="/" class="footer-logo text-xl font-bold font-heading transition-colors notranslate" translate="no">
-          {name}
+          OrientoNubo
         </a>
         <p class="text-sm text-[var(--color-text-muted)] mt-2">
-          &copy; {currentYear} <span class="notranslate" translate="no">{name}</span>.
+          &copy; {currentYear} <span class="notranslate" translate="no">OrientoNubo</span>.
           <span class="lang-en">{t.en.copyright}</span>
-          <span class="lang-zh">{t.zh.copyright}</span>
+          <span class="lang-zh-Hans">{t.zhHans.copyright}</span>
+          <span class="lang-zh-Hant">{t.zhHant.copyright}</span>
         </p>
       </div>
 

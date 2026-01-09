@@ -1,6 +1,6 @@
 ---
 // Language Switcher Floating Widget
-// Supports: English (en) and Chinese (zh)
+// Supports: English (en), 简体中文 (zh-Hans), 繁體中文 (zh-Hant)
 ---
 
 <div class="lang-floating" id="lang-wrapper">
@@ -21,18 +21,30 @@
         <span class="lang-flag">EN</span>
         <span class="lang-name">English</span>
       </button>
-      <button class="lang-option" data-lang="zh">
-        <span class="lang-flag">ZH</span>
-        <span class="lang-name">中文</span>
+      <button class="lang-option" data-lang="zh-Hans">
+        <span class="lang-flag">简</span>
+        <span class="lang-name">简体中文</span>
+      </button>
+      <button class="lang-option" data-lang="zh-Hant">
+        <span class="lang-flag">繁</span>
+        <span class="lang-name">繁體中文</span>
       </button>
     </div>
   </div>
 </div>
 
 <style is:global>
-  /* Language-specific content visibility */
-  [data-lang="en"] .lang-zh,
-  [data-lang="zh"] .lang-en {
+  /* Language-specific content visibility - Trilingual */
+  [data-lang="en"] .lang-zh-Hans,
+  [data-lang="en"] .lang-zh-Hant {
+    display: none !important;
+  }
+  [data-lang="zh-Hans"] .lang-en,
+  [data-lang="zh-Hans"] .lang-zh-Hant {
+    display: none !important;
+  }
+  [data-lang="zh-Hant"] .lang-en,
+  [data-lang="zh-Hant"] .lang-zh-Hans {
     display: none !important;
   }
 
@@ -81,7 +93,7 @@
     border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 12px;
-    min-width: 140px;
+    min-width: 150px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     animation: langFadeIn 0.2s ease-out;
   }
@@ -152,11 +164,21 @@
 <script is:inline>
   (function() {
     var DEFAULT_LANG = 'en';
+    var LANG_DISPLAY = {
+      'en': 'EN',
+      'zh-Hans': '简',
+      'zh-Hant': '繁'
+    };
+    var LANG_HTML = {
+      'en': 'en',
+      'zh-Hans': 'zh-CN',
+      'zh-Hant': 'zh-TW'
+    };
 
     function getCurrentLang() {
       if (typeof localStorage !== 'undefined') {
         var stored = localStorage.getItem('site-language');
-        if (stored === 'en' || stored === 'zh') {
+        if (stored === 'en' || stored === 'zh-Hans' || stored === 'zh-Hant') {
           return stored;
         }
       }
@@ -174,7 +196,7 @@
     function updateUI(lang) {
       var currentDisplay = document.getElementById('lang-current');
       if (currentDisplay) {
-        currentDisplay.textContent = lang.toUpperCase();
+        currentDisplay.textContent = LANG_DISPLAY[lang] || 'EN';
       }
 
       // Update active state
@@ -188,7 +210,7 @@
       });
 
       // Update html attributes for language switching
-      document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-TW' : 'en');
+      document.documentElement.setAttribute('lang', LANG_HTML[lang] || 'en');
       document.documentElement.setAttribute('data-lang', lang);
     }
 

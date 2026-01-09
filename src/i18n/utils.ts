@@ -16,7 +16,7 @@ export function getLocalizedField<T>(
   field: string,
   lang: Language
 ): T {
-  if (lang === 'zh') {
+  if (lang === 'zh-Hant' || lang === 'zh-Hans') {
     const zhField = `${field}_zh`;
     if (item[zhField] !== undefined && item[zhField] !== null && item[zhField] !== '') {
       return item[zhField];
@@ -29,7 +29,7 @@ export function getLocalizedField<T>(
 export function getLanguageFromStorage(): Language {
   if (typeof window !== 'undefined') {
     const stored = localStorage.getItem('site-language');
-    if (stored === 'en' || stored === 'zh') {
+    if (stored === 'en' || stored === 'zh-Hans' || stored === 'zh-Hant') {
       return stored;
     }
   }

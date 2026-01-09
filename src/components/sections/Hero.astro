@@ -14,7 +14,8 @@ const researchAreas = researchInterests.slice(0, 3);
 // Get translations
 const t = {
   en: translations.en.hero,
-  zh: translations.zh.hero,
+  zhHans: translations['zh-Hans'].hero,
+  zhHant: translations['zh-Hant'].hero,
 };
 ---
 
@@ -35,18 +36,21 @@ const t = {
         <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 hero-title">
           <span class="block hero-greeting">
             <span class="lang-en">{t.en.greeting}</span>
-            <span class="lang-zh">{t.zh.greeting}</span>
+            <span class="lang-zh-Hans">{t.zhHans.greeting}</span>
+            <span class="lang-zh-Hant">{t.zhHant.greeting}</span>
           </span>
           <span class="hero-name notranslate" translate="no">{name}</span>
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] mb-8 max-w-lg hero-desc">
           {title.split('@')[0].trim()} at <strong class="text-[var(--color-text)] notranslate" translate="no">{affiliation.institution}</strong>,
           <span class="lang-en">researching</span>
-          <span class="lang-zh">研究方向：</span>
+          <span class="lang-zh-Hans">研究方向：</span>
+          <span class="lang-zh-Hant">研究方向：</span>
           <strong class="text-[var(--color-text)]">{researchAreas[0]}</strong>,
           <strong class="text-[var(--color-text)]">{researchAreas[1]}</strong>,
           <span class="lang-en">and</span>
-          <span class="lang-zh">及</span>
+          <span class="lang-zh-Hans">及</span>
+          <span class="lang-zh-Hant">及</span>
           <strong class="text-[var(--color-text)]">{researchAreas[2]}</strong>.
         </p>
 
@@ -54,11 +58,13 @@ const t = {
         <div class="flex flex-wrap gap-4 mb-8">
           <a href="#publications" class="btn">
             <span class="lang-en">{t.en.viewPublications}</span>
-            <span class="lang-zh">{t.zh.viewPublications}</span>
+            <span class="lang-zh-Hans">{t.zhHans.viewPublications}</span>
+            <span class="lang-zh-Hant">{t.zhHant.viewPublications}</span>
           </a>
           <a href="#projects" class="btn btn-outline">
             <span class="lang-en">{t.en.exploreProjects}</span>
-            <span class="lang-zh">{t.zh.exploreProjects}</span>
+            <span class="lang-zh-Hans">{t.zhHans.exploreProjects}</span>
+            <span class="lang-zh-Hant">{t.zhHant.exploreProjects}</span>
           </a>
         </div>
 
@@ -123,7 +129,8 @@ const t = {
     <a href="#about" class="scroll-indicator flex flex-col items-center gap-2 text-[var(--color-text-muted)]">
       <span class="text-sm">
         <span class="lang-en">{t.en.scroll}</span>
-        <span class="lang-zh">{t.zh.scroll}</span>
+        <span class="lang-zh-Hans">{t.zhHans.scroll}</span>
+        <span class="lang-zh-Hant">{t.zhHant.scroll}</span>
       </span>
       <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />

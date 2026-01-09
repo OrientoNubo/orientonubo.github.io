@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import Card from '../../components/common/Card.astro';
+import { translations } from '../../i18n/translations';
 
 const posts = await getCollection('blog', ({ data }) => !data.draft);
 // Sort by pinned first, then by date descending
@@ -11,6 +12,13 @@ const sortedPosts = posts.sort((a, b) => {
   }
   return b.data.date.getTime() - a.data.date.getTime();
 });
+
+// Get translations
+const t = {
+  en: translations.en.blog,
+  zhHans: translations['zh-Hans'].blog,
+  zhHant: translations['zh-Hant'].blog,
+};
 ---
 
 <PageLayout
@@ -64,7 +72,12 @@ const sortedPosts = posts.sort((a, b) => {
                     {formattedDate}
                   </time>
                   {post.data.readingTime && (
-                    <span>{post.data.readingTime} min read</span>
+                    <span>
+                      {post.data.readingTime}
+                      <span class="lang-en"> {t.en.minRead}</span>
+                      <span class="lang-zh-Hans"> {t.zhHans.minRead}</span>
+                      <span class="lang-zh-Hant"> {t.zhHant.minRead}</span>
+                    </span>
                   )}
                 </div>
               </div>
@@ -77,7 +90,11 @@ const sortedPosts = posts.sort((a, b) => {
 
   {sortedPosts.length === 0 && (
     <div class="text-center py-12 text-[var(--color-text-muted)]">
-      <p>No blog posts yet. Check back soon!</p>
+      <p>
+        <span class="lang-en">{t.en.emptyState}</span>
+        <span class="lang-zh-Hans">{t.zhHans.emptyState}</span>
+        <span class="lang-zh-Hant">{t.zhHant.emptyState}</span>
+      </p>
     </div>
   )}
 </PageLayout>

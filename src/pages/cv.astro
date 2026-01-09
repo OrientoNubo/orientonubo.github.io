@@ -2,12 +2,20 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import Card from '../components/common/Card.astro';
 import { getEntry } from 'astro:content';
+import { translations } from '../i18n/translations';
 
 const cv = await getEntry('cv', 'cv');
 if (!cv) {
   throw new Error('CV content not found');
 }
 const { education, skills, pdfFile } = cv.data;
+
+// Get translations
+const t = {
+  en: translations.en.cv,
+  zhHans: translations['zh-Hans'].cv,
+  zhHant: translations['zh-Hant'].cv,
+};
 ---
 
 <PageLayout
@@ -22,7 +30,9 @@ const { education, skills, pdfFile } = cv.data;
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
           </svg>
-          Download CV
+          <span class="lang-en">{t.en.downloadCV}</span>
+          <span class="lang-zh-Hans">{t.zhHans.downloadCV}</span>
+          <span class="lang-zh-Hant">{t.zhHant.downloadCV}</span>
         </a>
       </div>
     )}
@@ -30,7 +40,10 @@ const { education, skills, pdfFile } = cv.data;
     <!-- Education -->
     <section>
       <h2 class="text-2xl font-bold font-heading mb-6">
-        <span class="text-[var(--color-primary)]">//</span> Education
+        <span class="text-[var(--color-primary)]">//</span>
+        <span class="lang-en">{t.en.education}</span>
+        <span class="lang-zh-Hans">{t.zhHans.education}</span>
+        <span class="lang-zh-Hant">{t.zhHant.education}</span>
       </h2>
       <div class="space-y-4">
         {education.map(item => (
@@ -56,11 +69,18 @@ const { education, skills, pdfFile } = cv.data;
     <!-- Skills -->
     <section>
       <h2 class="text-2xl font-bold font-heading mb-6">
-        <span class="text-[var(--color-primary)]">//</span> Skills
+        <span class="text-[var(--color-primary)]">//</span>
+        <span class="lang-en">{t.en.skills}</span>
+        <span class="lang-zh-Hans">{t.zhHans.skills}</span>
+        <span class="lang-zh-Hant">{t.zhHant.skills}</span>
       </h2>
       <div class="grid md:grid-cols-3 gap-6">
         <Card>
-          <h3 class="text-lg font-bold mb-4">Programming</h3>
+          <h3 class="text-lg font-bold mb-4">
+            <span class="lang-en">{t.en.programming}</span>
+            <span class="lang-zh-Hans">{t.zhHans.programming}</span>
+            <span class="lang-zh-Hant">{t.zhHant.programming}</span>
+          </h3>
           <div class="flex flex-wrap gap-2">
             {skills.programming.map(skill => (
               <span class="px-3 py-1 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full">
@@ -70,7 +90,11 @@ const { education, skills, pdfFile } = cv.data;
           </div>
         </Card>
         <Card>
-          <h3 class="text-lg font-bold mb-4">Research Areas</h3>
+          <h3 class="text-lg font-bold mb-4">
+            <span class="lang-en">{t.en.researchAreas}</span>
+            <span class="lang-zh-Hans">{t.zhHans.researchAreas}</span>
+            <span class="lang-zh-Hant">{t.zhHant.researchAreas}</span>
+          </h3>
           <div class="flex flex-wrap gap-2">
             {skills.research.map(skill => (
               <span class="px-3 py-1 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full">
@@ -80,7 +104,11 @@ const { education, skills, pdfFile } = cv.data;
           </div>
         </Card>
         <Card>
-          <h3 class="text-lg font-bold mb-4">Tools</h3>
+          <h3 class="text-lg font-bold mb-4">
+            <span class="lang-en">{t.en.tools}</span>
+            <span class="lang-zh-Hans">{t.zhHans.tools}</span>
+            <span class="lang-zh-Hant">{t.zhHant.tools}</span>
+          </h3>
           <div class="flex flex-wrap gap-2">
             {skills.tools.map(skill => (
               <span class="px-3 py-1 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-full">

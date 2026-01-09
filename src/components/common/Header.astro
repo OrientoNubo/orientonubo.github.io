@@ -5,7 +5,8 @@ import { translations } from '../../i18n/translations';
 // Get translations
 const t = {
   en: translations.en.nav,
-  zh: translations.zh.nav,
+  zhHans: translations['zh-Hans'].nav,
+  zhHant: translations['zh-Hant'].nav,
 };
 
 const navItems = [
@@ -25,7 +26,7 @@ const navItems = [
       <!-- Logo -->
       <a href="/" class="header-logo flex items-center gap-2 transition-colors">
         <span class="text-2xl font-bold font-heading tracking-tight notranslate" translate="no">
-          Si-Yu
+          OrientoNubo
         </span>
       </a>
 
@@ -42,7 +43,8 @@ const navItems = [
             data-text={t.en[item.key as keyof typeof t.en]}
           >
             <span class="lang-en">{t.en[item.key as keyof typeof t.en]}</span>
-            <span class="lang-zh">{t.zh[item.key as keyof typeof t.zh]}</span>
+            <span class="lang-zh-Hans">{t.zhHans[item.key as keyof typeof t.zhHans]}</span>
+            <span class="lang-zh-Hant">{t.zhHant[item.key as keyof typeof t.zhHant]}</span>
             <span class="nav-underline"></span>
           </a>
         ))}
@@ -64,7 +66,8 @@ const navItems = [
       {navItems.map((item) => (
         <a href={item.href} class="block py-2 font-medium uppercase tracking-wider">
           <span class="lang-en">{t.en[item.key as keyof typeof t.en]}</span>
-          <span class="lang-zh">{t.zh[item.key as keyof typeof t.zh]}</span>
+          <span class="lang-zh-Hans">{t.zhHans[item.key as keyof typeof t.zhHans]}</span>
+          <span class="lang-zh-Hant">{t.zhHant[item.key as keyof typeof t.zhHant]}</span>
         </a>
       ))}
       <div class="pt-4 flex items-center gap-4">

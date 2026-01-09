@@ -11,7 +11,8 @@ const displayProjects = featuredProjects.length > 0 ? featuredProjects : sortedP
 // Get translations
 const t = {
   en: translations.en.projects,
-  zh: translations.zh.projects,
+  zhHans: translations['zh-Hans'].projects,
+  zhHant: translations['zh-Hant'].projects,
 };
 ---
 
@@ -22,11 +23,13 @@ const t = {
       <h2 class="text-4xl font-bold font-heading mb-4">
         <span class="text-[var(--color-primary)]">//</span>
         <span class="lang-en">{t.en.title}</span>
-        <span class="lang-zh">{t.zh.title}</span>
+        <span class="lang-zh-Hans">{t.zhHans.title}</span>
+        <span class="lang-zh-Hant">{t.zhHant.title}</span>
       </h2>
       <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
         <span class="lang-en">{t.en.subtitle}</span>
-        <span class="lang-zh">{t.zh.subtitle}</span>
+        <span class="lang-zh-Hans">{t.zhHans.subtitle}</span>
+        <span class="lang-zh-Hant">{t.zhHant.subtitle}</span>
       </p>
     </div>
 
@@ -60,12 +63,14 @@ const t = {
                 project.data.status === 'archived' && 'bg-gray-500/20 text-gray-400',
               ]}>
                 <span class="lang-en">{t.en.status[project.data.status as keyof typeof t.en.status]}</span>
-                <span class="lang-zh">{t.zh.status[project.data.status as keyof typeof t.zh.status]}</span>
+                <span class="lang-zh-Hans">{t.zhHans.status[project.data.status as keyof typeof t.zhHans.status]}</span>
+                <span class="lang-zh-Hant">{t.zhHant.status[project.data.status as keyof typeof t.zhHant.status]}</span>
               </span>
               {project.data.featured && (
                 <span class="px-2 py-1 text-xs font-medium bg-[var(--color-primary)] text-white rounded">
                   <span class="lang-en">{t.en.featured}</span>
-                  <span class="lang-zh">{t.zh.featured}</span>
+                  <span class="lang-zh-Hans">{t.zhHans.featured}</span>
+                  <span class="lang-zh-Hant">{t.zhHant.featured}</span>
                 </span>
               )}
             </div>
@@ -105,7 +110,8 @@ const t = {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                   </svg>
                   <span class="lang-en">{t.en.demo}</span>
-                  <span class="lang-zh">{t.zh.demo}</span>
+                  <span class="lang-zh-Hans">{t.zhHans.demo}</span>
+                  <span class="lang-zh-Hant">{t.zhHant.demo}</span>
                 </a>
               )}
             </div>
@@ -119,7 +125,8 @@ const t = {
       <div class="text-center py-12 text-[var(--color-text-muted)]">
         <p>
           <span class="lang-en">{t.en.emptyState}</span>
-          <span class="lang-zh">{t.zh.emptyState}</span>
+          <span class="lang-zh-Hans">{t.zhHans.emptyState}</span>
+          <span class="lang-zh-Hant">{t.zhHant.emptyState}</span>
         </p>
       </div>
     )}
@@ -128,7 +135,8 @@ const t = {
     <div class="text-center mt-8">
       <a href="/projects" class="btn btn-outline">
         <span class="lang-en">{t.en.viewAll}</span>
-        <span class="lang-zh">{t.zh.viewAll}</span> →
+        <span class="lang-zh-Hans">{t.zhHans.viewAll}</span>
+        <span class="lang-zh-Hant">{t.zhHant.viewAll}</span> →
       </a>
     </div>
   </div>

@@ -10,7 +10,8 @@ const displayServices = sortedServices.slice(0, 3);
 // Get translations
 const t = {
   en: translations.en.services,
-  zh: translations.zh.services,
+  zhHans: translations['zh-Hans'].services,
+  zhHant: translations['zh-Hant'].services,
 };
 ---
 
@@ -22,11 +23,13 @@ const t = {
         <h2 class="text-4xl font-bold font-heading mb-4">
           <span class="text-[var(--color-primary)]">//</span>
           <span class="lang-en">{t.en.title}</span>
-          <span class="lang-zh">{t.zh.title}</span>
+          <span class="lang-zh-Hans">{t.zhHans.title}</span>
+          <span class="lang-zh-Hant">{t.zhHant.title}</span>
         </h2>
         <p class="text-[var(--color-text-muted)] max-w-2xl mx-auto">
           <span class="lang-en">{t.en.subtitle}</span>
-          <span class="lang-zh">{t.zh.subtitle}</span>
+          <span class="lang-zh-Hans">{t.zhHans.subtitle}</span>
+          <span class="lang-zh-Hant">{t.zhHant.subtitle}</span>
         </p>
       </div>
 
@@ -70,7 +73,8 @@ const t = {
       <div class="text-center mt-8">
         <a href="/services" class="btn btn-outline">
           <span class="lang-en">{t.en.viewAll}</span>
-          <span class="lang-zh">{t.zh.viewAll}</span> →
+          <span class="lang-zh-Hans">{t.zhHans.viewAll}</span>
+          <span class="lang-zh-Hant">{t.zhHant.viewAll}</span> →
         </a>
       </div>
     </div>

@@ -6,12 +6,13 @@ const profile = await getEntry('site', 'profile');
 if (!profile) {
   throw new Error('Profile not found');
 }
-const { affiliation, advisors, researchInterests, stats } = profile.data;
+const { researchInterests, stats } = profile.data;
 
 // Get translations
 const t = {
   en: translations.en.about,
-  zh: translations.zh.about,
+  zhHans: translations['zh-Hans'].about,
+  zhHant: translations['zh-Hant'].about,
 };
 ---
 
@@ -23,51 +24,22 @@ const t = {
         <h2 class="text-4xl font-bold font-heading mb-6">
           <span class="text-[var(--color-primary)]">//</span>
           <span class="lang-en">{t.en.title}</span>
-          <span class="lang-zh">{t.zh.title}</span>
+          <span class="lang-zh-Hans">{t.zhHans.title}</span>
+          <span class="lang-zh-Hant">{t.zhHant.title}</span>
         </h2>
 
         <div class="space-y-4 text-[var(--color-text-muted)]">
-          <p>
-            <span class="lang-en">{t.en.pursuing}</span>
-            <span class="lang-zh">{t.zh.pursuing}</span>
-            <a href={affiliation.departmentUrl} target="_blank" class="text-[var(--color-primary)] hover:underline notranslate" translate="no">{affiliation.department}</a>,
-            <strong class="text-[var(--color-text)] notranslate" translate="no">{affiliation.institution}</strong>,
-            <span class="lang-en">{t.en.advisedBy}</span>
-            <span class="lang-zh">{t.zh.advisedBy}</span>
-            <a href={advisors[0].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline notranslate" translate="no">{advisors[0].name}</a>.
-          </p>
-
-          {advisors.length > 1 && (
-            <p>
-              <span class="lang-en">{t.en.worksWith}</span>
-              <span class="lang-zh">{t.zh.worksWith}</span>
-              <a href={advisors[1].url} target="_blank" class="text-[var(--color-text)] hover:text-[var(--color-accent)] underline notranslate" translate="no">{advisors[1].name}</a>
-              <span class="lang-en"> at </span>
-              <span class="lang-zh">{t.zh.at}</span>
-              <strong class="text-[var(--color-text)] notranslate" translate="no">{advisors[1].institution}</strong>
-              <span class="lang-zh">）</span>.
-            </p>
-          )}
-
-          <p>
-            <span class="lang-en">{t.en.researchDirections}</span>
-            <span class="lang-zh">{t.zh.researchDirections}</span>
-            <strong class="text-[var(--color-text)]">{researchInterests.slice(0, 5).join(', ')}</strong>.
-            <span class="lang-en">{t.en.relatedAreas}</span>
-            <span class="lang-zh">{t.zh.relatedAreas}</span>
-          </p>
-
-          <p>
-            <span class="lang-en">{t.en.contactMe}</span>
-            <span class="lang-zh">{t.zh.contactMe}</span>
-          </p>
+          <p class="lang-en">{t.en.content}</p>
+          <p class="lang-zh-Hans">{t.zhHans.content}</p>
+          <p class="lang-zh-Hant">{t.zhHant.content}</p>
         </div>
 
         <!-- Research Interests -->
         <div class="mt-8">
           <h3 class="text-lg font-bold mb-4">
             <span class="lang-en">{t.en.researchInterests}</span>
-            <span class="lang-zh">{t.zh.researchInterests}</span>
+            <span class="lang-zh-Hans">{t.zhHans.researchInterests}</span>
+            <span class="lang-zh-Hant">{t.zhHant.researchInterests}</span>
           </h3>
           <div class="flex flex-wrap gap-2">
             {researchInterests.map(interest => (
@@ -89,7 +61,8 @@ const t = {
             <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.publications}</span>
             <span class="text-sm text-[var(--color-text-muted)]">
               <span class="lang-en">{t.en.publications}</span>
-              <span class="lang-zh">{t.zh.publications}</span>
+              <span class="lang-zh-Hans">{t.zhHans.publications}</span>
+              <span class="lang-zh-Hant">{t.zhHant.publications}</span>
             </span>
           </div>
         </div>
@@ -98,7 +71,8 @@ const t = {
             <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.reviews}</span>
             <span class="text-sm text-[var(--color-text-muted)]">
               <span class="lang-en">{t.en.reviews}</span>
-              <span class="lang-zh">{t.zh.reviews}</span>
+              <span class="lang-zh-Hans">{t.zhHans.reviews}</span>
+              <span class="lang-zh-Hant">{t.zhHant.reviews}</span>
             </span>
           </div>
         </div>
@@ -107,7 +81,8 @@ const t = {
             <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.projects}</span>
             <span class="text-sm text-[var(--color-text-muted)]">
               <span class="lang-en">{t.en.projects}</span>
-              <span class="lang-zh">{t.zh.projects}</span>
+              <span class="lang-zh-Hans">{t.zhHans.projects}</span>
+              <span class="lang-zh-Hant">{t.zhHant.projects}</span>
             </span>
           </div>
         </div>
@@ -116,7 +91,8 @@ const t = {
             <span class="block text-4xl font-bold text-[var(--color-primary)] mb-2">{stats.awards}</span>
             <span class="text-sm text-[var(--color-text-muted)]">
               <span class="lang-en">{t.en.awards}</span>
-              <span class="lang-zh">{t.zh.awards}</span>
+              <span class="lang-zh-Hans">{t.zhHans.awards}</span>
+              <span class="lang-zh-Hant">{t.zhHant.awards}</span>
             </span>
           </div>
         </div>
