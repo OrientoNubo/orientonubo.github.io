@@ -112,65 +112,81 @@
   function initLanguageBar() {
     const buttons = document.querySelectorAll('.lang-btn');
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetLang = btn.getAttribute('data-lang') || 'en';
+    // Function to change language via Google Translate
+    const changeLanguage = (targetLang: string) => {
+      // Update active state immediately
+      buttons.forEach(b => b.classList.remove('active'));
+      const activeBtn = document.querySelector(`.lang-btn[data-lang="${targetLang}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
 
-        // Update active state
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+      if (targetLang === 'en') {
+        // Reset to original language - set cookie and reload
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+        // Remove hash and reload
+        const cleanUrl = window.location.href.split('#')[0];
+        window.location.href = cleanUrl;
+      } else {
+        // Set cookie for the target language
+        const langCookie = `/en/${targetLang}`;
+        document.cookie = `googtrans=${langCookie}; path=/;`;
+        document.cookie = `googtrans=${langCookie}; path=/; domain=${window.location.hostname}`;
 
-        // Trigger Google Translate
-        if (targetLang === 'en') {
-          // Reset to original language
-          const frame = document.querySelector('.goog-te-banner-frame') as HTMLIFrameElement;
-          if (frame) {
-            const innerDoc = frame.contentDocument || frame.contentWindow?.document;
-            const restoreBtn = innerDoc?.querySelector('.goog-te-button button') as HTMLButtonElement;
-            if (restoreBtn) {
-              restoreBtn.click();
-            }
-          }
-          // Alternative: reload page to reset
-          const currentUrl = window.location.href;
-          if (currentUrl.includes('#googtrans')) {
-            window.location.href = currentUrl.split('#googtrans')[0];
-          } else {
-            // Try to find and click the restore button in the combo
-            const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-            if (select) {
-              select.value = '';
-              select.dispatchEvent(new Event('change'));
-            }
-          }
+        // Try to use the Google Translate select if available
+        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+        if (select) {
+          select.value = targetLang;
+          select.dispatchEvent(new Event('change'));
         } else {
-          // Set the language using the hidden select
-          const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-          if (select) {
-            select.value = targetLang;
-            select.dispatchEvent(new Event('change'));
-          }
+          // If select not available, reload with hash
+          window.location.href = window.location.href.split('#')[0] + '#googtrans(en|' + targetLang + ')';
+          window.location.reload();
         }
+      }
+    };
+
+    // Bind click events
+    buttons.forEach(btn => {
+      // Remove old listeners by cloning
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode?.replaceChild(newBtn, btn);
+    });
+
+    // Re-query and bind fresh
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetLang = (btn as HTMLElement).getAttribute('data-lang') || 'en';
+        changeLanguage(targetLang);
       });
     });
 
     // Check current translation state and update active button
     const checkTranslationState = () => {
       const googTransCookie = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+      const allBtns = document.querySelectorAll('.lang-btn');
 
       if (googTransCookie) {
         const currentLang = googTransCookie[1];
-        buttons.forEach(btn => {
+        allBtns.forEach(btn => {
           btn.classList.remove('active');
           if (btn.getAttribute('data-lang') === currentLang) {
+            btn.classList.add('active');
+          }
+        });
+      } else {
+        // Default to EN
+        allBtns.forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.getAttribute('data-lang') === 'en') {
             btn.classList.add('active');
           }
         });
       }
     };
 
-    // Check state periodically (Google Translate changes asynchronously)
-    setTimeout(checkTranslationState, 1000);
+    // Check state after a short delay
+    setTimeout(checkTranslationState, 500);
   }
 
   // Run on page load
