@@ -51,6 +51,13 @@ const isBlogPostPage = pathname.startsWith('/blog/') && !isBlogMainPage;
     <!-- Blog posts use InlineGoogleTranslate in BlogLayout instead -->
     {!isBlogPostPage && <LanguageSwitcher />}
 
+    <!-- Set default language for blog post pages (fixes nav showing all 3 languages) -->
+    {isBlogPostPage && (
+      <script is:inline>
+        document.documentElement.setAttribute('data-lang', 'en');
+      </script>
+    )}
+
     <!-- Google Translate Script (only for blog post pages) -->
     {isBlogPostPage && (
       <script is:inline>

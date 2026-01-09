@@ -9,8 +9,16 @@
     <svg class="language-bar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
     </svg>
-    <div class="language-buttons">
-      <button class="lang-btn active" data-lang="en">EN</button>
+
+    <!-- Loading state -->
+    <div class="loading-state" id="lang-loading">
+      <span class="loading-spinner"></span>
+      <span class="loading-text">Loading...</span>
+    </div>
+
+    <!-- Language buttons (hidden until ready) -->
+    <div class="language-buttons" id="lang-buttons" style="display: none;">
+      <button class="lang-btn" data-lang="en">EN</button>
       <button class="lang-btn" data-lang="zh-CN">简中</button>
       <button class="lang-btn" data-lang="zh-TW">繁中</button>
       <button class="lang-btn" data-lang="ja">日本語</button>
@@ -48,6 +56,28 @@
     height: 20px;
     color: var(--color-text-muted);
     flex-shrink: 0;
+  }
+
+  /* Loading state */
+  .loading-state {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  .loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
 
   .language-buttons {
@@ -110,83 +140,112 @@
 
 <script>
   function initLanguageBar() {
+    const loadingEl = document.getElementById('lang-loading');
+    const buttonsEl = document.getElementById('lang-buttons');
+
+    if (!loadingEl || !buttonsEl) return;
+
+    // Wait for Google Translate to be ready
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds max
+
+    const waitForTranslate = setInterval(() => {
+      attempts++;
+      const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+
+      if (select || attempts >= maxAttempts) {
+        clearInterval(waitForTranslate);
+
+        // Show buttons, hide loading
+        loadingEl.style.display = 'none';
+        buttonsEl.style.display = 'flex';
+
+        // Initialize buttons
+        setupButtons(select);
+      }
+    }, 100);
+  }
+
+  function setupButtons(select: HTMLSelectElement | null) {
     const buttons = document.querySelectorAll('.lang-btn');
 
-    // Function to change language via Google Translate
-    const changeLanguage = (targetLang: string) => {
-      // Update active state immediately
-      buttons.forEach(b => b.classList.remove('active'));
-      const activeBtn = document.querySelector(`.lang-btn[data-lang="${targetLang}"]`);
-      if (activeBtn) activeBtn.classList.add('active');
+    // Detect current translation state
+    const detectLanguage = (): string | null => {
+      // Check cookie
+      const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+      if (match) return match[1];
 
-      if (targetLang === 'en') {
-        // Reset to original language - set cookie and reload
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
-        // Remove hash and reload
-        const cleanUrl = window.location.href.split('#')[0];
-        window.location.href = cleanUrl;
-      } else {
-        // Set cookie for the target language
-        const langCookie = `/en/${targetLang}`;
-        document.cookie = `googtrans=${langCookie}; path=/;`;
-        document.cookie = `googtrans=${langCookie}; path=/; domain=${window.location.hostname}`;
-
-        // Try to use the Google Translate select if available
-        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (select) {
-          select.value = targetLang;
-          select.dispatchEvent(new Event('change'));
-        } else {
-          // If select not available, reload with hash
-          window.location.href = window.location.href.split('#')[0] + '#googtrans(en|' + targetLang + ')';
-          window.location.reload();
-        }
+      // Check if translated
+      if (document.body.classList.contains('translated-ltr') ||
+          document.body.classList.contains('translated-rtl')) {
+        if (select) return select.value || null;
       }
+
+      return null;
     };
+
+    // Update active state based on current translation
+    const updateActiveState = () => {
+      const currentLang = detectLanguage();
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if (currentLang && btn.getAttribute('data-lang') === currentLang) {
+          btn.classList.add('active');
+        }
+      });
+    };
+
+    // Initial state check
+    updateActiveState();
 
     // Bind click events
     buttons.forEach(btn => {
-      // Remove old listeners by cloning
-      const newBtn = btn.cloneNode(true);
-      btn.parentNode?.replaceChild(newBtn, btn);
-    });
-
-    // Re-query and bind fresh
-    document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const targetLang = (btn as HTMLElement).getAttribute('data-lang') || 'en';
-        changeLanguage(targetLang);
+
+        // Update UI immediately
+        buttons.forEach(b => b.classList.remove('active'));
+        if (targetLang !== 'en') {
+          btn.classList.add('active');
+        }
+
+        // Translate
+        if (targetLang === 'en') {
+          // Reset to original
+          document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+          document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + window.location.hostname;
+
+          // Reload to show original
+          window.location.href = window.location.href.split('#')[0];
+        } else {
+          // Set translation cookie
+          const langCookie = `/en/${targetLang}`;
+          document.cookie = `googtrans=${langCookie}; path=/;`;
+          document.cookie = `googtrans=${langCookie}; path=/; domain=${window.location.hostname}`;
+          document.cookie = `googtrans=${langCookie}; path=/; domain=.${window.location.hostname}`;
+
+          // Use select if available
+          if (select) {
+            select.value = targetLang;
+            select.dispatchEvent(new Event('change'));
+
+            // Wait a bit and check if translation applied
+            setTimeout(() => {
+              if (!document.body.classList.contains('translated-ltr') &&
+                  !document.body.classList.contains('translated-rtl')) {
+                // Translation didn't apply, reload
+                window.location.reload();
+              }
+            }, 500);
+          } else {
+            // No select, reload with cookie
+            window.location.reload();
+          }
+        }
       });
     });
-
-    // Check current translation state and update active button
-    const checkTranslationState = () => {
-      const googTransCookie = document.cookie.match(/googtrans=\/en\/([^;]+)/);
-      const allBtns = document.querySelectorAll('.lang-btn');
-
-      if (googTransCookie) {
-        const currentLang = googTransCookie[1];
-        allBtns.forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.getAttribute('data-lang') === currentLang) {
-            btn.classList.add('active');
-          }
-        });
-      } else {
-        // Default to EN
-        allBtns.forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.getAttribute('data-lang') === 'en') {
-            btn.classList.add('active');
-          }
-        });
-      }
-    };
-
-    // Check state after a short delay
-    setTimeout(checkTranslationState, 500);
   }
 
   // Run on page load
