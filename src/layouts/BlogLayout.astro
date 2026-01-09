@@ -100,7 +100,6 @@ const hasLanguageContent = availableLanguages.length > 0;
   </article>
 
   <!-- Marked.js for markdown rendering -->
-  <script is:inline src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script is:inline>
     function initBlogContent() {
       var langContents = document.querySelectorAll('.lang-content');
@@ -115,15 +114,30 @@ const hasLanguageContent = availableLanguages.length > 0;
       });
     }
 
+    // Load marked.js and then initialize
+    function loadMarkedAndInit() {
+      if (typeof marked !== 'undefined') {
+        initBlogContent();
+        return;
+      }
+
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+      script.onload = function() {
+        initBlogContent();
+      };
+      document.head.appendChild(script);
+    }
+
     // Run on page load
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initBlogContent);
+      document.addEventListener('DOMContentLoaded', loadMarkedAndInit);
     } else {
-      initBlogContent();
+      loadMarkedAndInit();
     }
 
     // Re-run on Astro page transitions
-    document.addEventListener('astro:page-load', initBlogContent);
+    document.addEventListener('astro:page-load', loadMarkedAndInit);
   </script>
 </BaseLayout>
 
