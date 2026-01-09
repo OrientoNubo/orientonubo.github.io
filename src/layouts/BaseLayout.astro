@@ -58,23 +58,6 @@ const isBlogPostPage = pathname.startsWith('/blog/') && !isBlogMainPage;
       </script>
     )}
 
-    <!-- Google Translate Script (only for blog post pages) -->
-    {isBlogPostPage && (
-      <script is:inline>
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            includedLanguages: 'en,zh-CN,zh-TW,ja,ko,fr,es,ar,de,ru',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-          }, 'google_translate_element');
-        }
-      </script>
-    )}
-    {isBlogPostPage && (
-      <script is:inline src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    )}
-
     <!-- Theme System Script -->
     <script>
       // Initialize theme from localStorage or default to 'p5'

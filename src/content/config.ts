@@ -145,9 +145,7 @@ const blogCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    title_zh: z.string().optional(),  // Chinese title (shared for simplified & traditional)
     description: z.string().optional(),
-    description_zh: z.string().optional(),  // Chinese description
     date: z.date(),
     updated: z.union([z.date(), z.literal('')]).optional().transform(val => val === '' ? undefined : val),
     tags: z.array(z.string()).default([]),
@@ -155,6 +153,14 @@ const blogCollection = defineCollection({
     draft: z.boolean().default(false),
     pinned: z.boolean().default(false),
     readingTime: z.number().nullable().optional().transform(val => val ?? undefined),
+    // Multilingual content fields (5 languages)
+    // Users paste markdown content for each language they want to support
+    // Only languages with content will show in the language bar
+    content_en: z.string().optional(),      // English
+    content_zh_tw: z.string().optional(),   // Traditional Chinese (繁體中文)
+    content_ja: z.string().optional(),      // Japanese (日本語)
+    content_ko: z.string().optional(),      // Korean (한국어)
+    content_ar: z.string().optional(),      // Arabic (العربية)
   }),
 });
 

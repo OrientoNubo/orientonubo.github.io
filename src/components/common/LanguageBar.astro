@@ -1,7 +1,13 @@
 ---
 // Language Bar for Blog Posts
-// Displays clickable language buttons that trigger Google Translate
-// More stable than the Google Translate dropdown widget
+// Displays clickable language buttons to switch between pre-translated content
+// Only shows buttons for languages that have content
+
+interface Props {
+  languages: { code: string; label: string }[];
+}
+
+const { languages } = Astro.props;
 ---
 
 <div class="language-bar notranslate" translate="no">
@@ -10,30 +16,18 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
     </svg>
 
-    <!-- Loading state -->
-    <div class="loading-state" id="lang-loading">
-      <span class="loading-spinner"></span>
-      <span class="loading-text">Loading...</span>
-    </div>
-
-    <!-- Language buttons (hidden until ready) -->
-    <div class="language-buttons" id="lang-buttons" style="display: none;">
-      <button class="lang-btn" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="zh-CN">简中</button>
-      <button class="lang-btn" data-lang="zh-TW">繁中</button>
-      <button class="lang-btn" data-lang="ja">日本語</button>
-      <button class="lang-btn" data-lang="ko">한국어</button>
-      <button class="lang-btn" data-lang="fr">Français</button>
-      <button class="lang-btn" data-lang="es">Español</button>
-      <button class="lang-btn" data-lang="ar">العربية</button>
-      <button class="lang-btn" data-lang="de">Deutsch</button>
-      <button class="lang-btn" data-lang="ru">Русский</button>
+    <div class="language-buttons">
+      {languages.map((lang, index) => (
+        <button
+          class:list={['lang-btn', { active: index === 0 }]}
+          data-lang={lang.code}
+        >
+          {lang.label}
+        </button>
+      ))}
     </div>
   </div>
 </div>
-
-<!-- Hidden Google Translate element -->
-<div id="google_translate_element" style="display: none;"></div>
 
 <style>
   .language-bar {
@@ -56,28 +50,6 @@
     height: 20px;
     color: var(--color-text-muted);
     flex-shrink: 0;
-  }
-
-  /* Loading state */
-  .loading-state {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--color-text-muted);
-    font-size: 0.85rem;
-  }
-
-  .loading-spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid var(--color-border);
-    border-top-color: var(--color-primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
   }
 
   .language-buttons {
@@ -112,138 +84,31 @@
   }
 </style>
 
-<style is:global>
-  /* Hide the Google Translate banner */
-  .goog-te-banner-frame {
-    display: none !important;
-  }
-
-  body {
-    top: 0 !important;
-  }
-
-  /* Hide skiptranslate iframe (the banner) */
-  .skiptranslate iframe {
-    display: none !important;
-  }
-
-  body.translated-ltr,
-  body.translated-rtl {
-    margin-top: 0 !important;
-  }
-
-  /* VT fix for iframe */
-  .VIpgJd-ZVi9od-ORHb-OEVmcd {
-    display: none !important;
-  }
-</style>
-
 <script>
   function initLanguageBar() {
-    const loadingEl = document.getElementById('lang-loading');
-    const buttonsEl = document.getElementById('lang-buttons');
-
-    if (!loadingEl || !buttonsEl) return;
-
-    // Wait for Google Translate to be ready
-    let attempts = 0;
-    const maxAttempts = 50; // 5 seconds max
-
-    const waitForTranslate = setInterval(() => {
-      attempts++;
-      const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-
-      if (select || attempts >= maxAttempts) {
-        clearInterval(waitForTranslate);
-
-        // Show buttons, hide loading
-        loadingEl.style.display = 'none';
-        buttonsEl.style.display = 'flex';
-
-        // Initialize buttons
-        setupButtons(select);
-      }
-    }, 100);
-  }
-
-  function setupButtons(select: HTMLSelectElement | null) {
     const buttons = document.querySelectorAll('.lang-btn');
+    const langContents = document.querySelectorAll('.lang-content');
 
-    // Detect current translation state
-    const detectLanguage = (): string | null => {
-      // Check cookie
-      const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
-      if (match) return match[1];
+    if (buttons.length === 0) return;
 
-      // Check if translated
-      if (document.body.classList.contains('translated-ltr') ||
-          document.body.classList.contains('translated-rtl')) {
-        if (select) return select.value || null;
-      }
-
-      return null;
-    };
-
-    // Update active state based on current translation
-    const updateActiveState = () => {
-      const currentLang = detectLanguage();
-      buttons.forEach(btn => {
-        btn.classList.remove('active');
-        if (currentLang && btn.getAttribute('data-lang') === currentLang) {
-          btn.classList.add('active');
-        }
-      });
-    };
-
-    // Initial state check
-    updateActiveState();
-
-    // Bind click events
     buttons.forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        const targetLang = (btn as HTMLElement).getAttribute('data-lang') || 'en';
+        const targetLang = (btn as HTMLElement).getAttribute('data-lang');
 
-        // Update UI immediately
+        // Update active state
         buttons.forEach(b => b.classList.remove('active'));
-        if (targetLang !== 'en') {
-          btn.classList.add('active');
-        }
+        btn.classList.add('active');
 
-        // Translate
-        if (targetLang === 'en') {
-          // Reset to original
-          document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-          document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
-          document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + window.location.hostname;
-
-          // Reload to show original
-          window.location.href = window.location.href.split('#')[0];
-        } else {
-          // Set translation cookie
-          const langCookie = `/en/${targetLang}`;
-          document.cookie = `googtrans=${langCookie}; path=/;`;
-          document.cookie = `googtrans=${langCookie}; path=/; domain=${window.location.hostname}`;
-          document.cookie = `googtrans=${langCookie}; path=/; domain=.${window.location.hostname}`;
-
-          // Use select if available
-          if (select) {
-            select.value = targetLang;
-            select.dispatchEvent(new Event('change'));
-
-            // Wait a bit and check if translation applied
-            setTimeout(() => {
-              if (!document.body.classList.contains('translated-ltr') &&
-                  !document.body.classList.contains('translated-rtl')) {
-                // Translation didn't apply, reload
-                window.location.reload();
-              }
-            }, 500);
+        // Show/hide content
+        langContents.forEach(content => {
+          const contentLang = content.getAttribute('data-lang');
+          if (contentLang === targetLang) {
+            (content as HTMLElement).style.display = '';
           } else {
-            // No select, reload with cookie
-            window.location.reload();
+            (content as HTMLElement).style.display = 'none';
           }
-        }
+        });
       });
     });
   }

@@ -8,13 +8,26 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, date, tags, image } = post.data;
+const { title, description, date, tags, image, content_en, content_zh_tw, content_ja, content_ko, content_ar } = post.data;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
+
+// Determine which languages have content
+const availableLanguages: { code: string; label: string; content: string }[] = [];
+
+if (content_en) availableLanguages.push({ code: 'en', label: 'EN', content: content_en });
+if (content_zh_tw) availableLanguages.push({ code: 'zh-tw', label: '繁中', content: content_zh_tw });
+if (content_ja) availableLanguages.push({ code: 'ja', label: '日本語', content: content_ja });
+if (content_ko) availableLanguages.push({ code: 'ko', label: '한국어', content: content_ko });
+if (content_ar) availableLanguages.push({ code: 'ar', label: 'العربية', content: content_ar });
+
+// Default language is the first available, or use markdown body as fallback
+const hasMultipleLanguages = availableLanguages.length > 1;
+const defaultLang = availableLanguages.length > 0 ? availableLanguages[0].code : null;
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -39,8 +52,10 @@ const formattedDate = date.toLocaleDateString('en-US', {
           {formattedDate}
         </time>
 
-        <!-- Language Selection Bar -->
-        <LanguageBar />
+        <!-- Language Selection Bar (only if multiple languages) -->
+        {hasMultipleLanguages && (
+          <LanguageBar languages={availableLanguages.map(l => ({ code: l.code, label: l.label }))} />
+        )}
       </header>
 
       <!-- Featured Image -->
@@ -54,7 +69,26 @@ const formattedDate = date.toLocaleDateString('en-US', {
       <div class="prose prose-lg max-w-none blog-content
                   prose-headings:font-heading prose-headings:font-bold
                   prose-a:text-[var(--color-primary)] prose-a:no-underline hover:prose-a:underline">
-        <slot />
+
+        {/* If no language content fields, show markdown body */}
+        {availableLanguages.length === 0 && (
+          <div class="content-body">
+            <slot />
+          </div>
+        )}
+
+        {/* Render each language content */}
+        {availableLanguages.map((lang, index) => (
+          <div
+            class="lang-content"
+            data-lang={lang.code}
+            style={index === 0 ? '' : 'display: none;'}
+            data-content={lang.content}
+          >
+            {/* Content will be rendered by JavaScript using marked.js */}
+            <div class="markdown-body"></div>
+          </div>
+        ))}
       </div>
 
       <!-- Back Link -->
@@ -65,6 +99,35 @@ const formattedDate = date.toLocaleDateString('en-US', {
       </div>
     </div>
   </article>
+
+  <!-- Marked.js for markdown rendering -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    declare const marked: { parse: (content: string) => string };
+
+    function initBlogContent() {
+      const langContents = document.querySelectorAll('.lang-content');
+
+      langContents.forEach(container => {
+        const content = container.getAttribute('data-content');
+        const markdownBody = container.querySelector('.markdown-body');
+
+        if (content && markdownBody && typeof marked !== 'undefined') {
+          markdownBody.innerHTML = marked.parse(content);
+        }
+      });
+    }
+
+    // Run on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBlogContent);
+    } else {
+      initBlogContent();
+    }
+
+    // Re-run on Astro page transitions
+    document.addEventListener('astro:page-load', initBlogContent);
+  </script>
 </BaseLayout>
 
 <style>
@@ -136,5 +199,11 @@ const formattedDate = date.toLocaleDateString('en-US', {
   :global([data-theme="p3"]) .blog-content :global(pre code) {
     color: #f5f5f5;
     background-color: transparent !important;
+  }
+
+  /* RTL support for Arabic */
+  .lang-content[data-lang="ar"] {
+    direction: rtl;
+    text-align: right;
   }
 </style>

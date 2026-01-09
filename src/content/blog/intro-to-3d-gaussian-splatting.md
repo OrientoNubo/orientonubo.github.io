@@ -1,8 +1,6 @@
 ---
-title: "Intro to 3D Gaussian Splatting: The Revolution from NeRF to Real-Time Rendering"
-title_zh: 3D Gaussian Splatting 入門：從 NeRF 到即時渲染的革命
-description: A beginner-friendly introduction to 3D Gaussian Splatting (3DGS) core concepts, mathematical principles, and why it enables real-time high-quality Novel View Synthesis.
-description_zh: 深入淺出介紹 3D Gaussian Splatting (3DGS) 的核心概念、數學原理、以及為何它能實現即時高品質的 Novel View Synthesis。
+title: 3D Gaussian Splatting 入門：從 NeRF 到即時渲染的革命
+description: 深入淺出介紹 3D Gaussian Splatting (3DGS) 的核心概念、數學原理、以及為何它能實現即時高品質的 Novel View Synthesis。
 date: 2026-01-01T08:00:00
 updated: ''
 tags:

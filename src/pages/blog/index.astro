@@ -66,16 +66,12 @@ const t = {
                 </div>
 
                 <h2 class="text-xl font-bold mb-2 hover:text-[var(--color-primary)] transition-colors">
-                  <span class="lang-en">{post.data.title}</span>
-                  <span class="lang-zh-Hans">{post.data.title_zh || post.data.title}</span>
-                  <span class="lang-zh-Hant">{post.data.title_zh || post.data.title}</span>
+                  {post.data.title}
                 </h2>
 
-                {(post.data.description || post.data.description_zh) && (
+                {post.data.description && (
                   <p class="text-sm text-[var(--color-text-muted)] mb-4 line-clamp-2">
-                    <span class="lang-en">{post.data.description}</span>
-                    <span class="lang-zh-Hans">{post.data.description_zh || post.data.description}</span>
-                    <span class="lang-zh-Hant">{post.data.description_zh || post.data.description}</span>
+                    {post.data.description}
                   </p>
                 )}
 
