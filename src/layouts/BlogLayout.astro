@@ -28,15 +28,11 @@ if (content_ar) availableLanguages.push({ code: 'ar', label: 'العربية', c
 // Show language bar if any language content exists (even just one)
 const hasLanguageContent = availableLanguages.length > 0;
 
-// Helper function to escape content for HTML attribute
-function escapeForAttribute(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\n/g, '&#10;');
-}
+// Create a map of language content for JSON storage
+const languageContentMap: Record<string, string> = {};
+availableLanguages.forEach(lang => {
+  languageContentMap[lang.code] = lang.content;
+});
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -92,12 +88,16 @@ function escapeForAttribute(str: string): string {
             class="lang-content"
             data-lang={lang.code}
             style={index === 0 ? '' : 'display: none;'}
-            data-content={escapeForAttribute(lang.content)}
           >
             {/* Content will be rendered by JavaScript using marked.js */}
             <div class="markdown-body"></div>
           </div>
         ))}
+
+        {/* Store content in JSON for JavaScript to parse */}
+        {hasLanguageContent && (
+          <script type="application/json" id="blog-content-data" set:html={JSON.stringify(languageContentMap)} />
+        )}
       </div>
 
       <!-- Back Link -->
@@ -112,21 +112,26 @@ function escapeForAttribute(str: string): string {
   <!-- Marked.js for markdown rendering -->
   <script is:inline>
     function initBlogContent() {
+      var dataScript = document.getElementById('blog-content-data');
+      if (!dataScript) return;
+
+      var contentMap;
+      try {
+        contentMap = JSON.parse(dataScript.textContent || '{}');
+      } catch (e) {
+        console.error('Failed to parse blog content data:', e);
+        return;
+      }
+
       var langContents = document.querySelectorAll('.lang-content');
 
       langContents.forEach(function(container) {
-        var content = container.getAttribute('data-content');
+        var lang = container.getAttribute('data-lang');
+        var content = contentMap[lang];
         var markdownBody = container.querySelector('.markdown-body');
 
         if (content && markdownBody && typeof marked !== 'undefined') {
-          // Unescape HTML entities that were escaped for the attribute
-          var unescaped = content
-            .replace(/&#10;/g, '\n')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&quot;/g, '"')
-            .replace(/&amp;/g, '&');
-          markdownBody.innerHTML = marked.parse(unescaped);
+          markdownBody.innerHTML = marked.parse(content);
         }
       });
     }
