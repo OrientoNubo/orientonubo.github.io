@@ -128,7 +128,13 @@ collections:
       - { name: "draft", label: "Draft", widget: "boolean", default: false }
       - { name: "pinned", label: "Pinned", widget: "boolean", default: false, hint: "Pinned posts appear first" }
       - { name: "readingTime", label: "Reading Time (minutes)", widget: "number", required: false }
-      - { name: "body", label: "Content", widget: "markdown" }
+      - { name: "body", label: "Content (Default/Fallback)", widget: "markdown", hint: "Used when no language-specific content is provided" }
+      # Multilingual content fields - only languages with content will show in the language bar
+      - { name: "content_en", label: "Content (English)", widget: "markdown", required: false }
+      - { name: "content_zh_tw", label: "Content (繁體中文)", widget: "markdown", required: false }
+      - { name: "content_ja", label: "Content (日本語)", widget: "markdown", required: false }
+      - { name: "content_ko", label: "Content (한국어)", widget: "markdown", required: false }
+      - { name: "content_ar", label: "Content (العربية)", widget: "markdown", required: false }
 
   # Publications
   - name: "publications"
