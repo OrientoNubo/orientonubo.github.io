@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import InlineGoogleTranslate from '../components/common/InlineGoogleTranslate.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -34,10 +35,12 @@ const formattedDate = date.toLocaleDateString('en-US', {
           {title}
         </h1>
 
-        <div class="flex items-center gap-4 text-[var(--color-text-muted)]">
-          <time datetime={date.toISOString()}>
+        <div class="flex items-center justify-between gap-4">
+          <time datetime={date.toISOString()} class="text-[var(--color-text-muted)]">
             {formattedDate}
           </time>
+          <!-- Inline Google Translate -->
+          <InlineGoogleTranslate />
         </div>
       </header>
 

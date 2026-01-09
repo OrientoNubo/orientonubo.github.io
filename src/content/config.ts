@@ -145,7 +145,9 @@ const blogCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    title_zh: z.string().optional(),  // Chinese title (shared for simplified & traditional)
     description: z.string().optional(),
+    description_zh: z.string().optional(),  // Chinese description
     date: z.date(),
     updated: z.union([z.date(), z.literal('')]).optional().transform(val => val === '' ? undefined : val),
     tags: z.array(z.string()).default([]),

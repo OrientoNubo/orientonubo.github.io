@@ -1,24 +1,52 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
+// Support both simple string and trilingual object
+interface TrilingualText {
+  en: string;
+  zhHans: string;
+  zhHant: string;
+}
+
 interface Props {
-  title: string;
-  description?: string;
+  title: string | TrilingualText;
+  description?: string | TrilingualText;
 }
 
 const { title, description } = Astro.props;
+
+// For BaseLayout SEO, use English version if trilingual
+const seoTitle = typeof title === 'string' ? title : title.en;
+const seoDescription = typeof description === 'string' ? description : description?.en;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={seoTitle} description={seoDescription}>
   <div class="pt-24 md:pt-28">
     <div class="container">
       <header class="mb-12">
         <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4">
-          <span class="text-[var(--color-primary)]">//</span> {title}
+          <span class="text-[var(--color-primary)]">//</span>
+          {typeof title === 'string' ? (
+            title
+          ) : (
+            <>
+              <span class="lang-en">{title.en}</span>
+              <span class="lang-zh-Hans">{title.zhHans}</span>
+              <span class="lang-zh-Hant">{title.zhHant}</span>
+            </>
+          )}
         </h1>
         {description && (
           <p class="text-lg text-[var(--color-text-muted)] max-w-2xl">
-            {description}
+            {typeof description === 'string' ? (
+              description
+            ) : (
+              <>
+                <span class="lang-en">{description.en}</span>
+                <span class="lang-zh-Hans">{description.zhHans}</span>
+                <span class="lang-zh-Hant">{description.zhHant}</span>
+              </>
+            )}
           </p>
         )}
       </header>

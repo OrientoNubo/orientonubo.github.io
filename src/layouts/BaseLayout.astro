@@ -4,7 +4,6 @@ import Header from '../components/common/Header.astro';
 import Footer from '../components/common/Footer.astro';
 import Lightbox from '../components/common/Lightbox.astro';
 import LanguageSwitcher from '../components/common/LanguageSwitcher.astro';
-import GoogleTranslate from '../components/common/GoogleTranslate.astro';
 import SEO from '../components/common/SEO.astro';
 import { ClientRouter } from 'astro:transitions';
 interface Props {
@@ -15,8 +14,12 @@ interface Props {
 
 const { title, description, image } = Astro.props;
 
-// Check if current page is a blog page
-const isBlogPage = Astro.url.pathname.startsWith('/blog');
+// Check page type for language switcher logic
+// Blog main page (/blog) uses LanguageSwitcher (trilingual)
+// Blog post pages (/blog/*) use Google Translate (inline in BlogLayout)
+const pathname = Astro.url.pathname;
+const isBlogMainPage = pathname === '/blog' || pathname === '/blog/';
+const isBlogPostPage = pathname.startsWith('/blog/') && !isBlogMainPage;
 ---
 
 <!DOCTYPE html>
@@ -44,11 +47,12 @@ const isBlogPage = Astro.url.pathname.startsWith('/blog');
     <Footer />
     <Lightbox />
 
-    <!-- Language Switcher (non-blog) or Google Translate (blog) -->
-    {isBlogPage ? <GoogleTranslate /> : <LanguageSwitcher />}
+    <!-- Language Switcher for all pages except blog posts -->
+    <!-- Blog posts use InlineGoogleTranslate in BlogLayout instead -->
+    {!isBlogPostPage && <LanguageSwitcher />}
 
-    <!-- Google Translate Script (only for blog pages) -->
-    {isBlogPage && (
+    <!-- Google Translate Script (only for blog post pages) -->
+    {isBlogPostPage && (
       <script is:inline>
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({
@@ -60,7 +64,7 @@ const isBlogPage = Astro.url.pathname.startsWith('/blog');
         }
       </script>
     )}
-    {isBlogPage && (
+    {isBlogPostPage && (
       <script is:inline src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     )}
 

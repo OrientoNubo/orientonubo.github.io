@@ -22,8 +22,16 @@ const t = {
 ---
 
 <PageLayout
-  title="Blog"
-  description="Thoughts on computer vision, 3D reconstruction, and research life."
+  title={{
+    en: "Blog",
+    zhHans: "博客",
+    zhHant: "部落格"
+  }}
+  description={{
+    en: "Thoughts on research, and research life.",
+    zhHans: "关于研究及对其生活的思考。",
+    zhHant: "關於研究及對其生活的思考。"
+  }}
 >
   <div class="space-y-8">
     {sortedPosts.map(post => {
@@ -58,12 +66,16 @@ const t = {
                 </div>
 
                 <h2 class="text-xl font-bold mb-2 hover:text-[var(--color-primary)] transition-colors">
-                  {post.data.title}
+                  <span class="lang-en">{post.data.title}</span>
+                  <span class="lang-zh-Hans">{post.data.title_zh || post.data.title}</span>
+                  <span class="lang-zh-Hant">{post.data.title_zh || post.data.title}</span>
                 </h2>
 
-                {post.data.description && (
+                {(post.data.description || post.data.description_zh) && (
                   <p class="text-sm text-[var(--color-text-muted)] mb-4 line-clamp-2">
-                    {post.data.description}
+                    <span class="lang-en">{post.data.description}</span>
+                    <span class="lang-zh-Hans">{post.data.description_zh || post.data.description}</span>
+                    <span class="lang-zh-Hant">{post.data.description_zh || post.data.description}</span>
                   </p>
                 )}
 

@@ -1,0 +1,95 @@
+---
+// Inline Google Translate Widget (non-floating)
+// For use within content areas like blog posts
+// Supports: English, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Arabic, German, Russian
+---
+
+<div class="inline-gtranslate" id="inline-gtranslate-wrapper">
+  <div class="inline-gtranslate-container">
+    <svg class="inline-gtranslate-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+    </svg>
+    <div id="google_translate_element"></div>
+  </div>
+</div>
+
+<style is:global>
+  .inline-gtranslate {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .inline-gtranslate-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+
+  .inline-gtranslate-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  /* Style the Google Translate dropdown for inline mode */
+  .inline-gtranslate .goog-te-gadget {
+    font-family: inherit !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+  }
+
+  .inline-gtranslate .goog-te-gadget .goog-te-combo {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    font-family: inherit;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .inline-gtranslate .goog-te-gadget .goog-te-combo:hover {
+    border-color: var(--color-primary);
+  }
+
+  .inline-gtranslate .goog-te-gadget .goog-te-combo:focus {
+    border-color: var(--color-primary);
+  }
+
+  /* Hide the "Powered by Google" text */
+  .inline-gtranslate .goog-te-gadget > span {
+    display: none !important;
+  }
+
+  /* Hide the Google Translate banner */
+  .goog-te-banner-frame {
+    display: none !important;
+  }
+
+  body {
+    top: 0 !important;
+  }
+
+  /* Hide skiptranslate iframe (the banner), but not the dropdown */
+  .skiptranslate iframe {
+    display: none !important;
+  }
+
+  body.translated-ltr,
+  body.translated-rtl {
+    margin-top: 0 !important;
+  }
+
+  /* VT fix for iframe */
+  .VIpgJd-ZVi9od-ORHb-OEVmcd {
+    display: none !important;
+  }
+</style>
