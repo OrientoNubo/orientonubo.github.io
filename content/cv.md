@@ -1,0 +1,42 @@
+---
+pdfFile: assets/CV-SIYU.pdf
+education:
+  - degree: Ph.D. (in progress)
+    school: National Taiwan University
+    department: Department of Computer Science and Information Engineering
+    period: 2022 - Present
+    description: Advised by Prof. Wen-Huang Cheng at CMLab AIMM Group
+  - degree: M.Sc.
+    school: National Taiwan University of Science and Technology
+    department: Department of Electronic and Computer Engineering
+    period: 2020 - 2022
+  - degree: B.Sc.
+    school: National Taiwan University of Science and Technology
+    department: Department of Electronic and Computer Engineering
+    period: 2018 - 2020
+skills:
+  programming:
+    - Python
+    - C++
+    - CUDA
+    - PyTorch
+    - Verilog
+    - Logic-Oriented Programming
+  research:
+    - 3D Vision
+    - 3D Reconstruction
+    - Visual Relocalization
+    - NeRF/3DGS
+    - World Model
+    - Embedded System
+    - Multimodal Understanding
+  tools:
+    - Git
+    - Docker
+    - Linux
+    - LaTeX
+    - CAD
+    - PLC
+---
+
+Curriculum Vitae of Si-Yu Lu. Education and skills are listed in the frontmatter above; downloadable CV is at `assets/CV-SIYU.pdf`.

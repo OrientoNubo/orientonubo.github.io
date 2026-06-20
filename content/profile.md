@@ -1,0 +1,44 @@
+---
+name: Si-Yu Lu
+title: PhD Candidate @ NTU
+profileImage: assets/profile.jpg
+affiliation:
+  institution: National Taiwan University
+  department: CMLab AIMM Group
+  departmentUrl: https://aimm.cmlab.csie.ntu.edu.tw/
+advisors:
+  - name: Wen-Huang Cheng
+    institution: National Taiwan University
+    url: https://www.csie.ntu.edu.tw/~wenhuang/
+  - name: Yung-Yao Chen
+    institution: National Taiwan University of Science and Technology
+    url: https://sites.google.com/view/ntust-his-lab/
+socialLinks:
+  - icon: github
+    url: https://github.com/OrientoNubo
+    label: GitHub
+  - icon: scholar
+    url: https://scholar.google.com/citations?user=8HWXJzYAAAAJ
+    label: Google Scholar
+  - icon: orcid
+    url: https://orcid.org/0009-0003-5282-8977
+    label: ORCID
+  - icon: email
+    url: mailto:siyu@cmlab.csie.ntu.edu.tw
+    label: Email
+researchInterests:
+  - 3D Reconstruction
+  - Geometric Foundation Models
+  - Visual Relocalization
+  - Physical AI
+  - Generative Models
+  - Autonomous Vehicles
+  - Autonomous Mobile Robot
+stats:
+  publications: 5+
+  reviews: 10+
+  projects: 2+
+  awards: 7+
+---
+
+PhD Candidate at National Taiwan University, researching 3D Reconstruction, Visual Relocalization, and Geometric Foundation Models.

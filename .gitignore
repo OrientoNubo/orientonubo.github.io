@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# Node (for the future site build)
+node_modules/
+dist/
+.astro/
+*.log
+
+# Env
+.env
+.env.*
