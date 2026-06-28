@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+pageId: space
+pagination:
+  data: db.space
+  size: 1
+  alias: node
+permalink: "{{ node.urlPath }}index.html"
+eleventyComputed:
+  title: "{{ node.title }}"
+---
+<div class="page">
+  {% if node.trail | length %}
+  <ul class="breadcrumb">
+    <li><a href="/space/">~/space</a></li>
+    {% for t in node.trail %}{% if t.url != "/space/" %}<li><a href="{{ t.url }}">{{ t.title }}</a></li>{% endif %}{% endfor %}
+    <li>{{ node.title }}</li>
+  </ul>
+  {% else %}
+  <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">cd ~/space</span></div>
+  {% endif %}
+
+  <div class="prose">{{ node.body | md | safe }}</div>
+
+  {% if node.children | length %}
+  <div class="space-children">
+    {% for c in node.children %}
+    <a class="space-child" href="{{ c.urlPath }}">
+      <div class="sc-name">{{ c.title }}</div>
+      {% if c.children | length %}<div class="sc-sub">{{ c.children | length }} page(s)</div>{% endif %}
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>

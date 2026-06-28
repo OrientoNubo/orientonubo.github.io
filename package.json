@@ -1,0 +1,28 @@
+{
+  "name": "orientonubo-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal academic website of Si-Yu Lu — content-driven Eleventy build with a nubo-design-style terminal theme.",
+  "license": "MIT",
+  "author": "OrientoNubo <d11922023@csie.ntu.edu.tw>",
+  "scripts": {
+    "clean": "rm -rf _site",
+    "serve": "eleventy --serve",
+    "build:site": "eleventy",
+    "build:images": "node scripts/optimize-images.mjs",
+    "build:cv": "node scripts/build-cv-pdf.mjs",
+    "build": "eleventy && node scripts/optimize-images.mjs && node scripts/build-cv-pdf.mjs"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@vscode/markdown-it-katex": "^1.1.2",
+    "fast-glob": "^3.3.2",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "katex": "^0.17.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
+    "puppeteer": "^23.11.1",
+    "sharp": "^0.33.5"
+  }
+}

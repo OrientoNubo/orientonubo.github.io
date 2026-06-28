@@ -1,0 +1,130 @@
+---
+layout: layouts/base.njk
+pageId: home
+permalink: /
+---
+{% import "macros/icons.njk" as icons %}
+{% import "macros/img.njk" as img %}
+{% import "macros/authors.njk" as authors %}
+{% set p = db.profile %}
+
+<div class="shell">
+  <aside class="sidebar" id="nubo-sidebar" aria-label="Sections">
+    <nav>
+      {% for s in site.home.sections %}
+      <a href="#sec-{{ s.key }}" data-spy="sec-{{ s.key }}">{{ s.heading }}</a>
+      {% endfor %}
+    </nav>
+  </aside>
+
+  <div class="content">
+    {% for s in site.home.sections %}
+    <section class="section" id="sec-{{ s.key }}" data-reveal>
+      <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">{{ s.heading }}</span></div>
+
+      {% if s.key == "profile" %}
+      <div class="profile-head">
+        {% if p.profileImage %}<img class="profile-avatar" src="{{ p.profileImage | assetUrl }}" alt="{{ p.name }}">{% endif %}
+        <div class="profile-id">
+          <h1>{{ p.name }}</h1>
+          <div class="p-title term-line">{{ p.title }}<span class="term-cursor"></span></div>
+          <div class="p-affil">{{ p.affiliation.department }} · <a href="{{ p.affiliation.departmentUrl }}" target="_blank" rel="noopener">{{ p.affiliation.institution }}</a></div>
+          <div class="p-affil">Advised by {% for a in p.advisors %}<a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</div>
+          <div class="social-row">
+            {% for l in p.socialLinks %}
+            <a class="social-link" href="{{ l.url }}"{% if l.icon != 'email' %} target="_blank" rel="noopener"{% endif %}>{{ icons.social(l.icon) }} {{ l.label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% if p.about %}<div class="profile-bio">{{ p.about | md | safe }}</div>{% endif %}
+
+      {% elif s.key == "researchInterests" %}
+      <div class="interest-row">
+        {% for r in p.researchInterests %}<span class="tag">{{ r }}</span>{% endfor %}
+      </div>
+
+      {% elif s.key == "stats" %}
+      <div class="stat-grid">
+        {% for label, value in p.stats %}
+        <div class="stat"><div class="stat-label">{{ label }}</div><div class="stat-value">{{ value }}</div></div>
+        {% endfor %}
+      </div>
+
+      {% elif s.key == "publications" %}
+      <div class="pub-list">
+        {% for pub in db.publications %}
+        <div class="pub-item">
+          <div class="pub-title">{{ pub.title }}{% if pub.pinned %} <span class="tag">pinned</span>{% endif %}</div>
+          <div class="pub-authors">{{ authors.list(pub.authors) }}</div>
+          <div class="pub-venue">{{ pub.venue }}{% if pub.year %} · {{ pub.year }}{% endif %}</div>
+          {% if pub.body %}<div class="pub-abs">{{ pub.body | mdInline | safe }}</div>{% endif %}
+          {% if pub.pdf %}<div class="pub-meta-row"><a class="btn sm ghost" href="{{ pub.pdf }}" target="_blank" rel="noopener">{{ icons.social('pdf') }} PDF</a></div>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      {% elif s.key == "awards" %}
+      <div class="gallery-grid">
+        {% for aw in db.awards %}
+        <div class="gallery-item">
+          {% if aw.image %}{{ img.thumb(aw.image, aw.title) }}{% endif %}
+          <div class="gi-title">{{ aw.title }}</div>
+          <div class="gi-sub">{{ aw.organization }}{% if aw.year %} · {{ aw.year }}{% endif %}</div>
+        </div>
+        {% endfor %}
+      </div>
+
+      {% elif s.key == "certificates" %}
+      <div class="gallery-grid">
+        {% for ct in db.certificates %}
+        <div class="gallery-item">
+          {% if ct.image %}{{ img.thumb(ct.image, ct.title) }}{% endif %}
+          <div class="gi-title">{{ ct.title }}</div>
+          <div class="gi-sub">{{ ct.issuer }}{% if ct.date %} · {{ ct.date }}{% endif %}</div>
+        </div>
+        {% endfor %}
+      </div>
+
+      {% elif s.key == "services" %}
+      <div class="list-group">
+        {% for sv in db.services %}
+        <div class="item"><div class="grow">
+          <div class="title">{{ sv.title }}</div>
+          <div class="sub">{{ sv.organization }}</div>
+          {% if sv.description %}<div class="pub-abs">{{ sv.description | md | safe }}</div>{% endif %}
+        </div></div>
+        {% endfor %}
+      </div>
+
+      {% elif s.key == "experience" %}
+      <ul class="timeline">
+        {% for ex in db.experience %}
+        <li>
+          <div class="tl-time">{{ ex.startDate }}{% if ex.endDate %} – {{ ex.endDate }}{% else %} – Now{% endif %}</div>
+          <div class="tl-title">{{ ex.title }} · {{ ex.organization }}</div>
+          {% if ex.description %}<div class="pub-abs">{{ ex.description | md | safe }}</div>{% endif %}
+          {% if ex.tags %}<div class="pub-meta-row">{% for t in ex.tags %}<span class="tag neutral">{{ t }}</span>{% endfor %}</div>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+
+      {% elif s.key == "projects" %}
+      <div class="pub-list">
+        {% for pr in db.projects %}
+        <div class="pub-item">
+          <div class="pub-title">{{ pr.title }}{% if pr.status %} <span class="tag{% if pr.status == 'active' %} success{% endif %}">{{ pr.status }}</span>{% endif %}</div>
+          {% if pr.description %}<div class="pub-abs">{{ pr.description }}</div>{% endif %}
+          {% if pr.tags %}<div class="pub-meta-row">{% for t in pr.tags %}<span class="tag neutral">{{ t }}</span>{% endfor %}</div>{% endif %}
+          <div class="pub-meta-row">
+            {% if pr.github %}<a class="btn sm ghost" href="{{ pr.github }}" target="_blank" rel="noopener">{{ icons.social('github') }} Code</a>{% endif %}
+            {% if pr.demo %}<a class="btn sm ghost" href="{{ pr.demo }}" target="_blank" rel="noopener">{{ icons.social('demo') }} Demo</a>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+</div>

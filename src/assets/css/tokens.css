@@ -1,0 +1,104 @@
+/* ==========================================================================
+ * nubo-design-style — Design Tokens
+ * --------------------------------------------------------------------------
+ * 一套共用色票，讓多個頁面 / 服務看起來像同一個產品。
+ *
+ * 風格基調：暖米白紙感底色 + 赤陶橘（terracotta）重點色，低彩度、低噪點、
+ * 圓角柔陰影。明暗兩個主題的 accent 維持一致，切換主題時品牌色不漂移。
+ *
+ * 用法：先載入本檔（tokens），再載入 nubo-design.css（元件）。
+ * 在 <html> 上設定 data-theme="light" | "dark" 切換主題。
+ * ========================================================================== */
+
+:root {
+  color-scheme: light;        /* 讓原生控制項（數字微調鈕、日期選擇器、滾動條）跟隨亮色 */
+
+  /* ---- 表面 / 背景 ---------------------------------------------------- */
+  --p-primary:   #f8f8f6;   /* header 條背景（頁面頂部標題列） */
+  --p-light:     #f8f8f6;   /* body 整頁背景 */
+  --p-card-bg:   #ebebe6;   /* 卡片底色、輸入框底色 */
+  --p-card-alt:  #f4f4f1;   /* 次級卡片背景（略淺一階） */
+
+  /* ---- 重點色（單一事實來源）---------------------------------------- */
+  /* 改這一個變數，整頁所有 accent 與其延伸色都會跟著變（見下方衍生色）。
+     也可在頁面用 JS：document.documentElement.style.setProperty('--p-accent', '#xxxxxx') */
+  /* 預設 accent：#328a97（青藍 teal）。
+     第二備用色：#c96c49（赤陶橘 terracotta）—— 要切回暖色系時改用此值即可。 */
+  --p-accent:    #328a97;   /* 青藍 teal：徽章底、主按鈕、hover 邊框（預設）*/
+
+  /* accent 衍生色 — 一律由 --p-accent 用 color-mix 推導，自動跟著 accent 變 */
+  --p-focus:         color-mix(in srgb, var(--p-accent) 25%, transparent); /* focus 外光暈 */
+  --p-accent-border: color-mix(in srgb, var(--p-accent) 45%, transparent); /* accent 系邊框 */
+  --p-accent-soft:   color-mix(in srgb, var(--p-accent) 12%, transparent); /* accent 系淡底 */
+  --p-accent-ink:    #ffffff;                                              /* accent 底上的文字 */
+
+  /* ---- 文字 ---------------------------------------------------------- */
+  --p-dark:      #373734;   /* 強調文字：h1、卡片標題、按鈕文字 */
+  --p-text:      #0b0b0b;   /* 主要正文文字 */
+  --p-muted:     #898781;   /* 次要淡字：統計、副標、meta */
+
+  /* ---- 線條 / 陰影 -------------------------------------------------- */
+  --p-border:        #d7d7d5;                 /* 卡片 / 按鈕 / 輸入框邊框 */
+  --p-header-border: #f8f8f6;                 /* header 底部分隔線 */
+  --p-shadow:        rgba(31, 30, 29, 0.08);  /* 卡片 hover 投影 */
+
+  /* ---- 控制項（segmented / toggle）---------------------------------- */
+  --p-toggle-bg:     rgba(0, 0, 0, 0.04);     /* 切換容器底色 */
+  --p-toggle-active: #ffffff;                 /* 切換選中那格底色 */
+
+  /* ---- 語意狀態色（明暗共用）--------------------------------------- */
+  --p-success: #2e8b57;   /* 就緒 / 成功 */
+  --p-warn:    #b8860b;   /* 警示 */
+  --p-error:   #b3402f;   /* 失敗 */
+  --p-success-border: color-mix(in srgb, var(--p-success) 45%, transparent);
+  --p-success-focus:  color-mix(in srgb, var(--p-success) 25%, transparent);
+  --p-error-border:   color-mix(in srgb, var(--p-error) 45%, transparent);
+  --p-error-focus:    color-mix(in srgb, var(--p-error) 25%, transparent);
+
+  /* ---- 圓角 / 字級 ------------------------------------------------- */
+  --p-radius-sm: 6px;
+  --p-radius:    8px;
+  --p-radius-lg: 14px;
+  --p-radius-xl: 16px;
+
+  /* ---- 字體堆疊 ----------------------------------------------------- */
+  /* 英文正文用 Ubuntu Mono；中文落到 CJK 系統字（Ubuntu Mono 無中文字符） */
+  --p-font-sans: "Ubuntu Mono", "PingFang TC", "Microsoft JhengHei",
+                 "Noto Sans CJK TC", monospace;
+  --p-font-brand: "Space Grotesk", "Ubuntu Mono", monospace;
+  --p-font-mono: "Ubuntu Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- 動效 motion（借鏡 Ant Design 動效 token）--------------------- */
+  /* 緩動曲線：與 Ant Design 一致，讓進場 / 互動的節奏感一致 */
+  --p-ease-in-out:   cubic-bezier(0.645, 0.045, 0.355, 1);  /* 一般過渡 */
+  --p-ease-out:      cubic-bezier(0.215, 0.61, 0.355, 1);   /* 進場（減速）*/
+  --p-ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);   /* 帶回彈：pop / zoom 進場 */
+  --p-ease-out-quint:cubic-bezier(0.23, 1, 0.32, 1);        /* 強減速：抽屜 / 大面板 */
+  /* 時長：fast / mid / slow（對應 Ant Design motionDuration*）*/
+  --p-dur-fast: 0.1s;
+  --p-dur-mid:  0.2s;
+  --p-dur-slow: 0.3s;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;         /* dark 模式：原生控制項與滾動條一併轉深色 */
+
+  --p-primary:   #1f1f1e;
+  --p-light:     #1f1f1e;
+  --p-card-bg:   #171717;
+  --p-card-alt:  #171717;
+
+  --p-accent:    #328a97;   /* 重點色兩個模式一致（預設青藍；第二備用色 #c96c49 赤陶橘）；衍生色在 :root 已綁定 accent */
+  --p-focus:     color-mix(in srgb, var(--p-accent) 40%, transparent);
+
+  --p-dark:      #c2c2c2;
+  --p-text:      #ffffff;
+  --p-muted:     #c2c2b7;
+
+  --p-border:        #292929;
+  --p-header-border: #1f1f1e;
+  --p-shadow:        rgba(0, 0, 0, 0.4);
+
+  --p-toggle-bg:     rgba(255, 255, 255, 0.04);
+  --p-toggle-active: #2c2c2b;
+}

@@ -1,0 +1,113 @@
+---
+permalink: /cv-print/index.html
+eleventyExcludeFromCollections: true
+---
+{% import "macros/authors.njk" as authors %}
+{% set p = db.profile %}
+{% set cv = db.cv %}
+{% set c = cv.contact %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ p.name }} — CV</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm 14mm; }
+  * { box-sizing: border-box; }
+  :root { --navy: #003d7a; --ink: #111; --muted: #555; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, "Times New Roman", "Noto Serif", serif;
+    color: var(--ink); font-size: 10.3pt; line-height: 1.42;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  a { color: var(--navy); text-decoration: none; }
+  .name { font-size: 22pt; font-weight: 700; color: var(--navy); letter-spacing: 0.5px; margin: 0; }
+  .contact { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin: 4px 0 0; font-size: 9pt; color: var(--muted); }
+  .contact .site { color: var(--navy); font-weight: 700; white-space: nowrap; }
+  .rule { border: 0; border-top: 2px solid var(--navy); margin: 7px 0 14px; }
+  h2 { font-size: 11pt; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.8px; margin: 14px 0 5px; border-bottom: 1px solid #cdd6e3; padding-bottom: 2px; }
+  .summary { font-style: italic; color: #333; margin: 0; }
+  ul { margin: 4px 0 0; padding-left: 18px; }
+  ul ul { margin: 1px 0 3px; padding-left: 18px; }
+  li { margin: 2px 0; }
+  .edu { margin: 5px 0; }
+  .edu .row { display: flex; justify-content: space-between; gap: 12px; }
+  .edu .degree { font-weight: 700; }
+  .edu .period { color: var(--muted); white-space: nowrap; font-size: 9pt; }
+  .edu .school { font-size: 9.6pt; }
+  .edu .dept { font-size: 9.6pt; color: var(--muted); }
+  .edu .gpa { color: var(--muted); font-size: 9pt; }
+  .pub { margin: 6px 0; }
+  .pub .ptitle { font-weight: 700; }
+  .pub .pauthors { font-size: 9.5pt; }
+  .pub .pvenue { font-style: italic; color: var(--muted); font-size: 9.5pt; }
+  .me { text-decoration: underline; font-weight: 700; }
+  .award-name { font-weight: 700; }
+  .foot { margin-top: 16px; text-align: right; font-size: 8pt; color: #888; font-style: italic; }
+</style>
+</head>
+<body>
+  <header>
+    <h1 class="name">{{ p.name | upper }}</h1>
+    <div class="contact">
+      <span>{% if c.email %}{{ c.email }}{% endif %}{% if c.phone %} &nbsp;|&nbsp; {{ c.phone }}{% endif %}{% if c.address %} &nbsp;|&nbsp; {{ c.address }}{% endif %}</span>
+      {% if c.website %}<span class="site">{{ c.website }}</span>{% endif %}
+    </div>
+  </header>
+  <hr class="rule">
+
+  {% if cv.summary %}
+  <section>
+    <h2>Summary</h2>
+    <p class="summary">{{ cv.summary }}</p>
+  </section>
+  {% endif %}
+
+  {% if db.awards | length or db.certificates | length %}
+  <section>
+    <h2>Awards &amp; Certificate</h2>
+    <ul>
+      {% for aw in db.awards %}
+      <li>{{ aw.organization }}<ul><li class="award-name">{{ aw.title }}</li></ul></li>
+      {% endfor %}
+      {% for ct in db.certificates %}
+      <li>{{ ct.issuer }}{% if ct.date %} ({{ ct.date }}){% endif %}<ul><li class="award-name">{{ ct.title }}</li></ul></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if db.publications | length %}
+  <section>
+    <h2>Publications</h2>
+    <ul>
+      {% for pub in db.publications %}
+      <li class="pub">
+        <div class="ptitle">{{ pub.title }}</div>
+        <div class="pauthors">{{ authors.list(pub.authors) }}</div>
+        <div class="pvenue">{{ pub.venue }}{% if pub.year %}, {{ pub.year }}{% endif %}</div>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if cv.education | length %}
+  <section>
+    <h2>Education</h2>
+    {% for e in cv.education %}
+    <div class="edu">
+      <div class="row"><span class="degree">{{ e.degree }}</span><span class="period">{{ e.period }}</span></div>
+      <div class="school">{{ e.school }}</div>
+      {% if e.department %}<div class="dept">{{ e.department }}</div>{% endif %}
+      {% if e.description %}<div class="gpa">{{ e.description }}</div>{% endif %}
+      {% if e.gpa %}<div class="gpa">{{ e.gpa }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <div class="foot">Last updated: {{ gitinfo.cvUpdated }}</div>
+</body>
+</html>

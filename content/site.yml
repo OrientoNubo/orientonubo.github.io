@@ -1,0 +1,33 @@
+# =============================================================================
+# site.yml — site chrome + navigation + homepage layout.
+# Edit this file to change the top-level nav, the homepage section order, or to
+# hide/show a block. No template editing needed. (Loaded by src/_data/site.js.)
+# =============================================================================
+title: "Si-Yu Lu"
+brand: "siyu@ntu"          # terminal prompt brand shown in the header
+cwd: "~"                   # working dir shown after the brand
+tagline: "PhD Candidate · 3D Vision"
+description: "Personal academic site of Si-Yu Lu — PhD @ NTU, researching 3D reconstruction, visual relocalization, and geometric foundation models."
+baseUrl: "https://orientonubo.github.io"
+
+# Top-level pages shown in the header nav, in order. `home` is "/".
+# Each item: label (command-style), url, order, visible.
+nav:
+  - { label: "~/home",  url: "/",       order: 0, visible: true }
+  - { label: "./blog",  url: "/blog/",  order: 1, visible: true }
+  - { label: "./space", url: "/space/", order: 2, visible: true }
+  - { label: "./cv",    url: "/cv/",    order: 3, visible: true }
+
+# Homepage section order + visibility. `key` maps to a content collection
+# (or a profile sub-field). `heading` is the terminal-style command shown.
+home:
+  sections:
+    - { key: "profile",           heading: "whoami",               visible: true }
+    - { key: "researchInterests", heading: "cat research_interests", visible: true }
+    - { key: "stats",             heading: "stats --summary",      visible: true }
+    - { key: "publications",      heading: "ls publications/",     visible: true }
+    - { key: "awards",            heading: "ls awards/",           visible: true }
+    - { key: "experience",        heading: "ls experience/",       visible: true }
+    - { key: "projects",          heading: "ls projects/",         visible: true }
+    - { key: "services",          heading: "ls services/",         visible: true }
+    - { key: "certificates",      heading: "ls certificates/",     visible: true }

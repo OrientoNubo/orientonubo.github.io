@@ -17,7 +17,7 @@ venue: Winter Conference on Applications of Computer Vision (WACV)
 year: 2025
 type: conference
 pdf: https://ieeexplore.ieee.org/abstract/document/10943864
-pinned: true
+# pinned: true
 firstAuthor: true
 ---
 

@@ -5,14 +5,11 @@ profileImage: assets/profile.jpg
 affiliation:
   institution: National Taiwan University
   department: CMLab AIMM Group
-  departmentUrl: https://aimm.cmlab.csie.ntu.edu.tw/
+  departmentUrl: https://www.ntu.edu.tw/
 advisors:
   - name: Wen-Huang Cheng
     institution: National Taiwan University
     url: https://www.csie.ntu.edu.tw/~wenhuang/
-  - name: Yung-Yao Chen
-    institution: National Taiwan University of Science and Technology
-    url: https://sites.google.com/view/ntust-his-lab/
 socialLinks:
   - icon: github
     url: https://github.com/OrientoNubo
@@ -27,18 +24,22 @@ socialLinks:
     url: mailto:siyu@cmlab.csie.ntu.edu.tw
     label: Email
 researchInterests:
-  - 3D Reconstruction
+  - 3D Vision
+  - 3D/4D Reconstruction
   - Geometric Foundation Models
   - Visual Relocalization
+  - NeRF/3DGS
+  - World Model
   - Physical AI
   - Generative Models
   - Autonomous Vehicles
   - Autonomous Mobile Robot
+  - Embedded System
 stats:
-  publications: 5+
+  publications: auto
   reviews: 10+
-  projects: 2+
-  awards: 7+
+  projects: auto
+  awards: auto
 ---
 
-PhD Candidate at National Taiwan University, researching 3D Reconstruction, Visual Relocalization, and Geometric Foundation Models.
+PhD Candidate at National Taiwan University, researching 3D/4D Reconstruction, Visual Relocalization, and Geometric Foundation Models. My current research focus is on unified 4D continuous perception models.

@@ -1,0 +1,33 @@
+{# Global overlays — matches the design system markup so site.js + components.js
+   bind modal / drawer / toast / message / notification / lightbox / back-top. #}
+<div id="nubo-overlays">
+  <div class="modal-back" id="modalBack">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Preview</h3>
+      <p class="modal-sub">Press Esc, click outside, or use Close to dismiss.</p>
+      <div class="modal-actions"><button class="btn ghost" id="modalCancel">Close</button></div>
+    </div>
+  </div>
+
+  <div class="drawer-back" id="drawerBack"></div>
+  <aside class="drawer right" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <h3 id="drawerTitle">Details</h3>
+      <button class="btn icon ghost" id="drawerClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="drawer-body"></div>
+  </aside>
+
+  <div class="toast-host" id="toastHost"></div>
+  <div class="message-host" id="messageHost"></div>
+  <div class="notification-host" id="notificationHost"></div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lbClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <span id="lbContent"></span>
+  </div>
+
+  <div class="float-group">
+    <button class="float-btn back-top" id="backTop" aria-label="Back to top" title="Back to top"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  </div>
+</div>

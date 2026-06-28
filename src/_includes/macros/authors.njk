@@ -1,0 +1,7 @@
+{# Author list — own name (bold:true) gets the underlined .me style. #}
+{% macro list(authors) -%}
+{%- for a in authors -%}
+{%- if a.bold %}<span class="me">{{ a.name }}</span>{% else %}{{ a.name }}{% endif -%}
+{%- if not loop.last %}, {% endif -%}
+{%- endfor -%}
+{%- endmacro %}

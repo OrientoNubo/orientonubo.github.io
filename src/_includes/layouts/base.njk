@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if title %}{{ title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+<meta name="description" content="{{ description | default(site.description) }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets-site/css/tokens.css">
+<link rel="stylesheet" href="/assets-site/css/nubo-design.css">
+<link rel="stylesheet" href="/assets-site/css/terminal.css">
+{% if pageId == 'blog' %}<link rel="stylesheet" href="/assets-site/katex/katex.min.css">{% endif %}
+
+<script>
+  /* no-flash: apply theme + accent before first paint. */
+  (function () {
+    var mode = localStorage.getItem("nubo-theme") || "system";
+    var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme", mode === "system" ? (dark ? "dark" : "light") : mode);
+    var a = localStorage.getItem("nubo-accent");
+    if (a) {
+      document.documentElement.style.setProperty("--p-accent", a);
+      var m = a.replace("#", ""), r = parseInt(m.slice(0, 2), 16), g = parseInt(m.slice(2, 4), 16), b = parseInt(m.slice(4, 6), 16);
+      document.documentElement.style.setProperty("--p-accent-ink", (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.62 ? "#1a1a1a" : "#ffffff");
+    }
+  })();
+</script>
+</head>
+<body data-page="{{ pageId | default('home') }}" data-root="/">
+
+{% include "partials/header.njk" %}
+
+{{ content | safe }}
+
+{% include "partials/footer.njk" %}
+{% include "partials/overlays.njk" %}
+
+<script src="/assets-site/js/site.js"></script>
+<script src="/assets-site/js/components.js"></script>
+<script src="/assets-site/js/blog-lang.js"></script>
+</body>
+</html>

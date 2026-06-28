@@ -8,11 +8,15 @@ Thumbs.db
 !.vscode/settings.json
 .idea/
 
-# Node (for the future site build)
+# Node / Eleventy build
 node_modules/
+_site/
 dist/
 .astro/
 *.log
+
+# Untracked scratch from other tooling
+reference/
 
 # Env
 .env

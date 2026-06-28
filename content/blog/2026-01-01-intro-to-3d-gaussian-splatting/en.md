@@ -14,9 +14,9 @@ Simply put, the goal of NVS is to synthesize an image from any new perspective, 
 
 Before the advent of 3DGS, **Neural Radiance Fields (NeRF)** was the mainstream method in the NVS field. NeRF uses an MLP (Multilayer Perceptron) to implicitly represent a 3D scene:
 
-```plain
-F: (x, y, z, θ, φ) → (R, G, B, σ)
-```
+$$
+F: (x, y, z, \theta, \phi) \rightarrow (R, G, B, \sigma)
+$$
 
 Where `(x, y, z)` are the spatial coordinates, `(θ, φ)` are the view direction, and the output is the color and density of that point.
 
@@ -37,15 +37,15 @@ The scene is no longer implicitly represented by neural networks, but is explici
 
 The mathematical form of a 3D Gaussian function is:
 
-```plain
-G(x) = exp(-1/2 (x - μ)ᵀ Σ⁻¹ (x - μ))
-```
+$$
+G(\mathbf{x}) = \exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x}-\boldsymbol{\mu})\right)
+$$
 
 Where `Σ` is a 3×3 covariance matrix. To ensure that `Σ` is positive semi-definite, 3DGS decomposes it as:
 
-```plain
-Σ = R S Sᵀ Rᵀ
-```
+$$
+\Sigma = R S S^\top R^\top
+$$
 
 where `R` is the rotation matrix, and `S` is the scaling matrix.
 
@@ -57,9 +57,9 @@ where `R` is the rotation matrix, and `S` is the scaling matrix.
 
 When we project a 3D Gaussian onto 2D, we still get a 2D Gaussian. The covariance matrix after projection is:
 
-```plain
-Σ' = J W Σ Wᵀ Jᵀ
-```
+$$
+\Sigma' = J W \Sigma W^\top J^\top
+$$
 
 where `W` is the viewing transformation, and `J` is the Jacobian of the projection.
 
@@ -67,9 +67,9 @@ where `W` is the viewing transformation, and `J` is the Jacobian of the projecti
 
 The final pixel color is calculated using alpha blending:
 
-```plain
-C = Σᵢ cᵢ αᵢ Πⱼ₌₁ⁱ⁻¹ (1 - αⱼ)
-```
+$$
+C = \sum_{i} c_i\, \alpha_i \prod_{j=1}^{i-1}(1-\alpha_j)
+$$
 
 This formula means that the color of each pixel is the weighted sum of the colors of all the Gaussian spheres covering that pixel, with the weights determined by the opacity.
 

@@ -14,9 +14,9 @@
 
 在 3DGS 出現之前，**NeRF（Neural Radiance Fields）** 是 NVS 領域的主流方法。NeRF 使用一個 MLP（多層感知機）來隱式地表示 3D 場景：
 
-```plain
-F: (x, y, z, θ, φ) → (R, G, B, σ)
-```
+$$
+F: (x, y, z, \theta, \phi) \rightarrow (R, G, B, \sigma)
+$$
 
 其中 `(x, y, z)` 是空間座標，`(θ, φ)` 是視角方向，輸出是該點的顏色和密度。
 
@@ -37,15 +37,15 @@ NeRF 的問題在於：每次渲染一張圖像，都需要對每個像素進行
 
 一個 3D 高斯函數的數學形式為：
 
-```plain
-G(x) = exp(-1/2 (x - μ)ᵀ Σ⁻¹ (x - μ))
-```
+$$
+G(\mathbf{x}) = \exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x}-\boldsymbol{\mu})\right)
+$$
 
 其中 `Σ` 是 3×3 的協方差矩陣。為了確保 `Σ` 是半正定的，3DGS 將其分解為：
 
-```plain
-Σ = R S Sᵀ Rᵀ
-```
+$$
+\Sigma = R S S^\top R^\top
+$$
 
 其中 `R` 是旋轉矩陣，`S` 是 scaling 矩陣。
 
@@ -57,9 +57,9 @@ G(x) = exp(-1/2 (x - μ)ᵀ Σ⁻¹ (x - μ))
 
 當我們將 3D 高斯投影到 2D 時，得到的仍然是一個 2D 高斯。投影後的協方差矩陣為：
 
-```plain
-Σ' = J W Σ Wᵀ Jᵀ
-```
+$$
+\Sigma' = J W \Sigma W^\top J^\top
+$$
 
 其中 `W` 是 viewing transformation，`J` 是投影的 Jacobian。
 
@@ -67,9 +67,9 @@ G(x) = exp(-1/2 (x - μ)ᵀ Σ⁻¹ (x - μ))
 
 最終的像素顏色通過 alpha blending 計算：
 
-```plain
-C = Σᵢ cᵢ αᵢ Πⱼ₌₁ⁱ⁻¹ (1 - αⱼ)
-```
+$$
+C = \sum_{i} c_i\, \alpha_i \prod_{j=1}^{i-1}(1-\alpha_j)
+$$
 
 這個公式表示：每個像素的顏色是所有覆蓋該像素的高斯球顏色的加權和，權重由不透明度決定。
 
