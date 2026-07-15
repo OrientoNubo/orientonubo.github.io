@@ -10,28 +10,38 @@ eleventyComputed:
   title: "{{ post.title }}"
   description: "{{ post.description }}"
 ---
-<div class="page">
-  <article class="post">
-    <div class="pc-date term-line">{{ post.date | readableDate }}{% if post.readingTime %} · ~{{ post.readingTime }} min read{% endif %}</div>
-    <h1>{{ post.title }}</h1>
-    {% if post.description %}<p class="muted">{{ post.description }}</p>{% endif %}
-    {% if post.tags | length %}<div class="post-meta" style="margin:8px 0 18px">{% for t in post.tags %}<span class="tag neutral">{{ t }}</span>{% endfor %}</div>{% endif %}
-
-    {% if post.languages | length > 1 %}
-    <div class="lang-switch" role="tablist" aria-label="Language">
-      {% for lang in post.languages %}
-      <button type="button" data-lang="{{ lang }}" role="tab"{% if loop.first %} aria-selected="true"{% endif %}>{{ lang }}</button>
+<div class="shell">
+  <aside class="sidebar" aria-label="Posts">
+    <nav>
+      {% for p in db.blog %}
+      <a href="{{ p.url }}"{% if p.slug == post.slug %} class="active" aria-current="page"{% endif %}>{{ p.title }}</a>
       {% endfor %}
-    </div>
-    {% endif %}
+    </nav>
+  </aside>
 
-    {% for lang in post.languages %}
-    <div class="post-body prose{% if loop.first %} active{% endif %}" data-lang="{{ lang }}">
-      {{ post.bodies[lang] | md | safe }}
-    </div>
-    {% endfor %}
+  <div class="content">
+    <article class="post">
+      <div class="pc-date term-line">{{ post.date | readableDate }}{% if post.readingTime %} · ~{{ post.readingTime }} min read{% endif %}</div>
+      <h1>{{ post.title }}</h1>
+      {% if post.description %}<p class="muted">{{ post.description }}</p>{% endif %}
+      {% if post.tags | length %}<div class="post-meta" style="margin:8px 0 18px">{% for t in post.tags %}<span class="tag neutral">{{ t }}</span>{% endfor %}</div>{% endif %}
 
-    <hr class="cli-rule">
-    <a class="btn ghost sm" href="/blog/">← back to ./blog</a>
-  </article>
+      {% if post.languages | length > 1 %}
+      <div class="lang-switch" role="tablist" aria-label="Language">
+        {% for lang in post.languages %}
+        <button type="button" data-lang="{{ lang }}" role="tab"{% if loop.first %} aria-selected="true"{% endif %}>{{ lang }}</button>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% for lang in post.languages %}
+      <div class="post-body prose{% if loop.first %} active{% endif %}" data-lang="{{ lang }}">
+        {{ post.bodies[lang] | md | safe }}
+      </div>
+      {% endfor %}
+
+      <hr class="cli-rule">
+      <a class="btn ghost sm" href="/blog/">← back to ./blog</a>
+    </article>
+  </div>
 </div>

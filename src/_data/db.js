@@ -18,7 +18,8 @@ function loadDir(dir) {
     .map((rel) => {
       const f = read(rel);
       return { ...f.data, body: f.content, _slug: path.basename(rel, ".md"), _file: rel };
-    });
+    })
+    .filter((item) => !item.hidden); // `hidden: true` items are excluded everywhere
 }
 
 const byOrder = (a, b) => (a.order ?? 999) - (b.order ?? 999);
@@ -80,19 +81,26 @@ module.exports = () => {
   const cv = { ...cvRaw.data, intro: cvRaw.content };
 
   // ----- category collections --------------------------------------------
-  const awards = loadDir("awards").sort((a, b) => byOrder(a, b) || yearNum(b.year) - yearNum(a.year));
-  const certificates = loadDir("certificates").sort((a, b) => byOrder(a, b) || yearNum(b.date) - yearNum(a.date));
+  // Awards/certs: newest year first, `order` breaks same-year ties.
+  const awards = loadDir("awards").sort((a, b) => yearNum(b.year) - yearNum(a.year) || byOrder(a, b));
+  const certificates = loadDir("certificates").sort((a, b) => yearNum(b.date) - yearNum(a.date) || byOrder(a, b));
   const services = loadDir("services").sort(byOrder);
-  const experience = loadDir("experience").sort(
-    (a, b) => byOrder(a, b) || String(b.startDate || "").localeCompare(String(a.startDate || ""))
-  );
+  const experience = loadDir("experience").sort(byOrder);
   const projects = loadDir("projects").sort(
     (a, b) => (b.featured === a.featured ? 0 : b.featured ? 1 : -1) || String(b.date || "").localeCompare(String(a.date || ""))
   );
-  const publications = loadDir("publications").sort((a, b) => {
-    const p = (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
-    return p || yearNum(b.year) - yearNum(a.year) || String(a.title).localeCompare(String(b.title));
-  });
+  // Publications follow explicit `order` (matches the CV), year desc as fallback.
+  const publications = loadDir("publications").sort(
+    (a, b) => byOrder(a, b) || yearNum(b.year) - yearNum(a.year) || String(a.title).localeCompare(String(b.title))
+  );
+
+  // ----- honors: awards + certificates merged for the CV "Awards & Certificate"
+  // section. Normalized to a common shape and sorted newest-first (stable, so the
+  // per-collection order is preserved within the same year). ----------------
+  const honors = [
+    ...awards.map((a) => ({ name: a.title, nameZh: a.titleZh, org: a.organization, orgZh: a.organizationZh, year: a.year })),
+    ...certificates.map((c) => ({ name: c.title, nameZh: c.titleZh, org: c.issuer, orgZh: c.issuerZh, year: c.date })),
+  ].sort((a, b) => yearNum(b.year) - yearNum(a.year));
 
   // ----- blog: folder per post, index.md meta + <lang>.md bodies ----------
   const blog = fg
@@ -142,6 +150,7 @@ module.exports = () => {
     cv,
     awards,
     certificates,
+    honors,
     services,
     experience,
     projects,

@@ -6,50 +6,23 @@ permalink: /cv/
 ---
 {% import "macros/icons.njk" as icons %}
 {% set cv = db.cv %}
-{% set p = db.profile %}
 
 <div class="page">
   <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">cat cv.md</span></div>
 
-  {% if cv.summary %}<div class="profile-bio">{{ cv.summary }}</div>{% endif %}
+  <p class="muted">Both CVs are generated at build time from this site's content
+  (homepage + <code>cv.md</code>), so they always stay in sync.</p>
 
-  <div class="cv-actions">
-    <a class="btn" href="/assets/CV-SIYU.pdf" download>{{ icons.social("download") }} Download CV (PDF)</a>
-    <a class="btn ghost" href="/assets/CV-SIYU.pdf" target="_blank" rel="noopener">{{ icons.social("pdf") }} Open in new tab</a>
-  </div>
-  <p class="muted small">The PDF is generated from this site's content at build time.</p>
-
-  {% if cv.education | length %}
-  <div class="cv-block">
-    <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">education</span></div>
-    {% for e in cv.education %}
-    <div class="edu-item">
-      <div class="ei-row"><span class="ei-degree">{{ e.degree }}</span><span class="ei-period">{{ e.period }}</span></div>
-      <div class="ei-school">{{ e.school }}</div>
-      {% if e.department %}<div class="ei-dept">{{ e.department }}</div>{% endif %}
-      {% if e.description %}<div class="ei-dept">{{ e.description }}</div>{% endif %}
-      {% if e.gpa %}<div class="ei-dept">{{ e.gpa }}</div>{% endif %}
+  <div class="cv-download-grid">
+    <div class="cv-dl-group">
+      <div class="cv-dl-label">English</div>
+      <a class="btn" href="/{{ cv.pdf.en }}" download>{{ icons.social("download") }} Download (PDF)</a>
+      <a class="btn ghost" href="/{{ cv.pdf.en }}" target="_blank" rel="noopener">{{ icons.social("link") }} Open in new tab</a>
     </div>
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  {% if p.researchInterests | length %}
-  <div class="cv-block">
-    <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">research</span></div>
-    <div class="interest-row">{% for r in p.researchInterests %}<span class="tag">{{ r }}</span>{% endfor %}</div>
-  </div>
-  {% endif %}
-
-  {% if cv.skills %}
-  <div class="cv-block">
-    <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">skills</span></div>
-    {% for group, items in cv.skills %}
-    <div class="skill-group">
-      <div class="sg-label">{{ group }}/</div>
-      <div class="interest-row">{% for it in items %}<span class="tag neutral">{{ it }}</span>{% endfor %}</div>
+    <div class="cv-dl-group">
+      <div class="cv-dl-label">中文</div>
+      <a class="btn" href="/{{ cv.pdf.zh }}" download>{{ icons.social("download") }} 下載 (PDF)</a>
+      <a class="btn ghost" href="/{{ cv.pdf.zh }}" target="_blank" rel="noopener">{{ icons.social("link") }} 開新分頁</a>
     </div>
-    {% endfor %}
   </div>
-  {% endif %}
 </div>

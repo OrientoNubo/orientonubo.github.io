@@ -12,6 +12,7 @@ authors:
 venue: International Conference on Robotics and Automation (ICRA)
 year: 2025
 type: conference
+order: 3
 pdf: https://ieeexplore.ieee.org/document/11128243
 ---
 

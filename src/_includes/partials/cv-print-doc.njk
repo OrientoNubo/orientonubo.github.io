@@ -1,0 +1,148 @@
+{# Shared CV print document → rendered to PDF by scripts/build-cv-pdf.mjs.
+   The including template sets `lang` ("en" | "zh"). All content is pulled from
+   the SAME source the site uses: db.cv (summary/education/contact) + the
+   db.publications / db.honors / db.experience / db.services collections. #}
+{% import "macros/authors.njk" as authors %}
+{% set isZh = (lang == "zh") %}
+{% set p = db.profile %}
+{% set cv = db.cv %}
+{% set c = cv.contact %}
+<!DOCTYPE html>
+<html lang="{{ 'zh-Hant' if isZh else 'en' }}">
+<head>
+<meta charset="utf-8">
+<title>{{ p.name }} — CV{{ '（中文）' if isZh }}</title>
+<style>
+  @page { size: A4; margin: 15mm 15mm 13mm; }
+  * { box-sizing: border-box; }
+  :root { --navy: #003d7a; --ink: #111; --muted: #555; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, "Times New Roman", "Noto Serif CJK TC", "Noto Serif TC",
+                 "PingFang TC", "Microsoft JhengHei", serif;
+    color: var(--ink); font-size: 10.3pt; line-height: 1.45;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  a { color: var(--navy); text-decoration: none; }
+  .name { font-size: 22pt; font-weight: 700; color: var(--navy); letter-spacing: 0.5px; margin: 0; }
+  .contact { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin: 4px 0 0; font-size: 9pt; color: var(--muted); }
+  .contact .site { color: var(--navy); font-weight: 700; white-space: nowrap; }
+  .rule { border: 0; border-top: 2px solid var(--navy); margin: 7px 0 12px; }
+  h2 { font-size: 11pt; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.8px; margin: 13px 0 5px; border-bottom: 1px solid #cdd6e3; padding-bottom: 2px; break-after: avoid; }
+  /* Let long sections flow across pages, but never split a heading from its
+   * first rows, nor split an individual entry. */
+  .edu, .pub, .entry, li { break-inside: avoid; }
+  .summary { font-style: italic; color: #333; margin: 0; }
+  ul { margin: 4px 0 0; padding-left: 18px; }
+  ul ul { margin: 1px 0 3px; padding-left: 18px; }
+  li { margin: 2px 0; }
+  .edu { margin: 5px 0; }
+  .edu .row { display: flex; justify-content: space-between; gap: 12px; }
+  .edu .degree { font-weight: 700; }
+  .edu .period { color: var(--muted); white-space: nowrap; font-size: 9pt; }
+  .edu .school { font-size: 9.6pt; }
+  .edu .dept { font-size: 9.6pt; color: var(--muted); }
+  .edu .gpa { color: var(--muted); font-size: 9pt; }
+  .pub { margin: 6px 0; }
+  .pub .ptitle { font-weight: 700; }
+  .pub .pauthors { font-size: 9.5pt; }
+  .pub .pauthors .me { text-decoration: underline; font-weight: 700; }
+  .pub .pvenue { font-style: italic; color: var(--muted); font-size: 9.5pt; }
+  .award-name { font-weight: 700; }
+  .entry { margin: 6px 0; }
+  .entry .ehead { font-weight: 700; }
+  .foot { margin-top: 16px; text-align: right; font-size: 8pt; color: #888; font-style: italic; }
+</style>
+</head>
+<body>
+  <header>
+    <h1 class="name">{{ p.name | upper }}</h1>
+    <div class="contact">
+      <span>{% if c.email %}{{ c.email }}{% endif %}{% if c.phone %} &nbsp;|&nbsp; {{ c.phone }}{% endif %}{% if c.address %} &nbsp;|&nbsp; {{ c.address }}{% endif %}</span>
+      {% if c.website %}<span class="site">{{ c.website }}</span>{% endif %}
+    </div>
+  </header>
+  <hr class="rule">
+
+  {% set sumText = cv.summaryZh if isZh else cv.summary %}
+  {% if sumText %}
+  <section>
+    <h2>{{ '簡介' if isZh else 'Summary' }}</h2>
+    <p class="summary">{{ sumText }}</p>
+  </section>
+  {% endif %}
+
+  {% if cv.education | length %}
+  <section>
+    <h2>{{ '教育背景' if isZh else 'Education' }}</h2>
+    {% for e in cv.education %}
+    <div class="edu">
+      <div class="row"><span class="degree">{{ e.degreeZh if isZh else e.degree }}</span><span class="period">{{ e.periodZh if isZh else e.period }}</span></div>
+      <div class="school">{{ e.schoolZh if isZh else e.school }}</div>
+      <div class="dept">{{ e.departmentZh if isZh else e.department }}</div>
+      {% if e.detail and not isZh %}<div class="gpa">{{ e.detail }}</div>{% endif %}
+      {% if e.gpa %}<div class="gpa">{{ e.gpaZh if isZh else e.gpa }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if db.publications | length %}
+  <section>
+    <h2>{{ '著作發表' if isZh else 'Publications' }}</h2>
+    <ul>
+      {% for pub in db.publications %}
+      <li class="pub">
+        <div class="ptitle">{{ pub.title }}</div>
+        <div class="pauthors">{{ authors.list(pub.authors) }}</div>
+        <div class="pvenue">{% if pub.status %}{{ pub.status }} {% endif %}{{ pub.venue }}{% if pub.year %}, {{ pub.year }}{% endif %}</div>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if db.honors | length %}
+  <section>
+    <h2>{{ '獎項 & 證書' if isZh else 'Awards & Certificate' }}</h2>
+    <ul>
+      {% for h in db.honors %}
+      <li>{% if isZh %}{{ h.year }} {{ h.orgZh }}{% else %}{{ h.org }} ({{ h.year }}){% endif %}<ul><li class="award-name">{{ h.nameZh if isZh else h.name }}</li></ul></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if db.experience | length %}
+  <section>
+    <h2>{{ '工作經驗 & 研究計畫' if isZh else 'Experience' }}</h2>
+    {% for x in db.experience %}
+    <div class="entry">
+      <div class="ehead">{{ x.roleZh if isZh else x.role }}, {{ x.organizationZh if isZh else x.organization }}</div>
+      {% if x.items | length %}
+      <ul>
+        {% for it in x.items %}
+        {% if isZh %}<li>{{ it.zh }}{% if it.period %}（{{ it.period | replace(" - ", "～") }}）{% endif %}</li>
+        {% else %}<li>{{ it.en }}{% if it.period %} ({{ it.period }}){% endif %}</li>{% endif %}
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if db.services | length %}
+  <section>
+    <h2>{{ '專業服務' if isZh else 'Services' }}</h2>
+    <ul>
+      {% for sv in db.services %}
+      <li><strong>{{ sv.roleZh if isZh else sv.role }}</strong>{% if sv.items | length %}<ul>{% for it in sv.items %}<li>{{ it }}</li>{% endfor %}</ul>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <div class="foot">Last updated: {{ gitinfo.cvUpdated }}</div>
+</body>
+</html>

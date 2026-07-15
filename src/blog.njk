@@ -4,25 +4,35 @@ pageId: blog
 title: Blog
 permalink: /blog/
 ---
-<div class="page">
-  <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">ls blog/</span><span class="th-meta">{{ db.blog | length }} post(s)</span></div>
+<div class="shell">
+  <aside class="sidebar" aria-label="Posts">
+    <nav>
+      {% for post in db.blog %}
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      {% endfor %}
+    </nav>
+  </aside>
 
-  {% if db.blog | length %}
-  <div class="post-list">
-    {% for post in db.blog %}
-    <a class="post-card" href="{{ post.url }}" data-reveal>
-      <div class="pc-date">{{ post.date | readableDate }}{% if post.pinned %} · <span class="prompt">★ pinned</span>{% endif %}</div>
-      <div class="pc-title">{{ post.title }}</div>
-      {% if post.description %}<div class="pc-desc">{{ post.description }}</div>{% endif %}
-      <div class="post-meta">
-        {% if post.readingTime %}<span>~{{ post.readingTime }} min</span>{% endif %}
-        {% for t in post.tags %}<span class="tag neutral">{{ t }}</span>{% endfor %}
-        <span>[{{ post.languages | join(", ") }}]</span>
-      </div>
-    </a>
-    {% endfor %}
+  <div class="content">
+    <div class="term-head"><span class="th-prompt">$</span><span class="th-cmd">blog</span><span class="th-meta">{{ db.blog | length }} post(s)</span></div>
+
+    {% if db.blog | length %}
+    <div class="post-list">
+      {% for post in db.blog %}
+      <a class="post-card" href="{{ post.url }}" data-reveal>
+        <div class="pc-date">{{ post.date | readableDate }}{% if post.pinned %} · <span class="prompt">★ pinned</span>{% endif %}</div>
+        <div class="pc-title">{{ post.title }}</div>
+        {% if post.description %}<div class="pc-desc">{{ post.description }}</div>{% endif %}
+        <div class="post-meta">
+          {% if post.readingTime %}<span>~{{ post.readingTime }} min</span>{% endif %}
+          {% for t in post.tags %}<span class="tag neutral">{{ t }}</span>{% endfor %}
+          <span>[{{ post.languages | join(", ") }}]</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state"><div class="es-title">No posts yet</div><div class="es-sub">Add a folder under <code>content/blog/</code> to publish a post.</div></div>
+    {% endif %}
   </div>
-  {% else %}
-  <div class="empty-state"><div class="es-title">No posts yet</div><div class="es-sub">Add a folder under <code>content/blog/</code> to publish a post.</div></div>
-  {% endif %}
 </div>

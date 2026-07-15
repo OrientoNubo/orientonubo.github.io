@@ -7,6 +7,7 @@ permalink: /
 {% import "macros/img.njk" as img %}
 {% import "macros/authors.njk" as authors %}
 {% set p = db.profile %}
+{% set cv = db.cv %}
 
 <div class="shell">
   <aside class="sidebar" id="nubo-sidebar" aria-label="Sections">
@@ -24,7 +25,6 @@ permalink: /
 
       {% if s.key == "profile" %}
       <div class="profile-head">
-        {% if p.profileImage %}<img class="profile-avatar" src="{{ p.profileImage | assetUrl }}" alt="{{ p.name }}">{% endif %}
         <div class="profile-id">
           <h1>{{ p.name }}</h1>
           <div class="p-title term-line">{{ p.title }}<span class="term-cursor"></span></div>
@@ -36,6 +36,7 @@ permalink: /
             {% endfor %}
           </div>
         </div>
+        {% if p.profileImage and p.showAvatar %}<img class="profile-avatar" src="{{ p.profileImage | assetUrl }}" alt="{{ p.name }}">{% endif %}
       </div>
       {% if p.about %}<div class="profile-bio">{{ p.about | md | safe }}</div>{% endif %}
 
@@ -44,10 +45,16 @@ permalink: /
         {% for r in p.researchInterests %}<span class="tag">{{ r }}</span>{% endfor %}
       </div>
 
-      {% elif s.key == "stats" %}
-      <div class="stat-grid">
-        {% for label, value in p.stats %}
-        <div class="stat"><div class="stat-label">{{ label }}</div><div class="stat-value">{{ value }}</div></div>
+      {% elif s.key == "education" %}
+      <div class="edu-list">
+        {% for e in cv.education %}
+        <div class="edu-item">
+          <div class="ei-row"><span class="ei-degree">{{ e.degree }}</span><span class="ei-period">{{ e.period }}</span></div>
+          <div class="ei-school">{{ e.school }}</div>
+          {% if e.department %}<div class="ei-dept">{{ e.department }}</div>{% endif %}
+          {% if e.detail %}<div class="ei-dept">{{ e.detail }}</div>{% endif %}
+          {% if e.gpa %}<div class="ei-dept">{{ e.gpa }}</div>{% endif %}
+        </div>
         {% endfor %}
       </div>
 
@@ -57,8 +64,7 @@ permalink: /
         <div class="pub-item">
           <div class="pub-title">{{ pub.title }}{% if pub.pinned %} <span class="tag">pinned</span>{% endif %}</div>
           <div class="pub-authors">{{ authors.list(pub.authors) }}</div>
-          <div class="pub-venue">{{ pub.venue }}{% if pub.year %} · {{ pub.year }}{% endif %}</div>
-          {% if pub.body %}<div class="pub-abs">{{ pub.body | mdInline | safe }}</div>{% endif %}
+          <div class="pub-venue">{% if pub.status %}{{ pub.status }} {% endif %}{{ pub.venue }}{% if pub.year %} · {{ pub.year }}{% endif %}</div>
           {% if pub.pdf %}<div class="pub-meta-row"><a class="btn sm ghost" href="{{ pub.pdf }}" target="_blank" rel="noopener">{{ icons.social('pdf') }} PDF</a></div>{% endif %}
         </div>
         {% endfor %}
@@ -87,27 +93,28 @@ permalink: /
       </div>
 
       {% elif s.key == "services" %}
-      <div class="list-group">
+      <div class="cv-entries">
         {% for sv in db.services %}
-        <div class="item"><div class="grow">
-          <div class="title">{{ sv.title }}</div>
-          <div class="sub">{{ sv.organization }}</div>
-          {% if sv.description %}<div class="pub-abs">{{ sv.description | md | safe }}</div>{% endif %}
-        </div></div>
+        <div class="cv-entry">
+          <div class="ce-head">{{ sv.role }}</div>
+          {% if sv.items | length %}<ul class="ce-list">{% for it in sv.items %}<li>{{ it }}</li>{% endfor %}</ul>{% endif %}
+        </div>
         {% endfor %}
       </div>
 
       {% elif s.key == "experience" %}
-      <ul class="timeline">
+      <div class="cv-entries">
         {% for ex in db.experience %}
-        <li>
-          <div class="tl-time">{{ ex.startDate }}{% if ex.endDate %} – {{ ex.endDate }}{% else %} – Now{% endif %}</div>
-          <div class="tl-title">{{ ex.title }} · {{ ex.organization }}</div>
-          {% if ex.description %}<div class="pub-abs">{{ ex.description | md | safe }}</div>{% endif %}
-          {% if ex.tags %}<div class="pub-meta-row">{% for t in ex.tags %}<span class="tag neutral">{{ t }}</span>{% endfor %}</div>{% endif %}
-        </li>
+        <div class="cv-entry">
+          <div class="ce-head">{{ ex.role }} · {{ ex.organization }}</div>
+          {% if ex.items | length %}
+          <ul class="ce-list">
+            {% for it in ex.items %}<li>{{ it.en }}{% if it.period %} <span class="ce-period">({{ it.period }})</span>{% endif %}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
         {% endfor %}
-      </ul>
+      </div>
 
       {% elif s.key == "projects" %}
       <div class="pub-list">

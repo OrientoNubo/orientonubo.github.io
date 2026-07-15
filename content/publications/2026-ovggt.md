@@ -1,5 +1,5 @@
 ---
-title: OVGGT - O(1) Constant-Cost Streaming Visual Geometry Transformer
+title: 'OVGGT: O(1) Constant-Cost Streaming Visual Geometry Transformer'
 authors:
   - name: Si-Yu Lu
     bold: true
@@ -14,8 +14,10 @@ authors:
   - name: Yung-Yao Chen
     bold: false
 venue: European Conference on Computer Vision (ECCV)
+status: Accepted to
 year: 2026
 type: conference
+order: 1
 pdf: https://arxiv.org/abs/2603.05959
 # pinned: true
 firstAuthor: true

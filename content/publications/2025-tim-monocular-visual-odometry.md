@@ -18,6 +18,7 @@ authors:
 venue: IEEE Transactions on Instrumentation and Measurement (IEEE TIM)
 year: 2025
 type: journal
+order: 4
 pdf: https://ieeexplore.ieee.org/document/11059345
 ---
 

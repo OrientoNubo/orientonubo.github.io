@@ -12,6 +12,7 @@ authors:
 venue: International Automatic Control Conference (CACS)
 year: 2022
 type: conference
+order: 7
 pdf: https://ieeexplore.ieee.org/document/9969856
 firstAuthor: true
 ---

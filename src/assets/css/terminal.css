@@ -8,7 +8,21 @@
 
 :root {
   --term-mono: var(--p-font-mono);
+  /* Body / prose now use the system UI font; only the terminal accents below
+   * (brand, nav, section labels, tags, venues, dates …) keep Ubuntu Mono via
+   * --term-mono / --p-font-mono. */
+  --p-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+                 Arial, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC",
+                 "Noto Sans CJK TC", sans-serif;
 }
+
+/* Slightly larger base type for comfortable reading. */
+body { font-size: 16.5px; }
+
+/* Always reserve the scrollbar gutter so the centered header + content never
+ * shift horizontally between pages — keeps the traffic-light dots from jumping
+ * when navigating tabs of differing height. */
+html { scrollbar-gutter: stable; }
 
 /* --------------------------------------------------------------------------
  * Site header — terminal prompt brand + command-style nav (uses base
@@ -88,7 +102,7 @@
 .term-head .th-prompt { color: var(--p-accent); font-weight: 700; flex-shrink: 0; }
 .term-head .th-cmd {
   color: var(--p-dark); font-weight: 700;
-  font-size: 16px; letter-spacing: 0.3px;
+  font-size: 18.5px; letter-spacing: 0.3px;
 }
 .term-head .th-meta { margin-left: auto; font-size: 12px; color: var(--p-muted); }
 
@@ -112,34 +126,49 @@
 }
 
 /* --------------------------------------------------------------------------
+ * App-shell sidebar — larger, mono terminal labels (overrides vendored size).
+ * ------------------------------------------------------------------------ */
+.sidebar { flex: 0 0 210px; width: 210px; }
+.sidebar a {
+  font-family: var(--term-mono);
+  font-size: 15px; padding: 8px 12px;
+}
+
+/* --------------------------------------------------------------------------
  * Profile / hero block — terminal "card" with prompt lines.
  * ------------------------------------------------------------------------ */
-.profile-head { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+/* Avatar sits on the RIGHT and stretches to match the id block height
+ * (top edge of the name → bottom edge of the social buttons). */
+.profile-head { display: flex; gap: 24px; align-items: stretch; flex-wrap: wrap; }
 .profile-avatar {
-  width: 104px; height: 104px; border-radius: var(--p-radius-lg);
-  object-fit: cover; border: 1px solid var(--p-border); flex-shrink: 0;
+  align-self: stretch;
+  width: 150px; height: auto; border-radius: var(--p-radius-lg);
+  object-fit: cover; border: 1px solid var(--p-border); flex: 0 0 auto;
+  order: 2;
 }
-.profile-id { flex: 1; min-width: 220px; }
+.profile-id { flex: 1 1 260px; min-width: 240px; order: 1; }
 .profile-id h1 {
   font-family: var(--p-font-brand);
-  font-size: 30px; margin: 0 0 4px; letter-spacing: 0.01em;
+  font-size: 33px; margin: 0 0 4px; letter-spacing: 0.01em;
 }
-.profile-id .p-title { color: var(--p-accent); font-family: var(--term-mono); font-weight: 600; }
-.profile-id .p-affil { color: var(--p-muted); font-size: 13.5px; margin-top: 6px; }
+.profile-id .p-title { color: var(--p-accent); font-family: var(--term-mono); font-weight: 600; font-size: 15px; }
+.profile-id .p-affil { color: var(--p-muted); font-size: 14.5px; margin-top: 6px; }
 .profile-bio { margin-top: 16px; color: var(--p-text); }
 
 /* Social links row */
 .social-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .social-row a.social-link {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: 6px 12px; border-radius: var(--p-radius-sm);
+  padding: 7px 13px; border-radius: var(--p-radius-sm);
   border: 1px solid var(--p-border); background: var(--p-card-alt);
   color: var(--p-dark); text-decoration: none;
-  font-family: var(--term-mono); font-size: 12.5px; font-weight: 600;
+  font-family: var(--term-mono); font-size: 13.5px; font-weight: 600;
   transition: border-color var(--p-dur-fast), color var(--p-dur-fast);
 }
 .social-row a.social-link:hover { border-color: var(--p-accent); color: var(--p-accent); }
-.social-row a.social-link svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.social-row a.social-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* VAISR mark is a filled logo, not a stroke icon — render it monochrome via fill. */
+.social-row a.social-link svg.vaisr-ico { fill: currentColor; stroke: none; }
 
 /* Research interests as command-output tags */
 .interest-row { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -157,11 +186,11 @@
   transition: border-color var(--p-dur-fast), box-shadow var(--p-dur-mid);
 }
 .pub-item:hover { border-color: var(--p-accent-border); box-shadow: 0 6px 16px var(--p-shadow); }
-.pub-item .pub-title { font-size: 15px; font-weight: 700; color: var(--p-accent); margin: 0 0 6px; }
-.pub-item .pub-authors { font-size: 13px; color: var(--p-text); margin-bottom: 6px; }
+.pub-item .pub-title { font-size: 16.5px; font-weight: 700; color: var(--p-accent); margin: 0 0 6px; }
+.pub-item .pub-authors { font-size: 14.5px; color: var(--p-text); margin-bottom: 6px; }
 .pub-item .pub-authors .me { text-decoration: underline; font-weight: 700; }
-.pub-item .pub-venue { font-family: var(--term-mono); font-size: 12.5px; color: var(--p-muted); }
-.pub-item .pub-abs { font-size: 13px; color: var(--p-muted); margin-top: 8px; }
+.pub-item .pub-venue { font-family: var(--term-mono); font-size: 13.5px; color: var(--p-muted); }
+.pub-item .pub-abs { font-size: 14px; color: var(--p-muted); margin-top: 8px; }
 .pub-meta-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 
 /* Award / certificate gallery grid */
@@ -173,8 +202,8 @@
 .gallery-item { display: flex; flex-direction: column; gap: 8px; }
 .gallery-item .img-thumb { aspect-ratio: 4 / 3; width: 100%; }
 .gallery-item .img-thumb img { height: 100%; }
-.gallery-item .gi-title { font-size: 13px; font-weight: 600; color: var(--p-dark); line-height: 1.35; }
-.gallery-item .gi-sub { font-size: 12px; color: var(--p-muted); font-family: var(--term-mono); }
+.gallery-item .gi-title { font-size: 14.5px; font-weight: 600; color: var(--p-dark); line-height: 1.35; }
+.gallery-item .gi-sub { font-size: 13px; color: var(--p-muted); font-family: var(--term-mono); }
 
 /* --------------------------------------------------------------------------
  * Blog list + post
@@ -206,14 +235,28 @@ article.post h1 { font-family: var(--p-font-brand); font-size: 30px; margin: 0 0
  * ------------------------------------------------------------------------ */
 .cv-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0 6px; }
 .cv-block { margin-top: 26px; }
+.edu-list { display: flex; flex-direction: column; }
 .edu-item { padding: 4px 0 14px; }
 .edu-item .ei-row { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.edu-item .ei-degree { font-weight: 700; color: var(--p-dark); }
-.edu-item .ei-period { font-family: var(--term-mono); font-size: 12.5px; color: var(--p-muted); white-space: nowrap; }
-.edu-item .ei-school { color: var(--p-text); font-size: 13.5px; }
-.edu-item .ei-dept { color: var(--p-muted); font-size: 13px; }
+.edu-item .ei-degree { font-weight: 700; color: var(--p-dark); font-size: 16px; }
+.edu-item .ei-period { font-family: var(--term-mono); font-size: 13.5px; color: var(--p-muted); white-space: nowrap; }
+.edu-item .ei-school { color: var(--p-text); font-size: 15px; }
+.edu-item .ei-dept { color: var(--p-muted); font-size: 14px; }
 .skill-group { margin-bottom: 14px; }
 .skill-group .sg-label { font-family: var(--term-mono); color: var(--p-accent); font-weight: 700; font-size: 13px; margin-bottom: 7px; }
+
+/* Homepage experience / services entry lists (also styled like CV entries). */
+.cv-entries { display: flex; flex-direction: column; gap: 16px; }
+.cv-entry .ce-head { font-weight: 700; color: var(--p-dark); font-size: 15px; }
+.cv-entry .ce-sub { color: var(--p-text); font-size: 14.5px; margin-top: 2px; }
+.cv-entry .ce-list { margin: 5px 0 0; padding-left: 20px; }
+.cv-entry .ce-list li { margin: 4px 0; color: var(--p-text); font-size: 14.5px; }
+.cv-entry .ce-period { font-family: var(--term-mono); font-size: 12.5px; color: var(--p-muted); white-space: nowrap; }
+
+/* CV page — download / open buttons, grouped by language. */
+.cv-download-grid { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 20px; }
+.cv-dl-group { display: flex; flex-direction: column; gap: 10px; min-width: 220px; }
+.cv-dl-label { font-family: var(--term-mono); font-weight: 700; font-size: 13px; color: var(--p-accent); letter-spacing: 0.3px; }
 
 /* --------------------------------------------------------------------------
  * Space page + breadcrumb
@@ -249,6 +292,7 @@ article.post h1 { font-family: var(--p-font-brand); font-size: 30px; margin: 0 0
 @media (max-width: 760px) {
   .sh-inner { flex-wrap: wrap; padding: 12px 18px; gap: 10px; }
   .term-nav { margin-left: 0; width: 100%; }
-  .profile-head { gap: 16px; }
-  .profile-avatar { width: 84px; height: 84px; }
+  .profile-head { gap: 16px; align-items: flex-start; }
+  .profile-avatar { width: 120px; height: 120px; align-self: flex-start; order: 0; }
+  .profile-id { order: 1; }
 }

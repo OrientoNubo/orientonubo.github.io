@@ -2,6 +2,7 @@
 name: Si-Yu Lu
 title: PhD Candidate @ NTU
 profileImage: assets/profile.jpg
+showAvatar: false        # hide the homepage avatar for now (flip to true to show)
 affiliation:
   institution: National Taiwan University
   department: CMLab AIMM Group
@@ -20,6 +21,9 @@ socialLinks:
   - icon: orcid
     url: https://orcid.org/0009-0003-5282-8977
     label: ORCID
+  - icon: vaisr
+    url: https://vaisr.github.io/
+    label: VAISR
   - icon: email
     url: mailto:siyu@cmlab.csie.ntu.edu.tw
     label: Email
@@ -35,11 +39,6 @@ researchInterests:
   - Autonomous Vehicles
   - Autonomous Mobile Robot
   - Embedded System
-stats:
-  publications: auto
-  reviews: 10+
-  projects: auto
-  awards: auto
 ---
 
 PhD Candidate at National Taiwan University, researching 3D/4D Reconstruction, Visual Relocalization, and Geometric Foundation Models. My current research focus is on unified 4D continuous perception models.

@@ -19,15 +19,15 @@ nav:
   - { label: "./cv",    url: "/cv/",    order: 3, visible: true }
 
 # Homepage section order + visibility. `key` maps to a content collection
-# (or a profile sub-field). `heading` is the terminal-style command shown.
+# (or a profile sub-field). `heading` is the terminal-style label shown.
 home:
   sections:
-    - { key: "profile",           heading: "whoami",               visible: true }
-    - { key: "researchInterests", heading: "cat research_interests", visible: true }
-    - { key: "stats",             heading: "stats --summary",      visible: true }
-    - { key: "publications",      heading: "ls publications/",     visible: true }
-    - { key: "awards",            heading: "ls awards/",           visible: true }
-    - { key: "experience",        heading: "ls experience/",       visible: true }
-    - { key: "projects",          heading: "ls projects/",         visible: true }
-    - { key: "services",          heading: "ls services/",         visible: true }
-    - { key: "certificates",      heading: "ls certificates/",     visible: true }
+    - { key: "profile",           heading: "whoami",             visible: true }
+    - { key: "researchInterests", heading: "research_interests", visible: true }
+    - { key: "education",         heading: "education",          visible: true }
+    - { key: "publications",      heading: "publications",       visible: true }
+    - { key: "awards",            heading: "awards",             visible: true }
+    - { key: "experience",        heading: "experience",         visible: true }
+    - { key: "projects",          heading: "projects",           visible: true }
+    - { key: "services",          heading: "services",           visible: true }
+    - { key: "certificates",      heading: "certificates",       visible: true }
