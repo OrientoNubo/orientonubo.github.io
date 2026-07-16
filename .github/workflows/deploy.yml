@@ -25,6 +25,8 @@ jobs:
         with:
           node-version: 20
           cache: npm
+      - run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+        # ^ CJK fonts for headless Chrome → ZH CV PDF renders 中文 (not tofu)
       - run: npm ci
       - run: npx puppeteer browsers install chrome
       - run: npm run build        # eleventy + optimize-images + build-cv-pdf
